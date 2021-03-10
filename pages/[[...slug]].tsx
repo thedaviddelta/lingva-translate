@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Error from "next/error";
 import { googleScrape, extractSlug } from "../utils/translate";
 import Languages from "../components/Languages";
-import { languages, exceptions } from "../utils/languages.json";
+import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, error, initial }) => {
@@ -43,12 +43,15 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
 
     useEffect(updateTranslation, [source, target]);
 
-    const langs = Object.entries(languages);
-    const sourceLangs = langs.filter(([code]) => !exceptions.source.includes(code));
-    const targetLangs = langs.filter(([code]) => !exceptions.target.includes(code));
+    const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
     return (
         <div>
+            <div>
+                <button onClick={() => dispatch({ type: Actions.SWITCH_LANGS })} disabled={source === "auto"}>
+                    Switch languages
+                </button>
+            </div>
             <div>
                 <label htmlFor="source">
                     Source:

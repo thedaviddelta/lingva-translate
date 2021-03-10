@@ -112,14 +112,15 @@
     "zu": "Zulu"
   },
   "exceptions": {
-    "source": [
-      "zh_HANT"
-    ],
-    "target": [
-      "auto"
-    ]
+    "source": {
+      "zh_HANT": "zh"
+    },
+    "target": {
+      "auto": "en"
+    }
   },
   "mappings": {
+    "source": {},
     "target": {
       "zh": "zh-CN",
       "zh_HANT": "zh-TW"
