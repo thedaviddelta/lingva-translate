@@ -3,6 +3,8 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import Error from "next/error";
 import { googleScrape, extractSlug } from "../utils/translate";
+import Languages from "../components/Languages";
+import { languages, exceptions } from "../utils/languages.json";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, error, initial }) => {
     if (error)
@@ -10,9 +12,17 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
 
     const router = useRouter();
 
+    const [source, setSource] = useState("auto");
+    const [target, setTarget] = useState("en");
     const [query, setQuery] = useState("");
 
+    const updateTranslation = () => {
+        query && router.push(`/${source}/${target}/${query}`);
+    };
+
     useEffect(() => {
+        initial?.source && setSource(initial.source);
+        initial?.target && setTarget(initial.target);
         initial?.query && setQuery(initial.query);
     }, [initial]);
 
@@ -20,12 +30,34 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
         if (!query || query === initial?.query)
             return;
 
-        const timeout = setTimeout(() => router.push(`/auto/en/${query}`), 2000);
+        const timeout = setTimeout(updateTranslation, 1500);
         return () => clearTimeout(timeout);
     }, [query]);
 
+    useEffect(updateTranslation, [source, target]);
+
+    const langs = Object.entries(languages);
+    const sourceLangs = langs.filter(([code]) => !exceptions.source.includes(code));
+    const targetLangs = langs.filter(([code]) => !exceptions.target.includes(code));
+
     return (
         <div>
+            <div>
+                <label htmlFor="source">
+                    Source:
+                </label>
+                <select id="source" value={source} onChange={e => setSource(e.target.value)}>
+                    <Languages langs={sourceLangs} />
+                </select>
+            </div>
+            <div>
+                <label htmlFor="target">
+                    Target:
+                </label>
+                <select id="target" value={target} onChange={e => setTarget(e.target.value)}>
+                    <Languages langs={targetLangs} />
+                </select>
+            </div>
             <div>
                 <label htmlFor="query">
                     Query:

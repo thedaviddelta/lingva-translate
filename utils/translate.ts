@@ -1,4 +1,7 @@
 import cheerio from "cheerio";
+import { mappings } from "./languages.json";
+
+const isKeyOf = <T extends object>(obj: T) => (key: keyof any): key is keyof T => key in obj;
 
 export async function googleScrape(
     source: string,
@@ -8,7 +11,10 @@ export async function googleScrape(
     translation?: string,
     error?: number
 }> {
-    const res = await fetch(`https://translate.google.com/m?sl=${source}&tl=${target}&q=${encodeURI(query)}`);
+    const newTarget = isKeyOf(mappings.target)(target)
+        ? mappings.target[target]
+        : target;
+    const res = await fetch(`https://translate.google.com/m?sl=${source}&tl=${newTarget}&q=${encodeURI(query)}`);
 
     if (!res.ok)
         return {
