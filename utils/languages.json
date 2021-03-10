@@ -121,6 +121,7 @@
   },
   "mappings": {
     "target": {
+      "zh": "zh-CN",
       "zh_HANT": "zh-TW"
     }
   }

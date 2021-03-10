@@ -1,36 +1,43 @@
-import { useState, useEffect, FC } from "react";
+import { useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import Error from "next/error";
 import { googleScrape, extractSlug } from "../utils/translate";
 import Languages from "../components/Languages";
 import { languages, exceptions } from "../utils/languages.json";
+import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, error, initial }) => {
     if (error)
         return <Error statusCode={error} />
 
-    const router = useRouter();
+    const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
 
-    const [source, setSource] = useState("auto");
-    const [target, setTarget] = useState("en");
-    const [query, setQuery] = useState("");
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        dispatch({
+            type: Actions.SET_FIELD,
+            payload: {
+                key: e.target.id,
+                value: e.target.value
+            }
+        });
+    };
+
+    const router = useRouter();
 
     const updateTranslation = () => {
         query && router.push(`/${source}/${target}/${query}`);
     };
 
     useEffect(() => {
-        initial?.source && setSource(initial.source);
-        initial?.target && setTarget(initial.target);
-        initial?.query && setQuery(initial.query);
+        initial && dispatch({ type: Actions.SET_ALL, payload: { state: initial }});
     }, [initial]);
 
     useEffect(() => {
         if (!query || query === initial?.query)
             return;
 
-        const timeout = setTimeout(updateTranslation, 1500);
+        const timeout = setTimeout(updateTranslation, 1000);
         return () => clearTimeout(timeout);
     }, [query]);
 
@@ -46,7 +53,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                 <label htmlFor="source">
                     Source:
                 </label>
-                <select id="source" value={source} onChange={e => setSource(e.target.value)}>
+                <select id="source" value={source} onChange={handleChange}>
                     <Languages langs={sourceLangs} />
                 </select>
             </div>
@@ -54,7 +61,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                 <label htmlFor="target">
                     Target:
                 </label>
-                <select id="target" value={target} onChange={e => setTarget(e.target.value)}>
+                <select id="target" value={target} onChange={handleChange}>
                     <Languages langs={targetLangs} />
                 </select>
             </div>
@@ -62,7 +69,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                 <label htmlFor="query">
                     Query:
                 </label>
-                <input type="text" id="query" value={query} onChange={e => setQuery(e.target.value)} />
+                <input type="text" id="query" value={query} onChange={handleChange} />
             </div>
             <div>
                 {translation}
