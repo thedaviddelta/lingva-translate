@@ -1,5 +1,6 @@
 import { useState, useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import Head from "next/head";
 import Router from "next/router";
 import Error from "next/error";
 import { googleScrape, extractSlug } from "../utils/translate";
@@ -43,6 +44,11 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
         <Error statusCode={error} />
     ) : (
         <div>
+            <Head>
+                <title>Lingva Translate</title>
+                <link rel="icon" href="/favicon.svg" />
+            </Head>
+
             <div>
                 <button onClick={() => dispatch({ type: Actions.SWITCH_LANGS })} disabled={source === "auto"}>
                     Switch languages
