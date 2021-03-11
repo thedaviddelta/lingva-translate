@@ -1,6 +1,6 @@
-import { useEffect, useReducer, FC, ChangeEvent } from "react";
+import { useState, useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import Error from "next/error";
 import { googleScrape, extractSlug } from "../utils/translate";
 import Languages from "../components/Languages";
@@ -8,10 +8,8 @@ import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, error, initial }) => {
-    if (error)
-        return <Error statusCode={error} />
-
     const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
+    const [encodedQuery, setEncodedQuery] = useState("");
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         dispatch({
@@ -23,12 +21,6 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
         });
     };
 
-    const router = useRouter();
-
-    const updateTranslation = () => {
-        query && router.push(`/${source}/${target}/${query}`);
-    };
-
     useEffect(() => {
         initial && dispatch({ type: Actions.SET_ALL, payload: { state: initial }});
     }, [initial]);
@@ -37,15 +29,19 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
         if (!query || query === initial?.query)
             return;
 
-        const timeout = setTimeout(updateTranslation, 1000);
+        const timeout = setTimeout(() => setEncodedQuery(encodeURIComponent(query)), 1000);
         return () => clearTimeout(timeout);
-    }, [query]);
+    }, [query, initial?.query]);
 
-    useEffect(updateTranslation, [source, target]);
+    useEffect(() => {
+        encodedQuery && Router.push(`/${source}/${target}/${encodedQuery}`);
+    }, [source, target, encodedQuery]);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
-    return (
+    return error ? (
+        <Error statusCode={error} />
+    ) : (
         <div>
             <div>
                 <button onClick={() => dispatch({ type: Actions.SWITCH_LANGS })} disabled={source === "auto"}>
@@ -92,7 +88,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
     fallback: true
 });
 
-export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
     if (!params?.slug || !Array.isArray(params.slug))
         return {
             props: {}

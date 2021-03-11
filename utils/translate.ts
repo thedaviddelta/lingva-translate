@@ -10,7 +10,7 @@ export async function googleScrape(
     error?: number
 }> {
     const parsed = replaceBoth("mapping", { source, target });
-    const res = await fetch(`https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURI(query)}`);
+    const res = await fetch(`https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`);
 
     if (!res.ok)
         return {
