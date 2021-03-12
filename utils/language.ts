@@ -7,7 +7,7 @@ const checkTypes = {
 
 type CheckType = keyof typeof checkTypes;
 
-export const langTypes = [
+const langTypes = [
     "source",
     "target"
 ] as const;
