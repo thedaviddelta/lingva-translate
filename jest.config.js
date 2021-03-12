@@ -7,11 +7,11 @@ module.exports = {
         '^.+\\.module\\.(css|sass|scss)$',
     ],
     testMatch: [
-        '<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}',
-        '<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}',
+        '<rootDir>/**/tests/*/**/*.{js,jsx,ts,tsx}',
+        '<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}'
     ],
     setupFilesAfterEnv: [
-        "<rootDir>/setupTests.ts"
+        "<rootDir>/tests/setupTests.ts"
     ],
     moduleFileExtensions: ["ts", "tsx", "js", "jsx"]
 }

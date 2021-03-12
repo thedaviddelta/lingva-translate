@@ -8,7 +8,7 @@ import Languages from "../components/Languages";
 import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, error, initial }) => {
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, statusCode, errorMsg, initial }) => {
     const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
     const [encodedQuery, setEncodedQuery] = useState("");
 
@@ -40,8 +40,8 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
-    return error ? (
-        <Error statusCode={error} />
+    return statusCode ? (
+        <Error statusCode={statusCode} />
     ) : (
         <div>
             <Head>

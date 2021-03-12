@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import faker from "faker";
 import Error from "next/error";
 
 it("renders a not found message on 404 code", () => {
@@ -7,7 +8,7 @@ it("renders a not found message on 404 code", () => {
 });
 
 it("renders the correct status code", () => {
-    const code = Math.floor(Math.random() * 500) + 100;
+    const code = faker.random.number({ min: 100, max: 599 });
     render(<Error statusCode={code} />);
     expect(screen.getByText(code)).toBeVisible();
 });

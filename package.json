@@ -19,6 +19,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "@types/faker": "^5.1.7",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.33",
     "@types/react": "^17.0.3",
@@ -34,7 +35,9 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-testing-library": "^3.9.0",
+    "faker": "^5.4.0",
     "jest": "^26.6.3",
+    "jest-fetch-mock": "^3.0.3",
     "typescript": "^4.2.3"
   },
   "eslintConfig": {
@@ -44,6 +47,8 @@
     ]
   },
   "babel": {
-    "presets": ["next/babel"]
+    "presets": [
+      "next/babel"
+    ]
   }
 }

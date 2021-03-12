@@ -7,20 +7,33 @@ export async function googleScrape(
     query: string
 ): Promise<{
     translation?: string,
-    error?: number
+    statusCode?: number,
+    errorMsg?: string
 }> {
     const parsed = replaceBoth("mapping", { source, target });
-    const res = await fetch(`https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`);
+    const res = await fetch(
+        `https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`
+    ).catch(() => null);
+
+    if (!res)
+        return {
+            errorMsg: "An error occurred while retrieving the translation"
+        }
 
     if (!res.ok)
         return {
-            error: res.status
+            statusCode: res.status
         };
 
     const html = await res.text();
-    return {
-        translation: cheerio.load(html)(".result-container").text()
-    };
+    const translation = cheerio.load(html)(".result-container").text().trim();
+
+    return translation
+        ? {
+            translation
+        } : {
+            errorMsg: "An error occurred while parsing the translation"
+        };
 }
 
 export function extractSlug(slug: string[]): {
@@ -33,10 +46,10 @@ export function extractSlug(slug: string[]): {
         case 1:
             return { query: p1 };
         case 2:
-            return { target: p1, query: p2 }
+            return { target: p1, query: p2 };
         case 3:
-            return { source: p1, target: p2, query: p3 }
+            return { source: p1, target: p2, query: p3 };
         default:
-            return {}
+            return {};
     }
 }
