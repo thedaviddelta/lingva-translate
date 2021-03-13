@@ -1,18 +1,12 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { htmlRes, resolveFetchWith } from "../commonUtils";
 import Router from "next/router";
 import { getPage } from "next-page-tester";
 import faker from "faker";
 import { getStaticProps } from "../../pages/[[...slug]]";
 
-const mockPush = jest.fn().mockImplementation(async () => true);
-Router.push = mockPush;
-
-const html = (translation: string) => `
-    <div class="result-container">
-        ${translation}
-    </div>
-`;
+const mockPush = jest.spyOn(Router, "push").mockImplementation(async () => true);
 
 beforeEach(() => {
     fetchMock.resetMocks();
@@ -45,7 +39,8 @@ describe("getStaticProps", () => {
 
     it("returns translation & initial values on 3 params", async () => {
         const translation = faker.random.words();
-        fetchMock.mockResponseOnce(async () => ({ body: html(translation) }));
+        const html = htmlRes(translation);
+        resolveFetchWith(html);
 
         const slug = [source, target, query];
         expect(await getStaticProps({ params: { slug } })).toStrictEqual({
@@ -73,6 +68,10 @@ describe("Page", () => {
         userEvent.type(query, faker.random.words());
 
         await waitFor(
+            () => expect(Router.push).not.toHaveBeenCalled(),
+            { timeout: 250 }
+        );
+        await waitFor(
             () => expect(Router.push).toHaveBeenCalledTimes(1),
             { timeout: 2500 }
         );
@@ -82,10 +81,10 @@ describe("Page", () => {
         const initial = {
             source: "ca",
             target: "es",
-            query: faker.random.words()
+            query: encodeURIComponent(faker.random.words())
         };
         const translation = faker.random.words();
-        fetchMock.mockResponseOnce(async () => ({ body: html(translation) }));
+        resolveFetchWith(htmlRes(translation));
 
         const { render } = await getPage({
             route: `/${initial.source}/${initial.target}/${initial.query}`
@@ -93,22 +92,22 @@ describe("Page", () => {
         render();
 
         expect(await screen.findByText(translation)).toBeVisible();
-        const query = screen.getByRole("textbox", { name: /query/i });
-        expect(query).toHaveValue(encodeURIComponent(initial.query));
         const source = screen.getByRole("combobox", { name: /source/i });
         expect(source).toHaveValue(initial.source);
         const target = screen.getByRole("combobox", { name: /target/i });
         expect(target).toHaveValue(initial.target);
+        const query = screen.getByRole("textbox", { name: /query/i });
+        expect(query).toHaveValue(initial.query);
     });
 
     it("parses urlencoding correctly", async () => {
         const initial = {
             source: "zh",
             target: "en",
-            query: "你好"
+            query: encodeURIComponent("你好")
         };
         const translation = "Hello";
-        fetchMock.mockResponseOnce(async () => ({ body: html(translation) }));
+        resolveFetchWith(htmlRes(translation));
 
         const { render } = await getPage({
             route: `/${initial.source}/${initial.target}/${initial.query}`
@@ -121,11 +120,11 @@ describe("Page", () => {
         const target = screen.getByRole("combobox", { name: /target/i });
         expect(target).toHaveValue(initial.target);
         const query = screen.getByRole("textbox", { name: /query/i });
-        expect(query).toHaveValue(encodeURIComponent(initial.query));
+        expect(query).toHaveValue(initial.query);
     });
 
     it("switches the page on language change", async () => {
-        fetchMock.mockResponseOnce(async () => ({ body: html(faker.random.words()) }));
+        resolveFetchWith(htmlRes(faker.random.words()));
 
         const { render } = await getPage({
             route: `/auto/en/${faker.random.words()}`

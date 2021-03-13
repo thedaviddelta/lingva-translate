@@ -1,3 +1,4 @@
+import { htmlRes, resolveFetchWith } from "../commonUtils";
 import faker from "faker";
 import { googleScrape, extractSlug } from "../../utils/translate";
 
@@ -12,20 +13,15 @@ describe("googleScrape", () => {
 
     it("parses html response correctly", async () => {
         const translation = faker.random.words();
-        const className = "result-container";
-        const html = `
-            <div class=${className}>
-                ${translation}
-            </div>
-        `;
-        fetchMock.mockResponseOnce(async () => ({ body: html }));
+        const html = htmlRes(translation);
+        resolveFetchWith(html);
 
         expect(await googleScrape(source, target, query)).toStrictEqual({ translation });
     });
 
     it("returns status code on request error", async () => {
         const status = faker.random.number({ min: 400, max: 499 });
-        fetchMock.mockResponseOnce(async () => ({ status }));
+        resolveFetchWith({ status });
 
         expect(await googleScrape(source, target, query)).toStrictEqual({ statusCode: status });
     });
@@ -40,12 +36,8 @@ describe("googleScrape", () => {
     it("returns correct message on parsing wrong class", async () => {
         const translation = faker.random.words();
         const className = "wrong-container";
-        const html = `
-            <div class=${className}>
-                ${translation}
-            </div>
-        `;
-        fetchMock.mockResponseOnce(async () => ({ body: html }));
+        const html = htmlRes(translation, className);
+        resolveFetchWith(html);
 
         const res = await googleScrape(source, target, query);
         expect(res?.errorMsg).toMatch(/parsing/);

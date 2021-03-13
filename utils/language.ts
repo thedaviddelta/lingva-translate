@@ -3,16 +3,16 @@ import { languages, exceptions, mappings } from "./languages.json";
 const checkTypes = {
     exception: exceptions,
     mapping: mappings
-}
+};
 
-type CheckType = keyof typeof checkTypes;
+export type CheckType = keyof typeof checkTypes;
 
 const langTypes = [
     "source",
     "target"
 ] as const;
 
-type LangType = typeof langTypes[number];
+export type LangType = typeof langTypes[number];
 
 const isKeyOf = <T extends object>(obj: T) => (key: keyof any): key is keyof T => key in obj;
 

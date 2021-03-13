@@ -1,46 +1,51 @@
 import faker from "faker";
-import { replaceBoth, retrieveFiltered } from "../../utils/language";
+import { replaceBoth, retrieveFiltered, CheckType, LangType } from "../../utils/language";
 import { languages, exceptions, mappings } from "../../utils/languages.json";
 
 describe("replaceBoth", () => {
+    const testReplacer = (
+        checkType: CheckType,
+        checkObj: {
+            [key in LangType]: {
+                [key: string]: string
+            }
+        },
+        langType: LangType
+    ) => (
+        Object.entries(checkObj[langType]).forEach(([code, replacement]) => {
+            const res = replaceBoth(checkType, { source: "", target: "", [langType]: code })
+            expect(res[langType]).toBe(replacement);
+        })
+    );
+
     it("replaces excepted sources correctly", () => {
-        Object.entries(exceptions.source).forEach(([code, replacement]) => {
-            const { source } = replaceBoth("exception", { source: code, target: "" })
-            expect(source).toBe(replacement);
-        });
+        testReplacer("exception", exceptions, "source");
     });
 
     it("replaces excepted targets correctly", () => {
-        Object.entries(exceptions.target).forEach(([code, replacement]) => {
-            const { target } = replaceBoth("exception", { source: "", target: code })
-            expect(target).toBe(replacement);
-        });
+        testReplacer("exception", exceptions, "target");
     });
 
     it("replaces mapped sources correctly", () => {
-        Object.entries(mappings.source).forEach(([code, replacement]) => {
-            const { source } = replaceBoth("mapping", { source: code, target: "" })
-            expect(source).toBe(replacement);
-        });
+        testReplacer("mapping", mappings, "source");
     });
 
     it("replaces mapped targets correctly", () => {
-        Object.entries(mappings.target).forEach(([code, replacement]) => {
-            const { target } = replaceBoth("mapping", { source: "", target: code })
-            expect(target).toBe(replacement);
-        });
+        testReplacer("mapping", mappings, "target");
     });
 });
 
 describe("retrieveFiltered", () => {
+    const filteredEntries = (langType: LangType, current: string) => (
+        Object.entries(languages).filter(([code]) => !Object.keys(exceptions[langType]).includes(code) && code !== current)
+    );
+
     it("filters by exceptions & by opposite values", () => {
         const source = faker.random.locale();
         const target = faker.random.locale();
-        const sourceKeys = Object.keys(languages).filter(code => !Object.keys(exceptions.source).includes(code) && code !== target);
-        const targetKeys = Object.keys(languages).filter(code => !Object.keys(exceptions.target).includes(code) && code !== source);
 
         const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
-        expect(sourceLangs.map(([code]) => code)).toStrictEqual(sourceKeys);
-        expect(targetLangs.map(([code]) => code)).toStrictEqual(targetKeys);
+        expect(sourceLangs).toStrictEqual(filteredEntries("source", target));
+        expect(targetLangs).toStrictEqual(filteredEntries("target", source));
     });
 });
