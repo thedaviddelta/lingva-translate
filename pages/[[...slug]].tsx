@@ -10,7 +10,7 @@ import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, statusCode, errorMsg, initial }) => {
     const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
-    const [encodedQuery, setEncodedQuery] = useState("");
+    const [delayedQuery, setDelayedQuery] = useState(initialState.query);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         dispatch({
@@ -27,16 +27,19 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     }, [initial]);
 
     useEffect(() => {
-        if (!query || query === initial?.query)
-            return;
-
-        const timeout = setTimeout(() => setEncodedQuery(encodeURIComponent(query)), 1000);
+        const timeout = setTimeout(() => setDelayedQuery(query), 1000);
         return () => clearTimeout(timeout);
-    }, [query, initial?.query]);
+    }, [query]);
 
     useEffect(() => {
-        encodedQuery && Router.push(`/${source}/${target}/${encodedQuery}`);
-    }, [source, target, encodedQuery]);
+        const queryIsEmpty = !delayedQuery || delayedQuery === initialState.query;
+        const queryIsInitial = delayedQuery === initial?.query;
+        const sourceIsInitial = source === initialState.source || source === initial?.source;
+        const targetIsInitial = target === initialState.target || source === initial?.target;
+        const allAreInitials = queryIsInitial && sourceIsInitial && targetIsInitial;
+
+        queryIsEmpty || allAreInitials || Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
+    }, [source, target, delayedQuery, initial]);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
