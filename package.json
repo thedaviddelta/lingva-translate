@@ -7,7 +7,8 @@
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "cy": "cypress open"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
@@ -16,6 +17,7 @@
     "react-dom": "17.0.1"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^7.0.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
@@ -26,8 +28,10 @@
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "babel-eslint": "^10.0.0",
+    "cypress": "^6.6.0",
     "eslint": "^7.5.0",
     "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^24.0.0",
@@ -44,7 +48,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:cypress/recommended"
     ]
   },
   "babel": {

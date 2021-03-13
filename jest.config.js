@@ -10,6 +10,9 @@ module.exports = {
         '<rootDir>/**/tests/*/**/*.{js,jsx,ts,tsx}',
         '<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}'
     ],
+    testPathIgnorePatterns: [
+        '<rootDir>/cypress/'
+    ],
     setupFilesAfterEnv: [
         "<rootDir>/tests/setupTests.ts"
     ],
