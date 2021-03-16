@@ -3,8 +3,10 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Router from "next/router";
 import Error from "next/error";
+import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
+import { FaExchangeAlt } from "react-icons/fa";
+import { Header, Footer, LangSelect, TranslationArea } from "../components";
 import { googleScrape, extractSlug } from "../utils/translate";
-import Languages from "../components/Languages";
 import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
@@ -12,7 +14,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
     const [delayedQuery, setDelayedQuery] = useState(initialState.query);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
         dispatch({
             type: Actions.SET_FIELD,
             payload: {
@@ -46,43 +48,55 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     return statusCode ? (
         <Error statusCode={statusCode} />
     ) : (
-        <div>
+        <>
             <Head>
                 <title>Lingva Translate</title>
                 <link rel="icon" href="/favicon.svg" />
             </Head>
 
-            <div>
-                <button onClick={() => dispatch({ type: Actions.SWITCH_LANGS })} disabled={source === "auto"}>
-                    Switch languages
-                </button>
-            </div>
-            <div>
-                <label htmlFor="source">
-                    Source:
-                </label>
-                <select id="source" value={source} onChange={handleChange}>
-                    <Languages langs={sourceLangs} />
-                </select>
-            </div>
-            <div>
-                <label htmlFor="target">
-                    Target:
-                </label>
-                <select id="target" value={target} onChange={handleChange}>
-                    <Languages langs={targetLangs} />
-                </select>
-            </div>
-            <div>
-                <label htmlFor="query">
-                    Query:
-                </label>
-                <input type="text" id="query" value={query} onChange={handleChange} />
-            </div>
-            <div>
-                {translation}
-            </div>
-        </div>
+            <VStack minH="100vh" spacing={8}>
+                <Header />
+                <VStack px={[8, null, 24, 40]} flexGrow={1} w="full">
+                    <HStack w="full">
+                        <LangSelect
+                            id="source"
+                            value={source}
+                            onChange={handleChange}
+                            langs={sourceLangs}
+                        />
+                        <IconButton
+                            aria-label="Switch languages"
+                            icon={<FaExchangeAlt />}
+                            colorScheme="lingva"
+                            variant="ghost"
+                            onClick={() => dispatch({ type: Actions.SWITCH_LANGS })}
+                            isDisabled={source === "auto"}
+                        />
+                        <LangSelect
+                            id="target"
+                            value={target}
+                            onChange={handleChange}
+                            langs={targetLangs}
+                        />
+                    </HStack>
+                    <Stack direction={["column", null, "row"]} w="full">
+                        <TranslationArea
+                            id="query"
+                            placeholder="Text"
+                            value={query}
+                            onChange={handleChange}
+                        />
+                        <TranslationArea
+                            id="translation"
+                            placeholder="Translation"
+                            value={translation}
+                            readOnly={true}
+                        />
+                    </Stack>
+                </VStack>
+                <Footer />
+            </VStack>
+        </>
     );
 }
 
