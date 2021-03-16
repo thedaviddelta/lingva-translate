@@ -2,10 +2,9 @@ import { useState, useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Router from "next/router";
-import Error from "next/error";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
-import { Header, Footer, LangSelect, TranslationArea } from "../components";
+import { CustomError, Header, Footer, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
 import { googleScrape, extractSlug } from "../utils/translate";
 import { retrieveFiltered } from "../utils/language";
@@ -46,7 +45,6 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
-    console.log(translation)
     useToastOnLoad({
         title: "Unexpected error",
         description: errorMsg,
@@ -55,18 +53,20 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     });
 
     return statusCode ? (
-        <Error statusCode={statusCode} />
+        <CustomError statusCode={statusCode} />
     ) : (
         <>
             <Head>
-                <title>Lingva Translate</title>
+                <title>
+                    Lingva Translate
+                </title>
                 <link rel="icon" href="/favicon.svg" />
             </Head>
 
             <VStack minH="100vh" spacing={8}>
                 <Header />
                 <VStack px={[8, null, 24, 40]} flexGrow={1} w="full">
-                    <HStack w="full">
+                    <HStack px={[1, null, 3, 4]} w="full">
                         <LangSelect
                             id="source"
                             value={source}

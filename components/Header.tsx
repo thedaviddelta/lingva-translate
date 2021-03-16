@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Flex, HStack, useColorModeValue, IconButton, Link } from "@chakra-ui/react";
+import { Flex, HStack, IconButton, Link, useColorModeValue } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
 import ColorModeToggler from "./ColorModeToggler";
