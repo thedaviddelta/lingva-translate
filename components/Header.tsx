@@ -21,12 +21,13 @@ const Header: FC<Props> = (props) => (
         <Image
             src={useColorModeValue("/banner_light.svg", "/banner_dark.svg")}
             alt="Logo"
-            layout="intrinsic"
             width={110}
             height={64}
         />
-        <HStack spacing={4}>
-            <ColorModeToggler/>
+        <HStack spacing={3}>
+            <ColorModeToggler
+                variant={useColorModeValue("outline", "solid")}
+            />
             <IconButton
                 as={Link}
                 href="https://github.com/TheDavidDelta/lingva-translate"
@@ -34,6 +35,7 @@ const Header: FC<Props> = (props) => (
                 aria-label="GitHub"
                 icon={<FaGithub />}
                 colorScheme="lingva"
+                variant={useColorModeValue("outline", "solid")}
             />
         </HStack>
     </Flex>

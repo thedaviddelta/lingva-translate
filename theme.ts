@@ -18,7 +18,7 @@ export default extendTheme({
     },
     config: {
         initialColorMode: "light",
-        useSystemColorMode: true
+        useSystemColorMode: false
     },
     components: {
         Textarea: {

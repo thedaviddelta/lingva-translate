@@ -6,6 +6,7 @@ import Error from "next/error";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { Header, Footer, LangSelect, TranslationArea } from "../components";
+import { useToastOnLoad } from "../hooks";
 import { googleScrape, extractSlug } from "../utils/translate";
 import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
@@ -44,6 +45,14 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     }, [source, target, delayedQuery, initial]);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
+
+    console.log(translation)
+    useToastOnLoad({
+        title: "Unexpected error",
+        description: errorMsg,
+        status: "error",
+        updateDeps: initial
+    });
 
     return statusCode ? (
         <Error statusCode={statusCode} />
@@ -89,7 +98,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                         <TranslationArea
                             id="translation"
                             placeholder="Translation"
-                            value={translation}
+                            value={translation ?? ""}
                             readOnly={true}
                         />
                     </Stack>
@@ -132,13 +141,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             }
         }
 
+    const scrapeRes = await googleScrape(source, target, query);
+
     return {
         props: {
-            ...await googleScrape(source, target, query),
+            ...scrapeRes,
             initial: {
                 source, target, query
             }
         },
-        revalidate: 2 * 30 * 24 * 60 * 60 // 2 months
+        revalidate: !scrapeRes.errorMsg && !scrapeRes.statusCode
+            ? 2 * 30 * 24 * 60 * 60 // 2 months
+            : 1
     };
 }
