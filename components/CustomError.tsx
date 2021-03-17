@@ -31,6 +31,7 @@ const CustomError: FC<Props> = ({ statusCode }) => (
         <VStack h="100vh">
             <Header/>
             <Stack
+                as="main"
                 flexGrow={1}
                 color={useColorModeValue("lingva.900", "lingva.100")}
                 direction={["column", null, "row"]}

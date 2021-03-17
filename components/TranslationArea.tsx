@@ -13,6 +13,8 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, ...props }) => 
         value={value}
         onChange={onChange}
         readOnly={readOnly}
+        lang="auto"
+        dir="auto"
         resize="none"
         rows={useBreakpointValue([6, null, 12]) ?? undefined}
         size="lg"

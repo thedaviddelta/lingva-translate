@@ -10,6 +10,7 @@ type Props = {
 
 const Header: FC<Props> = (props) => (
     <Flex
+        as="header"
         px={1}
         py={3}
         justify="space-around"

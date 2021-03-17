@@ -1,6 +1,7 @@
 import { FC, ChangeEvent } from "react";
 import { Select } from "@chakra-ui/react";
 
+
 type Props = {
     value: string,
     onChange: (e: ChangeEvent<any>) => void,
@@ -15,6 +16,7 @@ const LangSelect: FC<Props> = ({ value, onChange, langs, ...props }) => (
         variant="flushed"
         px={2}
         textAlign="center"
+        style={{ textAlignLast: "center" }}
         {...props}
     >
         {langs.map(([code, name]) => (

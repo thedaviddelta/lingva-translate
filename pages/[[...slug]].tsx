@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import Router from "next/router";
-import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
+import { Stack, VStack, HStack, IconButton, Button, Link } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { CustomError, Header, Footer, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
@@ -37,7 +37,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
         const queryIsEmpty = !delayedQuery || delayedQuery === initialState.query;
         const queryIsInitial = delayedQuery === initial?.query;
         const sourceIsInitial = source === initialState.source || source === initial?.source;
-        const targetIsInitial = target === initialState.target || source === initial?.target;
+        const targetIsInitial = target === initialState.target || target === initial?.target;
         const allAreInitials = queryIsInitial && sourceIsInitial && targetIsInitial;
 
         queryIsEmpty || allAreInitials || Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
@@ -63,12 +63,32 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                 <link rel="icon" href="/favicon.svg" />
             </Head>
 
+            <Button
+                as={Link}
+                href="#main"
+                userSelect="none"
+                position="absolute"
+                top="-100px"
+                left="0"
+                _focus={{
+                    top: "0"
+                }}
+            >
+                Skip to content
+            </Button>
+
             <VStack minH="100vh" spacing={8}>
                 <Header />
-                <VStack px={[8, null, 24, 40]} flexGrow={1} w="full">
+                <VStack
+                    as="main"
+                    id="main"
+                    px={[8, null, 24, 40]}
+                    flexGrow={1}
+                    w="full">
                     <HStack px={[1, null, 3, 4]} w="full">
                         <LangSelect
                             id="source"
+                            aria-label="Source language"
                             value={source}
                             onChange={handleChange}
                             langs={sourceLangs}
@@ -83,6 +103,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                         />
                         <LangSelect
                             id="target"
+                            aria-label="Target language"
                             value={target}
                             onChange={handleChange}
                             langs={targetLangs}
@@ -91,12 +112,14 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
                     <Stack direction={["column", null, "row"]} w="full">
                         <TranslationArea
                             id="query"
+                            aria-label="Translation query"
                             placeholder="Text"
                             value={query}
                             onChange={handleChange}
                         />
                         <TranslationArea
                             id="translation"
+                            aria-label="Translation result"
                             placeholder="Translation"
                             value={translation ?? ""}
                             readOnly={true}
