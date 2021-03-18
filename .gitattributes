@@ -1,1 +1,2 @@
 *.config.js linguist-detectable=false
+cypress/support/*.js linguist-detectable=false

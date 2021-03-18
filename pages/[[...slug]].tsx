@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, FC, ChangeEvent } from "react";
+import { useEffect, useReducer, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Router from "next/router";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
@@ -6,7 +6,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 import { CustomError, Layout, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
 import { googleScrape, extractSlug } from "../utils/translate";
-import { retrieveFiltered } from "../utils/language";
+import { retrieveFiltered, replaceBoth } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, statusCode, errorMsg, initial }) => {
@@ -46,6 +46,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     }, [source, target, delayedQuery, initial, home]);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
+    const { source: transLang, target: queryLang } = replaceBoth("exception", { source: target, target: source });
 
     useToastOnLoad({
         title: "Unexpected error",
@@ -90,6 +91,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         placeholder="Text"
                         value={query}
                         onChange={handleChange}
+                        lang={queryLang}
                     />
                     <TranslationArea
                         id="translation"
@@ -97,6 +99,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         placeholder="Translation"
                         value={translation ?? ""}
                         readOnly={true}
+                        lang={transLang}
                     />
                 </Stack>
             </VStack>
