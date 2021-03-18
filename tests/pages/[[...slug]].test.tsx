@@ -1,10 +1,9 @@
-import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from "../reactUtils";
 import { htmlRes, resolveFetchWith } from "../commonUtils";
+import userEvent from "@testing-library/user-event";
 import Router from "next/router";
-import { getPage } from "next-page-tester";
 import faker from "faker";
-import { getStaticProps } from "../../pages/[[...slug]]";
+import Page, { getStaticProps } from "../../pages/[[...slug]]";
 
 const mockPush = jest.spyOn(Router, "push").mockImplementation(async () => true);
 
@@ -58,13 +57,20 @@ describe("getStaticProps", () => {
 });
 
 describe("Page", () => {
-    it("switches the page on query change", async () => {
-        const { render } = await getPage({
-            route: "/"
-        });
-        render();
+    it("loads the layout correctly", async () => {
+        render(<Page />);
 
-        const query = screen.getByRole("textbox", { name: /query/i });
+        expect(screen.getByRole("link", { name: /skip to content/i })).toBeEnabled();
+        expect(await screen.findByRole("img", { name: /logo/i })).toBeVisible();
+        expect(screen.getByRole("button", { name: /toggle color mode/i })).toBeEnabled();
+        expect(screen.getByRole("link", { name: /github/i })).toBeEnabled();
+        expect(screen.getByText(/\xA9/)).toBeVisible();
+    });
+
+    it("switches the page on query change", async () => {
+        render(<Page />)
+
+        const query = screen.getByRole("textbox", { name: /translation query/i });
         userEvent.type(query, faker.random.words());
 
         await waitFor(
@@ -81,57 +87,31 @@ describe("Page", () => {
         const initial = {
             source: "ca",
             target: "es",
-            query: encodeURIComponent(faker.random.words())
+            query: faker.random.words()
         };
-        const translation = faker.random.words();
-        resolveFetchWith(htmlRes(translation));
+        const translationText = faker.random.words();
+        render(<Page translation={translationText} initial={initial} />);
 
-        const { render } = await getPage({
-            route: `/${initial.source}/${initial.target}/${initial.query}`
-        });
-        render();
-
-        expect(await screen.findByText(translation)).toBeVisible();
-        const source = screen.getByRole("combobox", { name: /source/i });
+        const source = screen.getByRole("combobox", { name: /source language/i });
         expect(source).toHaveValue(initial.source);
-        const target = screen.getByRole("combobox", { name: /target/i });
+        const target = screen.getByRole("combobox", { name: /target language/i });
         expect(target).toHaveValue(initial.target);
-        const query = screen.getByRole("textbox", { name: /query/i });
+        const query = screen.getByRole("textbox", { name: /translation query/i });
         expect(query).toHaveValue(initial.query);
-    });
-
-    it("parses urlencoding correctly", async () => {
-        const initial = {
-            source: "zh",
-            target: "en",
-            query: encodeURIComponent("你好")
-        };
-        const translation = "Hello";
-        resolveFetchWith(htmlRes(translation));
-
-        const { render } = await getPage({
-            route: `/${initial.source}/${initial.target}/${initial.query}`
-        });
-        render();
-
-        expect(await screen.findByText(translation)).toBeVisible();
-        const source = screen.getByRole("combobox", { name: /source/i });
-        expect(source).toHaveValue(initial.source);
-        const target = screen.getByRole("combobox", { name: /target/i });
-        expect(target).toHaveValue(initial.target);
-        const query = screen.getByRole("textbox", { name: /query/i });
-        expect(query).toHaveValue(initial.query);
+        const translation = screen.getByRole("textbox", { name: /translation result/i });
+        expect(translation).toHaveValue(translationText);
     });
 
     it("switches the page on language change", async () => {
-        resolveFetchWith(htmlRes(faker.random.words()));
+        const initial = {
+            source: "auto",
+            target: "en",
+            query: faker.random.words()
+        };
+        const translationText = faker.random.words();
+        render(<Page translation={translationText} initial={initial} />);
 
-        const { render } = await getPage({
-            route: `/auto/en/${faker.random.words()}`
-        });
-        render();
-
-        const source = screen.getByRole("combobox", { name: /source/i });
+        const source = screen.getByRole("combobox", { name: /source language/i });
 
         const sourceVal = "eo";
         userEvent.selectOptions(source, sourceVal);
@@ -141,17 +121,31 @@ describe("Page", () => {
     });
 
     it("doesn't switch the page on language change on the start page", async () => {
-        const { render } = await getPage({
-            route: "/"
-        });
-        render();
+        render(<Page />);
 
-        const source = screen.getByRole("combobox", { name: /source/i });
+        const source = screen.getByRole("combobox", { name: /source language/i });
 
         const sourceVal = "eo";
         userEvent.selectOptions(source, sourceVal);
         expect(source).toHaveValue(sourceVal);
 
         await waitFor(() => expect(Router.push).not.toHaveBeenCalled());
+    });
+
+    it("renders error page on status code", async () => {
+        const code = faker.random.number({ min: 400, max: 599 });
+        render(<Page statusCode={code} />);
+        await waitFor(() => expect(screen.getByText(code)).toBeVisible());
+    });
+
+    it("shows alert correctly on error", async () => {
+        const errorMsg = faker.random.words();
+        render(<Page errorMsg={errorMsg} />);
+
+        const alert = screen.getByRole("alert");
+
+        await waitFor(() => expect(alert).toBeVisible());
+        expect(alert).toHaveTextContent(/unexpected error/i);
+        expect(alert).toHaveTextContent(errorMsg);
     });
 });
