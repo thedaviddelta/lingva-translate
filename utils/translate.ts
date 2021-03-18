@@ -6,7 +6,7 @@ export async function googleScrape(
     target: string,
     query: string
 ): Promise<{
-    translation?: string,
+    translationRes?: string,
     statusCode?: number,
     errorMsg?: string
 }> {
@@ -26,11 +26,11 @@ export async function googleScrape(
         };
 
     const html = await res.text();
-    const translation = cheerio.load(html)(".result-container").text().trim();
+    const translationRes = cheerio.load(html)(".result-container").text().trim();
 
-    return translation
+    return translationRes
         ? {
-            translation
+            translationRes
         } : {
             errorMsg: "An error occurred while parsing the translation"
         };

@@ -3,7 +3,9 @@ import { replaceBoth } from "./language";
 export const initialState = {
     source: "auto",
     target: "en",
-    query: ""
+    query: "",
+    delayedQuery: "",
+    translation: ""
 }
 
 type State = typeof initialState;
@@ -46,7 +48,10 @@ export default function reducer(state: State, action: Action) {
                 source: source !== target
                     ? source
                     : initialState.source,
-                target
+                target,
+                query: state.translation,
+                delayedQuery: state.translation,
+                translation: ""
             };
         default:
             return state;

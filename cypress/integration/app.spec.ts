@@ -8,6 +8,7 @@ beforeEach(() => {
 
 it("switches page correctly on inputs change", () => {
     cy.findByRole("textbox", { name: /translation query/i })
+        .as("query")
         .type("palabra");
     cy.findByRole("textbox", { name: /translation result/i })
         .as("translation")
@@ -15,27 +16,46 @@ it("switches page correctly on inputs change", () => {
         .url()
         .should("include", "/auto/en/palabra");
     cy.findByRole("combobox", { name: /source language/i })
+        .as("source")
         .select("es")
         .url()
         .should("include", "/es/en/palabra");
     cy.findByRole("combobox", { name: /target language/i })
-        .select("ca");
-    cy.get("@translation")
+        .as("target")
+        .select("ca")
+        .get("@translation")
         .should("have.value", "paraula")
         .url()
         .should("include", "/es/ca/palabra");
+    cy.findByRole("button", { name: /switch languages/i })
+        .click()
+        .get("@source")
+        .should("have.value", "ca")
+        .get("@target")
+        .should("have.value", "es")
+        .get("@query")
+        .should("have.value", "paraula")
+        .get("@translation")
+        .should("have.value", "palabra")
+        .url()
+        .should("include", "/ca/es/paraula");
 });
 
-it("switches first loaded page on language change", () => {
+it("switches first loaded page and back and forth on language change", () => {
     const query = faker.random.words();
     cy.visit(`/auto/en/${query}`);
 
     cy.findByRole("textbox", { name: /translation query/i })
         .should("have.value", query);
     cy.findByRole("combobox", { name: /source language/i })
+        .as("source")
         .select("eo")
         .url()
-        .should("include", `/eo/en/${encodeURIComponent(query)}`);
+        .should("include", `/eo/en/${encodeURIComponent(query)}`)
+        .get("@source")
+        .select("auto")
+        .url()
+        .should("include", `/auto/en/${encodeURIComponent(query)}`);
 });
 
 it("doesn't switch initial page on language change", () => {
@@ -84,7 +104,7 @@ it("skips to main on 'skip link' click", () => {
         .should("include", "#main");
 });
 
-it("shows error on >4 params", () => {
-    cy.visit(`/auto/en/translation/other`)
-        .findByText(404);
+it("shows error on >=4 params", () => {
+    cy.visit("/auto/en/translation/other");
+    cy.findByText(404);
 });

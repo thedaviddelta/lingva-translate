@@ -12,11 +12,11 @@ describe("googleScrape", () => {
     });
 
     it("parses html response correctly", async () => {
-        const translation = faker.random.words();
-        const html = htmlRes(translation);
+        const translationRes = faker.random.words();
+        const html = htmlRes(translationRes);
         resolveFetchWith(html);
 
-        expect(await googleScrape(source, target, query)).toStrictEqual({ translation });
+        expect(await googleScrape(source, target, query)).toStrictEqual({ translationRes });
     });
 
     it("returns status code on request error", async () => {

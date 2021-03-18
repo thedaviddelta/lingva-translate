@@ -17,11 +17,11 @@ describe("getStaticProps", () => {
     const target = faker.random.locale();
     const query = faker.random.words();
 
-    it("returns empty props on empty params", async () => {
-        expect(await getStaticProps({ params: {} })).toStrictEqual({ props: {} });
+    it("returns home on empty params", async () => {
+        expect(await getStaticProps({ params: {} })).toStrictEqual({ props: { home: true } });
     });
 
-    it("returns not found on >4 params", async () => {
+    it("returns not found on >=4 params", async () => {
         const slug = [source, target, query, ""];
         expect(await getStaticProps({ params: { slug } })).toStrictEqual({ notFound: true });
     });
@@ -37,14 +37,13 @@ describe("getStaticProps", () => {
     });
 
     it("returns translation & initial values on 3 params", async () => {
-        const translation = faker.random.words();
-        const html = htmlRes(translation);
-        resolveFetchWith(html);
+        const translationRes = faker.random.words();
+        resolveFetchWith(htmlRes(translationRes));
 
         const slug = [source, target, query];
         expect(await getStaticProps({ params: { slug } })).toStrictEqual({
             props: {
-                translation,
+                translationRes,
                 initial: {
                     source,
                     target,
@@ -58,7 +57,7 @@ describe("getStaticProps", () => {
 
 describe("Page", () => {
     it("loads the layout correctly", async () => {
-        render(<Page />);
+        render(<Page home={true} />);
 
         expect(screen.getByRole("link", { name: /skip to content/i })).toBeEnabled();
         expect(await screen.findByRole("img", { name: /logo/i })).toBeVisible();
@@ -68,7 +67,7 @@ describe("Page", () => {
     });
 
     it("switches the page on query change", async () => {
-        render(<Page />)
+        render(<Page home={true} />)
 
         const query = screen.getByRole("textbox", { name: /translation query/i });
         userEvent.type(query, faker.random.words());
@@ -89,8 +88,8 @@ describe("Page", () => {
             target: "es",
             query: faker.random.words()
         };
-        const translationText = faker.random.words();
-        render(<Page translation={translationText} initial={initial} />);
+        const translationRes = faker.random.words();
+        render(<Page translationRes={translationRes} initial={initial} />);
 
         const source = screen.getByRole("combobox", { name: /source language/i });
         expect(source).toHaveValue(initial.source);
@@ -99,7 +98,7 @@ describe("Page", () => {
         const query = screen.getByRole("textbox", { name: /translation query/i });
         expect(query).toHaveValue(initial.query);
         const translation = screen.getByRole("textbox", { name: /translation result/i });
-        expect(translation).toHaveValue(translationText);
+        expect(translation).toHaveValue(translationRes);
     });
 
     it("switches the page on language change", async () => {
@@ -108,8 +107,8 @@ describe("Page", () => {
             target: "en",
             query: faker.random.words()
         };
-        const translationText = faker.random.words();
-        render(<Page translation={translationText} initial={initial} />);
+        const translationRes = faker.random.words();
+        render(<Page translationRes={translationRes} initial={initial} />);
 
         const source = screen.getByRole("combobox", { name: /source language/i });
 
@@ -121,7 +120,7 @@ describe("Page", () => {
     });
 
     it("doesn't switch the page on language change on the start page", async () => {
-        render(<Page />);
+        render(<Page home={true} />);
 
         const source = screen.getByRole("combobox", { name: /source language/i });
 
@@ -130,6 +129,26 @@ describe("Page", () => {
         expect(source).toHaveValue(sourceVal);
 
         await waitFor(() => expect(Router.push).not.toHaveBeenCalled());
+    });
+
+    it("switches languages & translations", async () => {
+        const initial = {
+            source: "es",
+            target: "ca",
+            query: faker.random.words()
+        };
+        const translationRes = faker.random.words();
+        render(<Page translationRes={translationRes} initial={initial} />);
+
+        const btnSwitch = screen.getByRole("button", { name: /switch languages/i });
+        userEvent.click(btnSwitch);
+
+        expect(screen.getByRole("combobox", { name: /source language/i })).toHaveValue(initial.target);
+        expect(screen.getByRole("combobox", { name: /target language/i })).toHaveValue(initial.source);
+        expect(screen.getByRole("textbox", { name: /translation query/i })).toHaveValue(translationRes);
+        expect(screen.getByRole("textbox", { name: /translation result/i })).toHaveValue("");
+
+        await waitFor(() => expect(Router.push).toHaveBeenCalledTimes(1));
     });
 
     it("renders error page on status code", async () => {

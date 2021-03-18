@@ -9,9 +9,8 @@ import { googleScrape, extractSlug } from "../utils/translate";
 import { retrieveFiltered } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation, statusCode, errorMsg, initial }) => {
-    const [{ source, target, query }, dispatch] = useReducer(langReducer, initialState);
-    const [delayedQuery, setDelayedQuery] = useState(initialState.query);
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, statusCode, errorMsg, initial }) => {
+    const [{ source, target, query, delayedQuery, translation }, dispatch] = useReducer(langReducer, initialState);
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
         dispatch({
@@ -24,23 +23,27 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ translation,
     };
 
     useEffect(() => {
-        initial && dispatch({ type: Actions.SET_ALL, payload: { state: initial }});
-    }, [initial]);
+        const state = { ...initial, delayedQuery: initial?.query, translation: translationRes };
+        initial && dispatch({ type: Actions.SET_ALL, payload: { state }});
+    }, [initial, translationRes]);
 
     useEffect(() => {
-        const timeout = setTimeout(() => setDelayedQuery(query), 1000);
+        const timeout = setTimeout(() =>
+            dispatch({ type: Actions.SET_FIELD, payload: { key: "delayedQuery", value: query }}
+        ), 1000);
         return () => clearTimeout(timeout);
     }, [query]);
 
     useEffect(() => {
-        const queryIsEmpty = !delayedQuery || delayedQuery === initialState.query;
-        const queryIsInitial = delayedQuery === initial?.query;
-        const sourceIsInitial = source === initialState.source || source === initial?.source;
-        const targetIsInitial = target === initialState.target || target === initial?.target;
-        const allAreInitials = queryIsInitial && sourceIsInitial && targetIsInitial;
+        if (!delayedQuery || delayedQuery === initialState.query)
+            return;
+        if (!home && !initial)
+            return;
+        if (!home && delayedQuery === initial.query && source === initial.source && target === initial.target)
+            return;
 
-        queryIsEmpty || allAreInitials || Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
-    }, [source, target, delayedQuery, initial]);
+        Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
+    }, [source, target, delayedQuery, initial, home]);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
 
@@ -115,7 +118,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     if (!params?.slug || !Array.isArray(params.slug))
         return {
-            props: {}
+            props: { home: true }
         };
 
     const { source, target, query } = extractSlug(params.slug);
