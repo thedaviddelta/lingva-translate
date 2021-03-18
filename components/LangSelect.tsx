@@ -1,7 +1,6 @@
 import { FC, ChangeEvent } from "react";
 import { Select } from "@chakra-ui/react";
 
-
 type Props = {
     value: string,
     onChange: (e: ChangeEvent<any>) => void,

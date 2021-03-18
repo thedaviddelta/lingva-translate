@@ -1,9 +1,7 @@
 import { FC } from "react";
-import Head from "next/head";
-import { Stack, VStack, HStack, Heading, Text, Icon, useColorModeValue } from "@chakra-ui/react";
+import { Stack, HStack, Heading, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FaSadTear } from "react-icons/fa";
-import Header from "./Header";
-import Footer from "./Footer";
+import Layout from "./Layout";
 
 const statusTexts: {
     [key: string]: string
@@ -20,38 +18,26 @@ type Props = {
 };
 
 const CustomError: FC<Props> = ({ statusCode }) => (
-    <>
-        <Head>
-            <title>
-                {statusCode} - {statusTexts?.[statusCode] ?? statusTexts.fallback}
-            </title>
-            <link rel="icon" href="/favicon.svg" />
-        </Head>
-
-        <VStack h="100vh">
-            <Header/>
-            <Stack
-                as="main"
-                flexGrow={1}
-                color={useColorModeValue("lingva.900", "lingva.100")}
-                direction={["column", null, "row"]}
-                justify="center"
-                align="center"
-                spacing={4}
-            >
-                <HStack align="center" spacing={5}>
-                    <Heading as="h1" size="3xl">
-                        {statusCode}
-                    </Heading>
-                    <Icon as={FaSadTear} boxSize={10} />
-                </HStack>
-                <Text as="h2" fontSize="xl">
-                    {statusTexts?.[statusCode] ?? statusTexts.fallback}
-                </Text>
-            </Stack>
-            <Footer/>
-        </VStack>
-    </>
+    <Layout customTitle={`${statusCode} - ${statusTexts?.[statusCode] ?? statusTexts.fallback}`}>
+        <Stack
+            color={useColorModeValue("lingva.900", "lingva.100")}
+            direction={["column", null, "row"]}
+            justify="center"
+            align="center"
+            spacing={4}
+            w="full"
+        >
+            <HStack align="center" spacing={5}>
+                <Heading as="h1" size="3xl">
+                    {statusCode}
+                </Heading>
+                <Icon as={FaSadTear} boxSize={10} />
+            </HStack>
+            <Text as="h2" fontSize="xl">
+                {statusTexts?.[statusCode] ?? statusTexts.fallback}
+            </Text>
+        </Stack>
+    </Layout>
 );
 
 export default CustomError;
