@@ -12,7 +12,14 @@ addons:
     packages:
       - libgconf-2-4
 
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - ~/.cache
+
+branches:
+  only:
+    - main
 
 script:
   - yarn test --ci
