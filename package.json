@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "cy": "cypress open"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.6",
@@ -48,7 +49,8 @@
     "faker": "^5.4.0",
     "jest": "^26.6.3",
     "jest-fetch-mock": "^3.0.3",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "wait-on": "^5.3.0"
   },
   "eslintConfig": {
     "extends": [
