@@ -103,8 +103,3 @@ it("skips to main on 'skip link' click", () => {
         .url()
         .should("include", "#main");
 });
-
-it("shows error on >=4 params", () => {
-    cy.visit("/auto/en/translation/other");
-    cy.findByText(404);
-});
