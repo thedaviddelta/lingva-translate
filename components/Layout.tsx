@@ -27,13 +27,14 @@ const Layout: FC<Props> = ({ customTitle, children }) => (
             <meta property="og:type" content="website" />
             <meta property="og:title" content={customTitle ?? title} />
             <meta property="og:description" content={description} />
+            <meta property="og:url" content={url} />
             <meta property="og:locale" content="en" />
             <meta property="og:image" content={`${url}/favicon-512x512.png`} />
             <meta property="og:image:type" content="image/png" />
             <meta property="og:image:width" content="512" />
             <meta property="og:image:height" content="512" />
             <meta property="og:image:alt" content={title} />
-            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:card" content="summary" />
             <meta property="twitter:creator" content="@thedaviddelta" />
         </Head>
 
