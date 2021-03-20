@@ -11,6 +11,7 @@ type Props = {
 
 const title = "Lingva Translate";
 const description = "Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available";
+const url = `https://${process.env["NEXT_PUBLIC_SITE_DOMAIN"]}`;
 
 const Layout: FC<Props> = ({ customTitle, children }) => (
     <>
@@ -19,6 +20,7 @@ const Layout: FC<Props> = ({ customTitle, children }) => (
                 {customTitle ?? title}
             </title>
             <meta name="description" content={description} />
+            <link rel="canonical" href={url} />
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -26,7 +28,7 @@ const Layout: FC<Props> = ({ customTitle, children }) => (
             <meta property="og:title" content={customTitle ?? title} />
             <meta property="og:description" content={description} />
             <meta property="og:locale" content="en" />
-            <meta property="og:image" content="/favicon-512x512.png" />
+            <meta property="og:image" content={`${url}/favicon-512x512.png`} />
             <meta property="og:image:type" content="image/png" />
             <meta property="og:image:width" content="512" />
             <meta property="og:image:height" content="512" />
