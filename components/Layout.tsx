@@ -5,27 +5,29 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 type Props = {
-    customTitle?: string
+    customTitle?: string,
+    home?: true
     [key: string]: any
 };
 
 const title = "Lingva Translate";
 const description = "Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available";
-const url = `https://${process.env["NEXT_PUBLIC_SITE_DOMAIN"]}`;
+const url = `http://${process.env["NEXT_PUBLIC_SITE_DOMAIN"]}`;
 
-const Layout: FC<Props> = ({ customTitle, children }) => (
+const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
     <>
         <Head>
             <title>
                 {customTitle ?? title}
             </title>
             <meta name="description" content={description} />
-            <link rel="canonical" href={url} />
+            <meta name="robots" content={home ? "index,follow" : "noindex,nofollow"} />
+            {home && <link rel="canonical" href={url} />}
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
             <meta property="og:type" content="website" />
-            <meta property="og:title" content={customTitle ?? title} />
+            <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:url" content={url} />
             <meta property="og:locale" content="en" />
@@ -59,6 +61,7 @@ const Layout: FC<Props> = ({ customTitle, children }) => (
                 id="main"
                 flexGrow={1}
                 w="full"
+                {...props}
             >
                 {children}
             </Flex>

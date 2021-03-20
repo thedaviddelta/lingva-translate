@@ -58,7 +58,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     return statusCode ? (
         <CustomError statusCode={statusCode} />
     ) : (
-        <Layout>
+        <Layout home={home}>
             <VStack px={[8, null, 24, 40]} w="full">
                 <HStack px={[1, null, 3, 4]} w="full">
                     <LangSelect
