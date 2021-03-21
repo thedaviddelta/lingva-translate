@@ -40,3 +40,8 @@ yarn-error.log*
 # cypress
 cypress/videos
 cypress/screenshots
+
+# next-pwa
+**/public/workbox-*.js*
+**/public/sw.js*
+**/public/worker-*.js*

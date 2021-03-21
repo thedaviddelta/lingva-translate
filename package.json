@@ -19,6 +19,7 @@
     "cheerio": "^1.0.0-rc.5",
     "framer-motion": "^3.10.3",
     "next": "10.0.8",
+    "next-pwa": "^5.0.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0"

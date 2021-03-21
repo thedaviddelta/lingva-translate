@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Flex, VStack, Button, Link } from "@chakra-ui/react";
+import { Flex, VStack, Button, Link, useColorModeValue } from "@chakra-ui/react";
 import Head from "next/head";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -27,6 +27,8 @@ const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
             <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+            <link rel="manifest" href="/manifest.json" />
+            <meta name="theme-color" content={useColorModeValue("#bde3cb", "#005525")} />
             <meta property="og:type" content="website" />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
