@@ -12,7 +12,8 @@ type Props = {
 
 const title = "Lingva Translate";
 const description = "Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available";
-const url = `http://${process.env["NEXT_PUBLIC_SITE_DOMAIN"]}`;
+const siteDomain = process.env["NEXT_PUBLIC_SITE_DOMAIN"];
+const url = siteDomain && (siteDomain.includes("localhost") ? "http://" : "https://") + siteDomain;
 
 const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
     <>
