@@ -1,12 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 
+declare global {
+    interface Window {
+        webkitAudioContext: typeof AudioContext
+    }
+}
+
 const useAudioFromBuffer = (bufferArray?: number[]) => {
     const audioCtxRef = useRef<AudioContext | null>(null);
     const [audioSource, setAudioSource] = useState<AudioBufferSourceNode | null>(null);
     const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
 
     useEffect(() => {
-        audioCtxRef.current = new AudioContext();
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx)
+            return;
+        audioCtxRef.current = new AudioCtx();
         return () => {
             audioCtxRef.current?.close();
         }
