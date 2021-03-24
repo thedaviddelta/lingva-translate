@@ -58,14 +58,7 @@ it("switches first loaded page and back and forth on language change", () => {
         .should("include", `/auto/en/${encodeURIComponent(query)}`);
 });
 
-it("doesn't switch initial page on language change", () => {
-    cy.findByRole("combobox", { name: /source language/i })
-        .select("eo")
-        .url()
-        .should("not.include", "/eo");
-});
-
-it("language switching button is disable on 'auto', but enables when other", () => {
+it("language switching button is disabled on 'auto', but enables when other", () => {
     cy.findByRole("button", { name: /switch languages/i })
         .as("btnSwitch")
         .should("be.disabled");
@@ -78,10 +71,38 @@ it("language switching button is disable on 'auto', but enables when other", () 
     cy.findByRole("combobox", { name: /target language/i })
         .should("have.value", "eo")
         .get("@source")
-        .should("have.value", "en");
+        .should("have.value", "en")
+        .url()
+        .should("not.include", "/en")
+        .should("not.include", "/eo");
 });
 
-it("toggles color mode on button click", () => {
+it("loads & plays audio correctly", () => {
+    const query = faker.lorem.words(5);
+    cy.visit(`/la/en/${query}`);
+
+    const play = "Play audio";
+    const stop = "Stop audio";
+
+    cy.findAllByRole("button", { name: play })
+        .should("be.enabled")
+        .click({ multiple: true })
+        .should("have.attr", "aria-label", stop)
+        .click({ multiple: true })
+        .should("have.attr", "aria-label", play)
+        .click({ multiple: true })
+        .should("have.attr", "aria-label", play)
+        .click({ multiple: true })
+        .should("have.attr", "aria-label", stop);
+});
+
+it("skips to main & toggles color mode", () => {
+    cy.findByRole("link", { name: /skip to content/i })
+        .focus()
+        .click()
+        .url()
+        .should("include", "#main");
+
     const white = "rgb(255, 255, 255)";
     cy.get("body")
         .should("have.css", "background-color", white);
@@ -94,12 +115,4 @@ it("toggles color mode on button click", () => {
         .click()
         .get("body")
         .should("have.css", "background-color", white);
-});
-
-it("skips to main on 'skip link' click", () => {
-    cy.findByRole("link", { name: /skip to content/i })
-        .focus()
-        .click()
-        .url()
-        .should("include", "#main");
 });

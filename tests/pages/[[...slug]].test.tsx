@@ -36,7 +36,7 @@ describe("getStaticProps", () => {
         expect(await getStaticProps({ params: { slug } })).toMatchObject({ redirect: expect.any(Object) });
     });
 
-    it("returns translation & initial values on 3 params", async () => {
+    it("returns translation, audio & initial values on 3 params", async () => {
         const translationRes = faker.random.words();
         resolveFetchWith(htmlRes(translationRes));
 
@@ -44,6 +44,10 @@ describe("getStaticProps", () => {
         expect(await getStaticProps({ params: { slug } })).toStrictEqual({
             props: {
                 translationRes,
+                audio: {
+                    source: expect.any(Array),
+                    target: expect.any(Array)
+                },
                 initial: {
                     source,
                     target,
@@ -56,6 +60,13 @@ describe("getStaticProps", () => {
 });
 
 describe("Page", () => {
+    const translationRes = faker.random.words();
+    const randomAudio = Array.from({ length: 10 }, () => faker.random.number(100));
+    const audio = {
+        source: randomAudio,
+        target: randomAudio
+    };
+
     it("loads the layout correctly", async () => {
         render(<Page home={true} />);
 
@@ -88,8 +99,7 @@ describe("Page", () => {
             target: "es",
             query: faker.random.words()
         };
-        const translationRes = faker.random.words();
-        render(<Page translationRes={translationRes} initial={initial} />);
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
 
         const source = screen.getByRole("combobox", { name: /source language/i });
         expect(source).toHaveValue(initial.source);
@@ -107,8 +117,7 @@ describe("Page", () => {
             target: "en",
             query: faker.random.words()
         };
-        const translationRes = faker.random.words();
-        render(<Page translationRes={translationRes} initial={initial} />);
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
 
         const source = screen.getByRole("combobox", { name: /source language/i });
 
@@ -137,8 +146,7 @@ describe("Page", () => {
             target: "ca",
             query: faker.random.words()
         };
-        const translationRes = faker.random.words();
-        render(<Page translationRes={translationRes} initial={initial} />);
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
 
         const btnSwitch = screen.getByRole("button", { name: /switch languages/i });
         userEvent.click(btnSwitch);
@@ -149,6 +157,20 @@ describe("Page", () => {
         expect(screen.getByRole("textbox", { name: /translation result/i })).toHaveValue("");
 
         await waitFor(() => expect(Router.push).toHaveBeenCalledTimes(1));
+    });
+
+    it("loads audio & clipboard correctly", async () => {
+        const initial = {
+            source: "eo",
+            target: "zh",
+            query: faker.random.words()
+        };
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
+
+        const btnsAudio = screen.getAllByRole("button", { name: /play audio/i });
+        btnsAudio.forEach(btn => expect(btn).toBeVisible());
+        const btnCopy = screen.getByRole("button", { name: /copy to clipboard/i });
+        expect(btnCopy).toBeEnabled();
     });
 
     it("renders error page on status code", async () => {

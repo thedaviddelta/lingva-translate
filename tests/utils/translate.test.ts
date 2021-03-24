@@ -1,6 +1,6 @@
 import { htmlRes, resolveFetchWith } from "../commonUtils";
 import faker from "faker";
-import { googleScrape, extractSlug } from "../../utils/translate";
+import { googleScrape, extractSlug, textToSpeechScrape } from "../../utils/translate";
 
 const source = faker.random.locale();
 const target = faker.random.locale();
@@ -63,5 +63,23 @@ describe("extractSlug", () => {
         const length = faker.random.number({ min: 4, max: 50 });
         const array = Array(length).fill("");
         expect(extractSlug(array)).toStrictEqual({});
+    });
+});
+
+describe("textToSpeechScrape", () => {
+    it("returns an array on successful request", async () => {
+        resolveFetchWith({ status: 200 });
+        expect(await textToSpeechScrape(target, query)).toEqual(expect.any(Array));
+    });
+
+    it("returns 'null' on request error", async () => {
+        const status = faker.random.number({ min: 400, max: 499 });
+        resolveFetchWith({ status });
+        expect(await textToSpeechScrape(target, query)).toBeNull();
+    });
+
+    it("returns 'null' on network error", async () => {
+        fetchMock.mockRejectOnce();
+        expect(await textToSpeechScrape(target, query)).toBeNull();
     });
 });
