@@ -102,6 +102,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         readOnly={true}
                         lang={transLang}
                         audio={audio?.target}
+                        canCopy={true}
                     />
                 </Stack>
             </VStack>
