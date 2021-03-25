@@ -1,5 +1,5 @@
 import { FC, ChangeEvent } from "react";
-import { Box, HStack, Textarea, IconButton, useBreakpointValue, useClipboard } from "@chakra-ui/react";
+import { Box, HStack, Textarea, IconButton, Tooltip, useBreakpointValue, useClipboard } from "@chakra-ui/react";
 import { FaCopy, FaCheck, FaPlay, FaStop } from "react-icons/fa";
 import { useAudioFromBuffer } from "../hooks";
 
@@ -35,22 +35,28 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy,
                 bottom={4}
                 right={4}
             >
-                {canCopy && <IconButton
-                    aria-label="Copy to clipboard"
-                    icon={hasCopied ? <FaCheck /> : <FaCopy />}
-                    onClick={onCopy}
-                    colorScheme="lingva"
-                    variant="ghost"
-                    disabled={!value}
-                />}
-                <IconButton
-                    aria-label={isAudioPlaying ? "Stop audio" : "Play audio"}
-                    icon={isAudioPlaying ? <FaStop /> : <FaPlay />}
-                    onClick={onAudioClick}
-                    colorScheme="lingva"
-                    variant="ghost"
-                    disabled={!audioExists}
-                />
+                {canCopy && (
+                    <Tooltip label={hasCopied ? "Copied!" : "Copy to clipboard"}>
+                        <IconButton
+                            aria-label="Copy to clipboard"
+                            icon={hasCopied ? <FaCheck /> : <FaCopy />}
+                            onClick={onCopy}
+                            colorScheme="lingva"
+                            variant="ghost"
+                            disabled={!value}
+                        />
+                    </Tooltip>
+                )}
+                <Tooltip label={isAudioPlaying ? "Stop audio" : "Play audio"}>
+                    <IconButton
+                        aria-label={isAudioPlaying ? "Stop audio" : "Play audio"}
+                        icon={isAudioPlaying ? <FaStop /> : <FaPlay />}
+                        onClick={onAudioClick}
+                        colorScheme="lingva"
+                        variant="ghost"
+                        disabled={!audioExists}
+                    />
+                </Tooltip>
             </HStack>
         </Box>
     );

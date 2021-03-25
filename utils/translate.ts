@@ -69,7 +69,7 @@ export async function textToSpeechScrape(lang: string, text?: string) {
     const { target: parsedLang } = replaceBoth("mapping", { source: "", target: lang });
 
     const lastSpace = text.lastIndexOf(" ", 200);
-    const slicedText = text.slice(0, lastSpace !== -1 ? lastSpace : 200);
+    const slicedText = text.slice(0, text.length > 200 && lastSpace !== -1 ? lastSpace : 200);
 
     const res = await fetch(
         `http://translate.google.com/translate_tts?tl=${parsedLang}&q=${encodeURIComponent(slicedText)}&textlen=${slicedText.length}&client=tw-ob`,
