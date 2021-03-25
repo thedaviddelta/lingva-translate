@@ -1,3 +1,4 @@
+import UserAgent from "user-agents";
 import cheerio from "cheerio";
 import { replaceBoth } from "./language";
 
@@ -12,8 +13,15 @@ export async function googleScrape(
 }> {
     const parsed = replaceBoth("mapping", { source, target });
     const res = await fetch(
-        `https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`
-    ).catch(() => null);
+        `https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`,
+        {
+            headers: {
+                "User-Agent": new UserAgent().toString()
+            }
+        }
+    ).catch(
+        () => null
+    );
 
     if (!res)
         return {
@@ -53,3 +61,29 @@ export function extractSlug(slug: string[]): {
             return {};
     }
 }
+
+export async function textToSpeechScrape(lang: string, text?: string) {
+    if (!text)
+        return null;
+
+    const { target: parsedLang } = replaceBoth("mapping", { source: "", target: lang });
+
+    const lastSpace = text.lastIndexOf(" ", 200);
+    const slicedText = text.slice(0, text.length > 200 && lastSpace !== -1 ? lastSpace : 200);
+
+    const res = await fetch(
+        `http://translate.google.com/translate_tts?tl=${parsedLang}&q=${encodeURIComponent(slicedText)}&textlen=${slicedText.length}&client=tw-ob`,
+        {
+            headers: {
+                "User-Agent": new UserAgent().toString()
+            }
+        }
+    ).catch(
+        () => null
+    );
+
+    return res?.ok
+        ? res.blob().then(blob => blob.arrayBuffer()).then(buffer => Array.from(new Uint8Array(buffer)))
+        : null;
+}
+

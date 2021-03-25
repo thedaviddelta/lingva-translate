@@ -5,11 +5,11 @@ import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { CustomError, Layout, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
-import { googleScrape, extractSlug } from "../utils/translate";
+import { googleScrape, extractSlug, textToSpeechScrape } from "../utils/translate";
 import { retrieveFiltered, replaceBoth } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, statusCode, errorMsg, initial }) => {
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, statusCode, errorMsg, initial }) => {
     const [{ source, target, query, delayedQuery, translation }, dispatch] = useReducer(langReducer, initialState);
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -92,6 +92,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         value={query}
                         onChange={handleChange}
                         lang={queryLang}
+                        audio={audio?.source}
                     />
                     <TranslationArea
                         id="translation"
@@ -100,6 +101,8 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         value={translation ?? ""}
                         readOnly={true}
                         lang={transLang}
+                        audio={audio?.target}
+                        canCopy={true}
                     />
                 </Stack>
             </VStack>
@@ -139,16 +142,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             }
         }
 
-    const scrapeRes = await googleScrape(source, target, query);
+    const textScrape = await googleScrape(source, target, query);
+
+    const [sourceAudio, targetAudio] = await Promise.all([
+        textToSpeechScrape(source, query),
+        textToSpeechScrape(target, textScrape.translationRes)
+    ]);
 
     return {
         props: {
-            ...scrapeRes,
+            ...textScrape,
+            audio: {
+                source: sourceAudio,
+                target: targetAudio
+            },
             initial: {
                 source, target, query
             }
         },
-        revalidate: !scrapeRes.errorMsg && !scrapeRes.statusCode
+        revalidate: !textScrape.errorMsg && !textScrape.statusCode
             ? 2 * 30 * 24 * 60 * 60 // 2 months
             : 1
     };

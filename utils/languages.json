@@ -123,7 +123,8 @@
     "source": {},
     "target": {
       "zh": "zh-CN",
-      "zh_HANT": "zh-TW"
+      "zh_HANT": "zh-TW",
+      "auto": "en"
     }
   }
 }
