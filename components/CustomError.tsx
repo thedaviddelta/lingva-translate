@@ -2,23 +2,14 @@ import { FC } from "react";
 import { Stack, HStack, Heading, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FaSadTear } from "react-icons/fa";
 import Layout from "./Layout";
-
-const statusTexts: {
-    [key: string]: string
-} = {
-    400: "Bad Request",
-    404: "This page could not be found",
-    405: "Method Not Allowed",
-    500: "Internal Server Error",
-    fallback: "An unexpected error has occurred"
-};
+import { statusTextFrom } from "../utils/error";
 
 type Props = {
     statusCode: number
 };
 
 const CustomError: FC<Props> = ({ statusCode }) => (
-    <Layout customTitle={`${statusCode} - ${statusTexts?.[statusCode] ?? statusTexts.fallback}`}>
+    <Layout customTitle={`${statusCode} - ${statusTextFrom(statusCode)}`}>
         <Stack
             color={useColorModeValue("lingva.900", "lingva.100")}
             direction={["column", null, "row"]}
@@ -34,7 +25,7 @@ const CustomError: FC<Props> = ({ statusCode }) => (
                 <Icon as={FaSadTear} boxSize={10} />
             </HStack>
             <Text as="h2" fontSize="xl">
-                {statusTexts?.[statusCode] ?? statusTexts.fallback}
+                {statusTextFrom(statusCode)}
             </Text>
         </Stack>
     </Layout>
