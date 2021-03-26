@@ -14,7 +14,8 @@ const methods = ["GET"];
 const handler: NextApiHandler<Data> = async (req, res) => {
     await NextCors(req, res, {
         methods,
-        origin: "*"
+        origin: "*",
+        preflightContinue: true
     });
 
     const {
@@ -25,8 +26,10 @@ const handler: NextApiHandler<Data> = async (req, res) => {
     if (!slug || !Array.isArray(slug) || slug.length !== 3)
         return res.status(404).json({ error: statusTextFrom(404) });
 
-    if (!method || !methods.includes(method))
+    if (!method || !methods.includes(method)) {
+        res.setHeader("Allow", methods);
         return res.status(405).json({ error: statusTextFrom(405) });
+    }
 
     const [source, target, query] = slug;
 
