@@ -2,7 +2,6 @@ import httpMocks from "node-mocks-http";
 import faker from "faker";
 import { htmlRes, resolveFetchWith } from "../../../commonUtils";
 import handler from "../../../../pages/api/v1/[[...slug]]";
-import { statusTextFrom } from "../../../../utils/error";
 
 beforeEach(() => {
     fetchMock.resetMocks();
@@ -57,22 +56,7 @@ it("returns translation on scrapping resolve", async () => {
     expect(res._getJSONData()).toStrictEqual({ translation: translationRes });
 });
 
-it("returns status & text on status code", async () => {
-    const code = faker.random.number({ min: 400, max: 599 });
-    resolveFetchWith({ status: code });
-
-    const { req, res } = httpMocks.createMocks({
-        method: "GET",
-        query: { slug }
-    });
-
-    await handler(req, res);
-    expect(res.statusCode).toBe(code);
-    expect(res._getJSONData()).toStrictEqual({ error: statusTextFrom(code) });
-});
-
-
-it("returns 500 on custom error msg", async () => {
+it("returns 500 on scrapping error", async () => {
     fetchMock.mockRejectOnce();
 
     const { req, res } = httpMocks.createMocks({
@@ -84,7 +68,6 @@ it("returns 500 on custom error msg", async () => {
     expect(res.statusCode).toBe(500);
     expect(res._getJSONData()).toStrictEqual({ error: expect.any(String) });
 });
-
 
 it("returns audio on audio request", async () => {
     resolveFetchWith({ status: 200 });
@@ -98,7 +81,6 @@ it("returns audio on audio request", async () => {
     expect(res.statusCode).toBe(200);
     expect(res._getJSONData()).toStrictEqual({ audio: expect.any(Array) });
 });
-
 
 it("returns 500 on audio request error", async () => {
     fetchMock.mockRejectOnce();

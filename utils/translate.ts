@@ -8,7 +8,6 @@ export async function googleScrape(
     query: string
 ): Promise<{
     translationRes?: string,
-    statusCode?: number,
     errorMsg?: string
 }> {
     const parsed = replaceBoth("mapping", { source, target });
@@ -23,15 +22,10 @@ export async function googleScrape(
         () => null
     );
 
-    if (!res)
+    if (!res?.ok)
         return {
             errorMsg: "An error occurred while retrieving the translation"
         }
-
-    if (!res.ok)
-        return {
-            statusCode: res.status
-        };
 
     const html = await res.text();
     const translationRes = cheerio.load(html)(".result-container").text().trim();
