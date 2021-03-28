@@ -1,10 +1,99 @@
-# lingva-translate
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+# Lingva Translate
+
+<img src="public/favicon.svg" width="128" align="right">
+
+[![Travis Build](https://travis-ci.com/TheDavidDelta/lingva-translate.svg?branch=main)](https://travis-ci.com/TheDavidDelta/lingva-translate)
+[![Vercel Status](https://img.shields.io/github/deployments/TheDavidDelta/lingva-translate/Production?label=vercel&logo=vercel&color=f5f5f5)](https://lingva.ml/)
+[![License](https://img.shields.io/github/license/TheDavidDelta/lingva-translate)](./LICENSE)
+
+Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available
 
 
-## Contributors ✨
+## How does it work?
+
+Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrappes through GTranslate and retrieves the translation without using any Google-related service, preventing them from tracking.
+
+For this purpose, *Lingva* is built, among others, with the following Open Source resources:
+
++ [TypeScript](https://www.typescriptlang.org/), the JavaScript superset, as the language.
++ [React](https://reactjs.org/) as the main front-end framework.
++ [NextJS](https://nextjs.org/) as the complementary React framework, that provides Server-Side Rendering, Static Site Generation or serverless API endpoints.
++ [ChakraUI](https://chakra-ui.com/) for the in-component styling.
++ [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/) & [Cypress](https://www.cypress.io/) for unit, integration & E2E testing.
++ [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for handling the GraphQL endpoint.
++ [Inkscape](https://inkscape.org/) for designing both the logo and the banner.
+
+
+## Deployment
+
+As *Lingva* is a [NextJS](https://nextjs.org/) project you can deploy your own instance anywhere Next is supported.
+
+The only requerement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
+
+The easiest way is to use their creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
+
+
+## Instances
+
+These are the currently known *Lingva* instances. Feel free to make a Pull Request including yours.
+
+| Domain                                     | Hosting                       | SSL Provider                                                              |
+|:------------------------------------------:|:-----------------------------:|:-------------------------------------------------------------------------:|
+| [lingva.ml](https://lingva.ml/) (Official) | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml) |
+
+
+## Public APIs
+
+Nearly all the *Lingva* instances should supply a pair of public developer APIs: a RESTful one and a GraphQL one.
+
+*Note: both APIs return the translation audio as a `Uint8Array` (served as `number[]` in JSON and `[Int]` in GraphQL) with the contents of the audio buffer.*
+
+### REST API v1
+
++ `/api/v1/:source/:target/:query`
+```typescript
+{
+    translation?: string,
+    errorMsg?: string
+}
+```
+
++ `/api/v1/audio/:lang/:query`
+```typescript
+{
+    audio?: number[],
+    errorMsg?: string
+}
+```
+
+### GraphQL API
+
++ `/api/graphql`
+```graphql
+query {
+    translation(source: String target: String query: String!) {
+        source: {
+            lang: String!
+            text: String
+            audio: [Int]
+        }
+        target: {
+            lang: String!
+            text: String
+            audio: [Int]
+        }
+    }
+    audio(lang: String query: String!) {
+        lang: String!
+        text: String
+        audio: [Int]
+    }
+}
+```
+
+## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
@@ -23,3 +112,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+## License
+
+[![](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)
+
+Copyright © 2021 [TheDavidDelta](https://github.com/TheDavidDelta) & contributors.  
+This project is [GNU AGPLv3](./LICENSE) licensed.
