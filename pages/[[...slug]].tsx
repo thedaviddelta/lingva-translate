@@ -3,13 +3,13 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Router from "next/router";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
-import { CustomError, Layout, LangSelect, TranslationArea } from "../components";
+import { Layout, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "../utils/translate";
 import { retrieveFiltered, replaceBoth } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
-const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, statusCode, errorMsg, initial }) => {
+const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, errorMsg, initial }) => {
     const [{ source, target, query, delayedQuery, translation }, dispatch] = useReducer(langReducer, initialState);
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -55,9 +55,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         updateDeps: initial
     });
 
-    return statusCode ? (
-        <CustomError statusCode={statusCode} />
-    ) : (
+    return (
         <Layout home={home}>
             <VStack px={[8, null, 24, 40]} w="full">
                 <HStack px={[1, null, 3, 4]} w="full">
@@ -160,7 +158,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 source, target, query
             }
         },
-        revalidate: !textScrape.errorMsg && !textScrape.statusCode
+        revalidate: !textScrape.errorMsg
             ? 2 * 30 * 24 * 60 * 60 // 2 months
             : 1
     };

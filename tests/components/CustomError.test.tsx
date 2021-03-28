@@ -2,8 +2,11 @@ import { render, screen } from "../reactUtils";
 import faker from "faker";
 import CustomError from "../../components/CustomError";
 
+const code = faker.random.number({ min: 400, max: 599 });
+const text = faker.random.words();
+
 it("loads the layout correctly", async () => {
-    render(<CustomError statusCode={404} />);
+    render(<CustomError statusCode={code} statusText={text} />);
 
     expect(screen.getByRole("link", { name: /skip to content/i })).toBeEnabled();
     expect(await screen.findByRole("img", { name: /logo/i })).toBeVisible();
@@ -12,13 +15,10 @@ it("loads the layout correctly", async () => {
     expect(screen.getByText(/\xA9/)).toBeVisible();
 });
 
-it("renders a not found message on 404 code", () => {
-    render(<CustomError statusCode={404} />);
-    expect(screen.getByText(/this page could not be found/i)).toBeVisible();
-});
-
-it("renders the correct status code", () => {
+it("renders the correct status code & text", () => {
     const code = faker.random.number({ min: 400, max: 599 });
-    render(<CustomError statusCode={code} />);
+    render(<CustomError statusCode={code} statusText={text} />);
+
     expect(screen.getByText(code)).toBeVisible();
+    expect(screen.getByText(text)).toBeVisible();
 });

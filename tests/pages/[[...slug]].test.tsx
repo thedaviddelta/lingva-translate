@@ -173,12 +173,6 @@ describe("Page", () => {
         expect(btnCopy).toBeEnabled();
     });
 
-    it("renders error page on status code", async () => {
-        const code = faker.random.number({ min: 400, max: 599 });
-        render(<Page statusCode={code} />);
-        await waitFor(() => expect(screen.getByText(code)).toBeVisible());
-    });
-
     it("shows alert correctly on error", async () => {
         const errorMsg = faker.random.words();
         render(<Page errorMsg={errorMsg} />);

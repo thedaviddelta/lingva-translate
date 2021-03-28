@@ -19,11 +19,12 @@ describe("googleScrape", () => {
         expect(await googleScrape(source, target, query)).toStrictEqual({ translationRes });
     });
 
-    it("returns status code on request error", async () => {
+    it("returns correct message on request error", async () => {
         const status = faker.random.number({ min: 400, max: 499 });
         resolveFetchWith({ status });
 
-        expect(await googleScrape(source, target, query)).toStrictEqual({ statusCode: status });
+        const res = await googleScrape(source, target, query);
+        expect(res?.errorMsg).toMatch(/retrieving/);
     });
 
     it("returns correct message on network error", async () => {
