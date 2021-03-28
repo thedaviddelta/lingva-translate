@@ -13,7 +13,7 @@ const query = faker.random.words();
 const slug = [source, target, query];
 
 it("returns 404 on <3 params", async () => {
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug: [source, target] }
     });
@@ -23,7 +23,7 @@ it("returns 404 on <3 params", async () => {
 });
 
 it("returns 404 on >3 params", async () => {
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug: [source, target, query, ""] }
     });
@@ -32,8 +32,8 @@ it("returns 404 on >3 params", async () => {
     expect(res.statusCode).toBe(404);
 });
 
-it("returns 405 on unallowed method", async () => {
-    const { req, res } = httpMocks.createMocks({
+it("returns 405 on forbidden method", async () => {
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "POST",
         query: { slug }
     });
@@ -46,7 +46,7 @@ it("returns translation on scrapping resolve", async () => {
     const translationRes = faker.random.words();
     resolveFetchWith(htmlRes(translationRes));
 
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug }
     });
@@ -59,7 +59,7 @@ it("returns translation on scrapping resolve", async () => {
 it("returns 500 on scrapping error", async () => {
     fetchMock.mockRejectOnce();
 
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug }
     });
@@ -72,7 +72,7 @@ it("returns 500 on scrapping error", async () => {
 it("returns audio on audio request", async () => {
     resolveFetchWith({ status: 200 });
 
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug: ["audio", target, query] }
     });
@@ -85,7 +85,7 @@ it("returns audio on audio request", async () => {
 it("returns 500 on audio request error", async () => {
     fetchMock.mockRejectOnce();
 
-    const { req, res } = httpMocks.createMocks({
+    const { req, res } = httpMocks.createMocks<any, any>({
         method: "GET",
         query: { slug: ["audio", target, query] }
     });

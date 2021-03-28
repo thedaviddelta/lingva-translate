@@ -40,6 +40,7 @@
     "@types/user-agents": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
+    "apollo-server-testing": "^2.22.1",
     "babel-eslint": "^10.0.0",
     "cypress": "^6.6.0",
     "eslint": "^7.5.0",

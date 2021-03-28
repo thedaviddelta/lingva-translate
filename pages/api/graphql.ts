@@ -1,7 +1,9 @@
 import { ApolloServer, gql, IResolvers } from "apollo-server-micro";
+import { NextApiHandler } from "next";
+import NextCors from "nextjs-cors";
 import { googleScrape, textToSpeechScrape } from "../../utils/translate";
 
-const typeDefs = gql`
+export const typeDefs = gql`
     type Query {
         translation(source: String="auto" target: String="en" query: String!): Translation!
         audio(lang: String! query: String!): Entry!
@@ -17,7 +19,7 @@ const typeDefs = gql`
     }
 `;
 
-const resolvers: IResolvers = {
+export const resolvers: IResolvers = {
     Query: {
         translation(_, args) {
             const { source, target, query } = args;
@@ -62,4 +64,17 @@ export const config = {
     }
 };
 
-export default new ApolloServer({ typeDefs, resolvers }).createHandler({ path: "/api/graphql" });
+const apolloHandler = new ApolloServer({ typeDefs, resolvers }).createHandler({ path: "/api/graphql" });
+
+const handler: NextApiHandler = async (req, res) => {
+    await NextCors(req, res, {
+        methods: ["GET", "POST"],
+        origin: "*"
+    });
+
+    return req.method !== "OPTIONS"
+        ? apolloHandler(req, res)
+        : res.end();
+};
+
+export default handler;
