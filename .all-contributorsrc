@@ -1,0 +1,28 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "TheDavidDelta",
+      "name": "David",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6679900?v=4",
+      "profile": "https://thedaviddelta.com/",
+      "contributions": [
+        "a11y",
+        "code",
+        "doc",
+        "design",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "lingva-translate",
+  "projectOwner": "TheDavidDelta",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
