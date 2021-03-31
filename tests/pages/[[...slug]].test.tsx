@@ -84,11 +84,17 @@ describe("Page", () => {
         userEvent.type(query, faker.random.words());
 
         await waitFor(
-            () => expect(Router.push).not.toHaveBeenCalled(),
+            () => {
+                expect(Router.push).not.toHaveBeenCalled();
+                expect(screen.queryByText(/loading translation/i)).not.toBeInTheDocument();
+            },
             { timeout: 250 }
         );
         await waitFor(
-            () => expect(Router.push).toHaveBeenCalledTimes(1),
+            () => {
+                expect(Router.push).toHaveBeenCalledTimes(1);
+                expect(screen.getByText(/loading translation/i)).toBeInTheDocument();
+            },
             { timeout: 2500 }
         );
     });

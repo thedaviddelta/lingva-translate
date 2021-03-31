@@ -16,6 +16,12 @@ type Props =  {
 const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy, isLoading, ...props }) => {
     const { hasCopied, onCopy } = useClipboard(value);
     const { audioExists, isAudioPlaying, onAudioClick } = useAudioFromBuffer(audio);
+    const spinnerProps = {
+        size: useBreakpointValue(["lg", null, "xl"]) ?? undefined,
+        color: useColorModeValue("lingva.500", "lingva.200"),
+        emptyColor: useColorModeValue("gray.300", "gray.600")
+    };
+
     return (
         <Box
             position="relative"
@@ -59,19 +65,17 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy,
                     />
                 </Tooltip>
             </HStack>
-            <Spinner
-                display={isLoading ? "initial" : "none"}
+            {isLoading && <Spinner
                 position="absolute"
                 top="0"
                 bottom="0"
                 left="0"
                 right="0"
                 m="auto"
-                size={useBreakpointValue(["lg", null, "xl"]) ?? undefined}
                 thickness="3px"
-                color={useColorModeValue("lingva.500", "lingva.200")}
-                emptyColor={useColorModeValue("gray.300", "gray.600")}
-            />
+                label="Loading translation"
+                {...spinnerProps}
+            />}
         </Box>
     );
 };
