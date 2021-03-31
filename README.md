@@ -52,7 +52,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 
 ### REST API v1
 
-+ `/api/v1/:source/:target/:query`
++ GET `/api/v1/:source/:target/:query`
 ```typescript
 {
     translation?: string,
@@ -60,7 +60,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 }
 ```
 
-+ `/api/v1/audio/:lang/:query`
++ GET `/api/v1/audio/:lang/:query`
 ```typescript
 {
     audio?: number[],
@@ -85,7 +85,7 @@ query {
             audio: [Int]
         }
     }
-    audio(lang: String query: String!) {
+    audio(lang: String! query: String!) {
         lang: String!
         text: String
         audio: [Int]
