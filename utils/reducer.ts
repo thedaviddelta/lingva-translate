@@ -5,7 +5,8 @@ export const initialState = {
     target: "en",
     query: "",
     delayedQuery: "",
-    translation: ""
+    translation: "",
+    isLoading: true
 }
 
 type State = typeof initialState;
@@ -20,7 +21,7 @@ type Action = {
     type: Actions.SET_FIELD,
     payload: {
         key: string,
-        value: string
+        value: any
     }
 } | {
     type: Actions.SET_ALL,

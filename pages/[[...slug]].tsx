@@ -10,7 +10,7 @@ import { retrieveFiltered, replaceBoth } from "../utils/language";
 import langReducer, { Actions, initialState } from "../utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, errorMsg, initial }) => {
-    const [{ source, target, query, delayedQuery, translation }, dispatch] = useReducer(langReducer, initialState);
+    const [{ source, target, query, delayedQuery, translation, isLoading }, dispatch] = useReducer(langReducer, initialState);
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
         dispatch({
@@ -23,9 +23,16 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     };
 
     useEffect(() => {
-        const state = { ...initial, delayedQuery: initial?.query, translation: translationRes };
-        initial && dispatch({ type: Actions.SET_ALL, payload: { state }});
-    }, [initial, translationRes]);
+        if (home)
+            return dispatch({ type: Actions.SET_ALL, payload: { state: { ...initialState, isLoading: false } } });
+        if (!initial)
+            return;
+
+        dispatch({
+            type: Actions.SET_ALL,
+            payload: { state: { ...initial, delayedQuery: initial.query, translation: translationRes, isLoading: false } }
+        });
+    }, [initial, translationRes, home]);
 
     useEffect(() => {
         const timeout = setTimeout(() =>
@@ -35,6 +42,8 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     }, [query]);
 
     useEffect(() => {
+        if (isLoading)
+            return;
         if (!delayedQuery || delayedQuery === initialState.query)
             return;
         if (!home && !initial)
@@ -42,8 +51,15 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         if (!home && delayedQuery === initial.query && source === initial.source && target === initial.target)
             return;
 
+        dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
         Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
-    }, [source, target, delayedQuery, initial, home]);
+    }, [source, target, delayedQuery, initial, home, isLoading]);
+
+    useEffect(() => {
+        const handler = () => dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
+        Router.events.on("beforeHistoryChange", handler);
+        return () => Router.events.off("beforeHistoryChange", handler);
+    }, []);
 
     const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
     const { source: transLang, target: queryLang } = replaceBoth("exception", { source: target, target: source });
@@ -88,7 +104,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         aria-label="Translation query"
                         placeholder="Text"
                         value={query}
-                        onChange={handleChange}
+                        onChange={e => isLoading || handleChange(e)}
                         lang={queryLang}
                         audio={audio?.source}
                     />
@@ -101,6 +117,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         lang={transLang}
                         audio={audio?.target}
                         canCopy={true}
+                        isLoading={isLoading}
                     />
                 </Stack>
             </VStack>
