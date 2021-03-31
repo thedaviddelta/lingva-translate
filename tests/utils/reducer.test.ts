@@ -22,7 +22,7 @@ it("changes all fields", () => {
         query,
         delayedQuery: query,
         translation: faker.random.words(),
-        isLoading: faker.random.boolean()
+        isLoading: faker.datatype.boolean()
     };
 
     const res = langReducer(initialState, {

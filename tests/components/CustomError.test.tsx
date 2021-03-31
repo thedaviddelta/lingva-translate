@@ -2,7 +2,7 @@ import { render, screen } from "../reactUtils";
 import faker from "faker";
 import CustomError from "../../components/CustomError";
 
-const code = faker.random.number({ min: 400, max: 599 });
+const code = faker.datatype.number({ min: 400, max: 599 });
 const text = faker.random.words();
 
 it("loads the layout correctly", async () => {
@@ -16,7 +16,7 @@ it("loads the layout correctly", async () => {
 });
 
 it("renders the correct status code & text", () => {
-    const code = faker.random.number({ min: 400, max: 599 });
+    const code = faker.datatype.number({ min: 400, max: 599 });
     render(<CustomError statusCode={code} statusText={text} />);
 
     expect(screen.getByText(code)).toBeVisible();

@@ -61,7 +61,7 @@ describe("getStaticProps", () => {
 
 describe("Page", () => {
     const translationRes = faker.random.words();
-    const randomAudio = Array.from({ length: 10 }, () => faker.random.number(100));
+    const randomAudio = Array.from({ length: 10 }, () => faker.datatype.number(100));
     const audio = {
         source: randomAudio,
         target: randomAudio
