@@ -21,7 +21,8 @@ it("changes all fields", () => {
         target: faker.random.locale(),
         query,
         delayedQuery: query,
-        translation: faker.random.words()
+        translation: faker.random.words(),
+        isLoading: faker.datatype.boolean()
     };
 
     const res = langReducer(initialState, {
@@ -46,7 +47,8 @@ it("switches the languages & the translations", () => {
         target: state.source,
         query: state.translation,
         delayedQuery: state.translation,
-        translation: ""
+        translation: "",
+        isLoading: initialState.isLoading
     });
 });
 

@@ -1,5 +1,5 @@
 import { FC, ChangeEvent } from "react";
-import { Box, HStack, Textarea, IconButton, Tooltip, useBreakpointValue, useClipboard } from "@chakra-ui/react";
+import { Box, HStack, Textarea, IconButton, Tooltip, Spinner, useBreakpointValue, useColorModeValue, useClipboard } from "@chakra-ui/react";
 import { FaCopy, FaCheck, FaPlay, FaStop } from "react-icons/fa";
 import { useAudioFromBuffer } from "../hooks";
 
@@ -9,12 +9,19 @@ type Props =  {
     readOnly?: true,
     audio?: number[],
     canCopy?: boolean,
+    isLoading?: boolean,
     [key: string]: any
 };
 
-const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy, ...props }) => {
+const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy, isLoading, ...props }) => {
     const { hasCopied, onCopy } = useClipboard(value);
     const { audioExists, isAudioPlaying, onAudioClick } = useAudioFromBuffer(audio);
+    const spinnerProps = {
+        size: useBreakpointValue(["lg", null, "xl"]) ?? undefined,
+        color: useColorModeValue("lingva.500", "lingva.200"),
+        emptyColor: useColorModeValue("gray.300", "gray.600")
+    };
+
     return (
         <Box
             position="relative"
@@ -58,6 +65,17 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy,
                     />
                 </Tooltip>
             </HStack>
+            {isLoading && <Spinner
+                position="absolute"
+                top="0"
+                bottom="0"
+                left="0"
+                right="0"
+                m="auto"
+                thickness="3px"
+                label="Loading translation"
+                {...spinnerProps}
+            />}
         </Box>
     );
 };

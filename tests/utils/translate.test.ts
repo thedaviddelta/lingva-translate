@@ -20,7 +20,7 @@ describe("googleScrape", () => {
     });
 
     it("returns correct message on request error", async () => {
-        const status = faker.random.number({ min: 400, max: 499 });
+        const status = faker.datatype.number({ min: 400, max: 499 });
         resolveFetchWith({ status });
 
         const res = await googleScrape(source, target, query);
@@ -61,7 +61,7 @@ describe("extractSlug", () => {
     it("returns empty object on 0 or >4 params", () => {
         expect(extractSlug([])).toStrictEqual({});
 
-        const length = faker.random.number({ min: 4, max: 50 });
+        const length = faker.datatype.number({ min: 4, max: 50 });
         const array = Array(length).fill("");
         expect(extractSlug(array)).toStrictEqual({});
     });
@@ -74,7 +74,7 @@ describe("textToSpeechScrape", () => {
     });
 
     it("returns 'null' on request error", async () => {
-        const status = faker.random.number({ min: 400, max: 499 });
+        const status = faker.datatype.number({ min: 400, max: 499 });
         resolveFetchWith({ status });
         expect(await textToSpeechScrape(target, query)).toBeNull();
     });

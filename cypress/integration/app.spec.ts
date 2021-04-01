@@ -6,20 +6,25 @@ beforeEach(() => {
     cy.visit("/");
 });
 
-it("switches page correctly on inputs change", () => {
+it("switches page on inputs change & goes back correctly", () => {
+    // query change
     cy.findByRole("textbox", { name: /translation query/i })
         .as("query")
         .type("palabra");
+    cy.findByText(/loading translation/i)
+        .should("be.visible");
     cy.findByRole("textbox", { name: /translation result/i })
         .as("translation")
         .should("have.value", "word")
         .url()
         .should("include", "/auto/en/palabra");
+    // source change
     cy.findByRole("combobox", { name: /source language/i })
         .as("source")
         .select("es")
         .url()
         .should("include", "/es/en/palabra");
+    // target change
     cy.findByRole("combobox", { name: /target language/i })
         .as("target")
         .select("ca")
@@ -27,6 +32,7 @@ it("switches page correctly on inputs change", () => {
         .should("have.value", "paraula")
         .url()
         .should("include", "/es/ca/palabra");
+    // lang switch
     cy.findByRole("button", { name: /switch languages/i })
         .click()
         .get("@source")
@@ -39,6 +45,26 @@ it("switches page correctly on inputs change", () => {
         .should("have.value", "palabra")
         .url()
         .should("include", "/ca/es/paraula");
+
+    // history back
+    cy.go("back")
+        .get("@translation")
+        .should("have.value", "paraula");
+    cy.go("back")
+        .get("@source")
+        .should("have.value", "es")
+        .get("@translation")
+        .should("have.value", "word");
+    cy.go("back")
+        .get("@source")
+        .should("have.value", "auto")
+        .get("@translation")
+        .should("have.value", "word");
+    cy.go("back")
+        .get("@translation")
+        .should("be.empty")
+        .get("@query")
+        .should("be.empty");
 });
 
 it("switches first loaded page and back and forth on language change", () => {
