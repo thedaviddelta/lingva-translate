@@ -56,7 +56,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     }, [source, target, delayedQuery, initial, home, isLoading]);
 
     useEffect(() => {
-        const handler = () => dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
+        const handler = (url: string) => url === Router.asPath || dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
         Router.events.on("beforeHistoryChange", handler);
         return () => Router.events.off("beforeHistoryChange", handler);
     }, []);

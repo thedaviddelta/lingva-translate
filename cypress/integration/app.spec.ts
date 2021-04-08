@@ -72,6 +72,7 @@ it("switches first loaded page and back and forth on language change", () => {
     cy.visit(`/auto/en/${query}`);
 
     cy.findByRole("textbox", { name: /translation query/i })
+        .as("query")
         .should("have.value", query);
     cy.findByRole("combobox", { name: /source language/i })
         .as("source")
@@ -82,6 +83,12 @@ it("switches first loaded page and back and forth on language change", () => {
         .select("auto")
         .url()
         .should("include", `/auto/en/${encodeURIComponent(query)}`);
+    cy.findByRole("link", { name: /logo/i })
+        .click()
+        .url()
+        .should("not.include", "/auto/en")
+        .get("@query")
+        .should("be.empty");
 });
 
 it("language switching button is disabled on 'auto', but enables when other", () => {

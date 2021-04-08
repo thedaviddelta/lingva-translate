@@ -1,4 +1,5 @@
 import { FC } from "react";
+import NextLink from "next/link";
 import { Flex, HStack, IconButton, Link, useColorModeValue } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
@@ -19,12 +20,16 @@ const Header: FC<Props> = (props) => (
         w="full"
         {...props}
     >
-        <Image
-            src={useColorModeValue("/banner_light.svg", "/banner_dark.svg")}
-            alt="Logo"
-            width={110}
-            height={64}
-        />
+        <NextLink href="/" passHref={true}>
+            <Link display="flex">
+                <Image
+                    src={useColorModeValue("/banner_light.svg", "/banner_dark.svg")}
+                    alt="Logo"
+                    width={110}
+                    height={64}
+                />
+            </Link>
+        </NextLink>
         <HStack spacing={3}>
             <ColorModeToggler
                 variant={useColorModeValue("outline", "solid")}
