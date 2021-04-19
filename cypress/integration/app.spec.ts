@@ -102,12 +102,19 @@ it("language switching button is disabled on 'auto', but enables when other", ()
         .should("be.enabled")
         .click();
     cy.findByRole("combobox", { name: /target language/i })
+        .as("target")
         .should("have.value", "eo")
         .get("@source")
         .should("have.value", "en")
         .url()
         .should("not.include", "/en")
         .should("not.include", "/eo");
+    cy.get("body")
+        .type("{ctrl}{shift}s")
+        .get("@source")
+        .should("have.value", "eo")
+        .get("@target")
+        .should("have.value", "en");
 });
 
 it("loads & plays audio correctly", () => {
@@ -147,5 +154,10 @@ it("skips to main & toggles color mode", () => {
     cy.get("@toggler")
         .click()
         .get("body")
+        .should("have.css", "background-color", white);
+    cy.get("body")
+        .type("{ctrl}{shift}u")
+        .should("not.have.css", "background-color", white)
+        .type("{ctrl}{shift}u")
         .should("have.css", "background-color", white);
 });
