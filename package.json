@@ -25,6 +25,7 @@
     "nextjs-cors": "^1.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-hotkeys-hook": "^3.3.0",
     "react-icons": "^4.2.0",
     "user-agents": "^1.0.597"
   },
