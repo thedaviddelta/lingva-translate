@@ -33,17 +33,22 @@ type Action = {
 }
 
 export default function reducer(state: State, action: Action) {
+    const { source, target } = replaceBoth("exception", {
+        source: state.target,
+        target: state.source
+    });
+
     switch (action.type) {
         case Actions.SET_FIELD:
             const { key, value } = action.payload;
+            if (key === "source" && value === state.target)
+                return { ...state, [key]: value, target: target !== value ? target : "eo" };
+            if (key === "target" && value === state.source)
+                return { ...state, [key]: value, source };
             return { ...state, [key]: value };
         case Actions.SET_ALL:
             return { ...state, ...action.payload.state };
         case Actions.SWITCH_LANGS:
-            const { source, target } = replaceBoth("exception", {
-                source: state.target,
-                target: state.source
-            });
             return {
                 ...state,
                 source: source !== target

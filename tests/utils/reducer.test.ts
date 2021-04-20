@@ -32,6 +32,24 @@ it("changes all fields", () => {
     expect(res).toStrictEqual(state);
 });
 
+it("switches target on source change", () => {
+    const state = {
+        ...initialState,
+        source: "es",
+        target: "ca"
+    };
+
+    const res = langReducer(state, {
+        type: Actions.SET_FIELD,
+        payload: {
+            key: "source",
+            value: state.target
+        }
+    });
+    expect(res.source).toStrictEqual(state.target);
+    expect(res.target).toStrictEqual(state.source);
+});
+
 it("switches the languages & the translations", () => {
     const state = {
         ...initialState,

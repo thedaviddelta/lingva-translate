@@ -1,4 +1,3 @@
-import faker from "faker";
 import { replaceBoth, retrieveFiltered, CheckType, LangType } from "../../utils/language";
 import { languages, exceptions, mappings } from "../../utils/languages.json";
 
@@ -36,16 +35,13 @@ describe("replaceBoth", () => {
 });
 
 describe("retrieveFiltered", () => {
-    const filteredEntries = (langType: LangType, current: string) => (
-        Object.entries(languages).filter(([code]) => !Object.keys(exceptions[langType]).includes(code) && code !== current)
+    const filteredEntries = (langType: LangType) => (
+        Object.entries(languages).filter(([code]) => !Object.keys(exceptions[langType]).includes(code))
     );
 
-    it("filters by exceptions & by opposite values", () => {
-        const source = faker.random.locale();
-        const target = faker.random.locale();
-
-        const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
-        expect(sourceLangs).toStrictEqual(filteredEntries("source", target));
-        expect(targetLangs).toStrictEqual(filteredEntries("target", source));
+    it("filters by exceptions", () => {
+        const { sourceLangs, targetLangs } = retrieveFiltered();
+        expect(sourceLangs).toStrictEqual(filteredEntries("source"));
+        expect(targetLangs).toStrictEqual(filteredEntries("target"));
     });
 });

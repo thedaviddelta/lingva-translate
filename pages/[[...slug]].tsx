@@ -62,7 +62,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         return () => Router.events.off("beforeHistoryChange", handler);
     }, []);
 
-    const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
+    const { sourceLangs, targetLangs } = retrieveFiltered();
     const { source: transLang, target: queryLang } = replaceBoth("exception", { source: target, target: source });
 
     useToastOnLoad({
