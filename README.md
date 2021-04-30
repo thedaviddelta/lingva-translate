@@ -5,6 +5,7 @@
 [![Travis Build](https://travis-ci.com/TheDavidDelta/lingva-translate.svg?branch=main)](https://travis-ci.com/TheDavidDelta/lingva-translate)
 [![Vercel Status](https://img.shields.io/github/deployments/TheDavidDelta/lingva-translate/Production?label=vercel&logo=vercel&color=f5f5f5)](https://lingva.ml/)
 [![License](https://img.shields.io/github/license/TheDavidDelta/lingva-translate)](./LICENSE)
+[![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 
 Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available
 

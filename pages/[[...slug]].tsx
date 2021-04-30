@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Router from "next/router";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Layout, LangSelect, TranslationArea } from "../components";
 import { useToastOnLoad } from "../hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "../utils/translate";
@@ -61,7 +62,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         return () => Router.events.off("beforeHistoryChange", handler);
     }, []);
 
-    const { sourceLangs, targetLangs } = retrieveFiltered(source, target);
+    const { sourceLangs, targetLangs } = retrieveFiltered();
     const { source: transLang, target: queryLang } = replaceBoth("exception", { source: target, target: source });
 
     useToastOnLoad({
@@ -70,6 +71,12 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         status: "error",
         updateDeps: initial
     });
+
+    const canSwitch = source !== "auto" && !isLoading;
+
+    useHotkeys("ctrl+shift+s, command+shift+s, ctrl+shift+f, command+shift+f", () => (
+        canSwitch && dispatch({ type: Actions.SWITCH_LANGS })
+    ), [canSwitch]);
 
     return (
         <Layout home={home}>
@@ -88,7 +95,7 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         colorScheme="lingva"
                         variant="ghost"
                         onClick={() => dispatch({ type: Actions.SWITCH_LANGS })}
-                        isDisabled={source === "auto"}
+                        isDisabled={!canSwitch}
                     />
                     <LangSelect
                         id="target"

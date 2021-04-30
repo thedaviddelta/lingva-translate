@@ -1,4 +1,5 @@
-import { languages, exceptions, mappings } from "./languages.json";
+import languagesJson from "./languages.json";
+const { languages, exceptions, mappings } = languagesJson;
 
 const checkTypes = {
     exception: exceptions,
@@ -32,15 +33,10 @@ export function replaceBoth(
     return { source, target };
 }
 
-export function retrieveFiltered(source: string, target: string) {
-    const current = {
-        source: target,
-        target: source
-    };
+export function retrieveFiltered() {
     const [sourceLangs, targetLangs] = langTypes.map(type => (
         Object.entries(languages).filter(([code]) => (
             !Object.keys(exceptions[type]).includes(code)
-            && current[type] !== code
         ))
     ));
     return { sourceLangs, targetLangs };
