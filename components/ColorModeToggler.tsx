@@ -9,7 +9,7 @@ type Props = {
 
 const ColorModeToggler: FC<Props> = (props) => {
     const { colorMode, toggleColorMode } = useColorMode();
-    useHotkeys("ctrl+shift+u", toggleColorMode, [toggleColorMode]);
+    useHotkeys("ctrl+shift+l, command+shift+l", toggleColorMode, [toggleColorMode]);
     return (
         <IconButton
             aria-label="Toggle color mode"

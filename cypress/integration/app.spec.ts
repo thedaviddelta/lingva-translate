@@ -114,7 +114,13 @@ it("language switching button is disabled on 'auto', but enables when other", ()
         .get("@source")
         .should("have.value", "eo")
         .get("@target")
-        .should("have.value", "en");
+        .should("have.value", "en")
+        .get("body")
+        .type("{ctrl}{shift}f")
+        .get("@source")
+        .should("have.value", "en")
+        .get("@target")
+        .should("have.value", "eo");
 });
 
 it("loads & plays audio correctly", () => {
@@ -156,8 +162,8 @@ it("skips to main & toggles color mode", () => {
         .get("body")
         .should("have.css", "background-color", white);
     cy.get("body")
-        .type("{ctrl}{shift}u")
+        .type("{ctrl}{shift}l")
         .should("not.have.css", "background-color", white)
-        .type("{ctrl}{shift}u")
+        .type("{ctrl}{shift}l")
         .should("have.css", "background-color", white);
 });

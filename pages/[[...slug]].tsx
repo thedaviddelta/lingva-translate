@@ -74,7 +74,9 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
 
     const canSwitch = source !== "auto" && !isLoading;
 
-    useHotkeys("ctrl+shift+s", () => canSwitch && dispatch({ type: Actions.SWITCH_LANGS }), [canSwitch]);
+    useHotkeys("ctrl+shift+s, command+shift+s, ctrl+shift+f, command+shift+f", () => (
+        canSwitch && dispatch({ type: Actions.SWITCH_LANGS })
+    ), [canSwitch]);
 
     return (
         <Layout home={home}>
