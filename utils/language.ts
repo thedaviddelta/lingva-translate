@@ -1,4 +1,5 @@
-import { languages, exceptions, mappings } from "./languages.json";
+import languagesJson from "./languages.json";
+const { languages, exceptions, mappings } = languagesJson;
 
 const checkTypes = {
     exception: exceptions,
