@@ -7,15 +7,8 @@ os: linux
 
 dist: xenial
 
-addons:
-  apt:
-    packages:
-      - libgconf-2-4
-
 cache:
   yarn: true
-  directories:
-    - ~/.cache
 
 branches:
   only:
@@ -23,5 +16,3 @@ branches:
 
 script:
   - yarn test --ci
-  - yarn dev & wait-on http://localhost:3000
-  - yarn cy:run --record --key $CY_KEY
