@@ -4,6 +4,7 @@
 
 [![Travis Build](https://travis-ci.com/TheDavidDelta/lingva-translate.svg?branch=main)](https://travis-ci.com/TheDavidDelta/lingva-translate)
 [![Vercel Status](https://img.shields.io/github/deployments/TheDavidDelta/lingva-translate/Production?label=vercel&logo=vercel&color=f5f5f5)](https://lingva.ml/)
+[![Cypress Tests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/qgjdyd&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/qgjdyd/runs)
 [![License](https://img.shields.io/github/license/TheDavidDelta/lingva-translate)](./LICENSE)
 [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 
@@ -38,12 +39,14 @@ The easiest way is to use their creators' own platform, [Vercel](https://vercel.
 
 ## Instances
 
-These are the currently known *Lingva* instances. Feel free to make a Pull Request including yours.
+These are the currently known *Lingva* instances. Feel free to make a Pull Request including yours (please remember to add `[skip ci]` to the last commit).
 
-| Domain                                     | Hosting                       | SSL Provider                                                              |
-|:------------------------------------------:|:-----------------------------:|:-------------------------------------------------------------------------:|
-| [lingva.ml](https://lingva.ml/) (Official) | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml) |
-| [translate.alefvanoon.xyz](https://translare.alefvanoon.xyz) | [Vercel](https://vercel.com/) |  [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz&latest) |
+| Domain                                                       | Hosting                       | SSL Provider                                                                                    |
+|:------------------------------------------------------------:|:-----------------------------:|:-----------------------------------------------------------------------------------------------:|
+| [lingva.ml](https://lingva.ml/) (Official)                   | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                       |
+| [translate.alefvanoon.xyz](https://translare.alefvanoon.xyz) | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz&latest) |
+
+
 ## Public APIs
 
 Nearly all the *Lingva* instances should supply a pair of public developer APIs: a RESTful one and a GraphQL one.
