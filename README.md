@@ -43,8 +43,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | Domain                                     | Hosting                       | SSL Provider                                                              |
 |:------------------------------------------:|:-----------------------------:|:-------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official) | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml) |
-
-
+| [translate.alefvanoon.xyz](https://translare.alefvanoon.xyz) | [Vercel](https://vercel.com/) |  [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz&latest) |
 ## Public APIs
 
 Nearly all the *Lingva* instances should supply a pair of public developer APIs: a RESTful one and a GraphQL one.
