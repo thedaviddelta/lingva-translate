@@ -24,4 +24,9 @@ branches:
 script:
   - yarn test --ci
   - yarn dev & wait-on http://localhost:3000
-  - yarn cy:run --record --key $CY_KEY
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ];
+    then
+      yarn cy:run --record --key $CY_KEY;
+    else
+      yarn cy:run;
+    fi'
