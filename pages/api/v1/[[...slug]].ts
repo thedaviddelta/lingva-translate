@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { googleScrape, textToSpeechScrape } from "../../../utils/translate";
+import { googleScrape, textToSpeechScrape } from "@utils/translate";
 
 type Data = {
     translation?: string,

@@ -1,5 +1,5 @@
-import { replaceBoth, retrieveFiltered, CheckType, LangType } from "../../utils/language";
-import { languages, exceptions, mappings } from "../../utils/languages.json";
+import { replaceBoth, retrieveFiltered, CheckType, LangType } from "@utils/language";
+import { languages, exceptions, mappings } from "@utils/languages.json";
 
 describe("replaceBoth", () => {
     const testReplacer = (

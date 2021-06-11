@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { Flex, VStack, Button, Link, useColorModeValue } from "@chakra-ui/react";
 import Head from "next/head";
-import Header from "./Header";
-import Footer from "./Footer";
+import { Header, Footer } from ".";
 
 type Props = {
     customTitle?: string,

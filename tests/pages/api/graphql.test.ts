@@ -1,8 +1,8 @@
 import { createTestClient } from "apollo-server-testing";
 import { ApolloServer } from "apollo-server-micro";
 import faker from "faker";
-import { htmlRes, resolveFetchWith } from "../../commonUtils";
-import { typeDefs, resolvers } from "../../../pages/api/graphql";
+import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
+import { typeDefs, resolvers } from "@pages/api/graphql";
 
 beforeEach(() => {
     fetchMock.resetMocks();

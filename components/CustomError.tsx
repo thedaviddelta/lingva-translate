@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Stack, HStack, Heading, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FaSadTear } from "react-icons/fa";
-import Layout from "./Layout";
+import { Layout } from ".";
 
 type Props = {
     statusCode: number,

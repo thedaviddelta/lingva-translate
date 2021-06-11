@@ -1,5 +1,5 @@
 import faker from "faker";
-import langReducer, { Actions, initialState } from "../../utils/reducer";
+import langReducer, { Actions, initialState } from "@utils/reducer";
 
 it("changes a field value", () => {
     const query = faker.random.words();

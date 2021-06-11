@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { Flex, HStack, IconButton, Link, useColorModeValue } from "@chakra-ui/react";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
-import ColorModeToggler from "./ColorModeToggler";
+import { ColorModeToggler } from ".";
 
 type Props = {
     [key: string]: any

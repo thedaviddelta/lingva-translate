@@ -4,11 +4,11 @@ import Router from "next/router";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Layout, LangSelect, TranslationArea } from "../components";
-import { useToastOnLoad } from "../hooks";
-import { googleScrape, extractSlug, textToSpeechScrape } from "../utils/translate";
-import { retrieveFiltered, replaceBoth } from "../utils/language";
-import langReducer, { Actions, initialState } from "../utils/reducer";
+import { Layout, LangSelect, TranslationArea } from "@components";
+import { useToastOnLoad } from "@hooks";
+import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
+import { retrieveFiltered, replaceBoth } from "@utils/language";
+import langReducer, { Actions, initialState } from "@utils/reducer";
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, errorMsg, initial }) => {
     const [{ source, target, query, delayedQuery, translation, isLoading }, dispatch] = useReducer(langReducer, initialState);

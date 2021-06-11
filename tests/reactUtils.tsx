@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import theme from "../theme";
+import theme from "@theme";
 
 // Jest JSDOM bug
 Object.defineProperty(window, 'matchMedia', {

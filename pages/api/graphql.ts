@@ -1,7 +1,7 @@
 import { ApolloServer, gql, IResolvers } from "apollo-server-micro";
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { googleScrape, textToSpeechScrape } from "../../utils/translate";
+import { googleScrape, textToSpeechScrape } from "@utils/translate";
 
 export const typeDefs = gql`
     type Query {

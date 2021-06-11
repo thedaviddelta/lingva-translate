@@ -23,7 +23,8 @@ branches:
 
 script:
   - yarn test --ci
-  - yarn dev & wait-on http://localhost:3000
+  - yarn build
+  - yarn start & wait-on http://localhost:3000
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ];
     then
       yarn cy:run --record --key $CY_KEY;

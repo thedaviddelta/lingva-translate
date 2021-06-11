@@ -1,6 +1,6 @@
-import { render, screen } from "../reactUtils";
+import { render, screen } from "@tests/reactUtils";
 import faker from "faker";
-import CustomError from "../../components/CustomError";
+import CustomError from "@components/CustomError";
 
 const code = faker.datatype.number({ min: 400, max: 599 });
 const text = faker.random.words();
