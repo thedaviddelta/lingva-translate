@@ -1,47 +1,13 @@
 import { FC } from "react";
 import { Flex, VStack, Button, Link, useColorModeValue } from "@chakra-ui/react";
-import Head from "next/head";
 import { Header, Footer } from ".";
 
 type Props = {
-    customTitle?: string,
-    home?: true
     [key: string]: any
 };
 
-const title = "Lingva Translate";
-const description = "Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available";
-const siteDomain = process.env["NEXT_PUBLIC_SITE_DOMAIN"];
-const url = siteDomain && (siteDomain.includes("localhost") ? "http://" : "https://") + siteDomain;
-
-const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
+const Layout: FC<Props> = ({ children, ...props }) => (
     <>
-        <Head>
-            <title>
-                {customTitle ?? title}
-            </title>
-            <meta name="description" content={description} />
-            <meta name="robots" content={home ? "index,follow" : "noindex,nofollow"} />
-            {home && <link rel="canonical" href={url} />}
-            <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-            <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-            <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-            <link rel="manifest" href="/manifest.json" />
-            <meta name="theme-color" content={useColorModeValue("#bde3cb", "#005525")} />
-            <meta property="og:type" content="website" />
-            <meta property="og:title" content={title} />
-            <meta property="og:description" content={description} />
-            <meta property="og:url" content={url} />
-            <meta property="og:locale" content="en" />
-            <meta property="og:image" content={`${url}/favicon-512x512.png`} />
-            <meta property="og:image:type" content="image/png" />
-            <meta property="og:image:width" content="512" />
-            <meta property="og:image:height" content="512" />
-            <meta property="og:image:alt" content={title} />
-            <meta property="twitter:card" content="summary" />
-            <meta property="twitter:creator" content="@thedaviddelta" />
-        </Head>
-
         <Button
             as={Link}
             href="#main"
@@ -57,7 +23,10 @@ const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
         </Button>
 
         <VStack minH="100vh" spacing={8}>
-            <Header />
+            <Header
+                bgColor={useColorModeValue("lingva.100", "lingva.900")}
+            />
+
             <Flex
                 as="main"
                 id="main"
@@ -67,7 +36,11 @@ const Layout: FC<Props> = ({ customTitle, children, home, ...props }) => (
             >
                 {children}
             </Flex>
-            <Footer />
+
+            <Footer
+                bgColor={useColorModeValue("lingva.100", "lingva.900")}
+                color={useColorModeValue("lingva.900", "lingva.100")}
+            />
         </VStack>
     </>
 );

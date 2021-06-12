@@ -4,7 +4,7 @@ import Router from "next/router";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Layout, LangSelect, TranslationArea } from "@components";
+import { CustomHead, LangSelect, TranslationArea } from "@components";
 import { useToastOnLoad } from "@hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
 import { retrieveFiltered, replaceBoth } from "@utils/language";
@@ -79,7 +79,9 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     ), [canSwitch]);
 
     return (
-        <Layout home={home}>
+        <>
+            <CustomHead home={home} />
+
             <VStack px={[8, null, 24, 40]} w="full">
                 <HStack px={[1, null, 3, 4]} w="full">
                     <LangSelect
@@ -128,9 +130,9 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                     />
                 </Stack>
             </VStack>
-        </Layout>
+        </>
     );
-}
+};
 
 export default Page;
 
@@ -186,4 +188,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             ? 2 * 30 * 24 * 60 * 60 // 2 months
             : 1
     };
-}
+};
