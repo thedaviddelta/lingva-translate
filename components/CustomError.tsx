@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Stack, HStack, Heading, Text, Icon, useColorModeValue } from "@chakra-ui/react";
 import { FaSadTear } from "react-icons/fa";
-import Layout from "./Layout";
+import { CustomHead } from ".";
 
 type Props = {
     statusCode: number,
@@ -9,7 +9,9 @@ type Props = {
 };
 
 const CustomError: FC<Props> = ({ statusCode, statusText }) => (
-    <Layout customTitle={`${statusCode} - ${statusText}`}>
+    <>
+        <CustomHead customTitle={`${statusCode} - ${statusText}`} />
+
         <Stack
             color={useColorModeValue("lingva.900", "lingva.100")}
             direction={["column", null, "row"]}
@@ -28,7 +30,7 @@ const CustomError: FC<Props> = ({ statusCode, statusText }) => (
                 {statusText}
             </Text>
         </Stack>
-    </Layout>
+    </>
 );
 
 export default CustomError;

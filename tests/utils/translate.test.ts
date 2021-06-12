@@ -1,6 +1,6 @@
-import { htmlRes, resolveFetchWith } from "../commonUtils";
+import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
 import faker from "faker";
-import { googleScrape, extractSlug, textToSpeechScrape } from "../../utils/translate";
+import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
 
 const source = faker.random.locale();
 const target = faker.random.locale();

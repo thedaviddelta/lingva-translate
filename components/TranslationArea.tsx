@@ -1,7 +1,7 @@
 import { FC, ChangeEvent } from "react";
 import { Box, HStack, Textarea, IconButton, Tooltip, Spinner, useBreakpointValue, useColorModeValue, useClipboard } from "@chakra-ui/react";
 import { FaCopy, FaCheck, FaPlay, FaStop } from "react-icons/fa";
-import { useAudioFromBuffer } from "../hooks";
+import { useAudioFromBuffer } from "@hooks";
 
 type Props =  {
     value: string,

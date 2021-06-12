@@ -1,9 +1,9 @@
-import { render, screen, waitFor } from "../reactUtils";
-import { htmlRes, resolveFetchWith } from "../commonUtils";
+import { render, screen, waitFor } from "@tests/reactUtils";
+import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
 import userEvent from "@testing-library/user-event";
 import Router from "next/router";
 import faker from "faker";
-import Page, { getStaticProps } from "../../pages/[[...slug]]";
+import Page, { getStaticProps } from "@pages/[[...slug]]";
 
 const mockPush = jest.spyOn(Router, "push").mockImplementation(async () => true);
 

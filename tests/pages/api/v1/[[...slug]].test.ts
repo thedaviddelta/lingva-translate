@@ -1,7 +1,7 @@
 import httpMocks from "node-mocks-http";
 import faker from "faker";
-import { htmlRes, resolveFetchWith } from "../../../commonUtils";
-import handler from "../../../../pages/api/v1/[[...slug]]";
+import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
+import handler from "@pages/api/v1/[[...slug]]";
 
 beforeEach(() => {
     fetchMock.resetMocks();

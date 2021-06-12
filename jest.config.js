@@ -16,5 +16,9 @@ module.exports = {
     setupFilesAfterEnv: [
         "<rootDir>/tests/setupTests.ts"
     ],
-    moduleFileExtensions: ["ts", "tsx", "js", "jsx"]
+    moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+    moduleNameMapper: {
+        "^@(components|hooks|pages|public|tests|utils|theme)(.*)$": "<rootDir>/$1$2"
+    },
+    testEnvironment: "jsdom"
 }
