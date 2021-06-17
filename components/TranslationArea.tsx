@@ -35,6 +35,7 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy,
                 resize="none"
                 rows={useBreakpointValue([6, null, 12]) ?? undefined}
                 size="lg"
+                data-gramm_editor={false}
                 {...props}
             />
             <HStack
