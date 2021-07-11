@@ -118,10 +118,11 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         placeholder="Text"
                         value={query}
                         onChange={e => isLoading || handleChange(e)}
+                        onSubmit={useCallback(() => changeRoute(query), [query, changeRoute])}
                         lang={queryLang}
                         audio={audio?.source}
                     />
-                    <Stack direction={["row", null, "column"]} justify="center">
+                    <Stack direction={["row", null, "column"]} justify="center" spacing={3} px={[2, null, "initial"]}>
                         <IconButton
                             aria-label="Translate"
                             icon={<HiTranslate />}
@@ -129,10 +130,12 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                             variant="outline"
                             onClick={() => changeRoute(query)}
                             isDisabled={isLoading}
+                            w={["full", null, "auto"]}
                         />
                         <AutoTranslateButton
                             onAuto={useCallback(() => changeRoute(delayedQuery), [delayedQuery, changeRoute])}
                             isDisabled={isLoading}
+                            w={["full", null, "auto"]}
                         />
                     </Stack>
                     <TranslationArea
