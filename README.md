@@ -13,7 +13,7 @@ Alternative front-end for Google Translate, serving as a Free and Open Source tr
 
 ## How does it work?
 
-Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrappes through GTranslate and retrieves the translation without using any Google-related service, preventing them from tracking.
+Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrapes through GTranslate and retrieves the translation without using any Google-related service, preventing them from tracking.
 
 For this purpose, *Lingva* is built, among others, with the following Open Source resources:
 

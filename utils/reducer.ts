@@ -57,7 +57,7 @@ export default function reducer(state: State, action: Action) {
                 target,
                 query: state.translation,
                 delayedQuery: state.translation,
-                translation: ""
+                translation: state.query
             };
         default:
             return state;
