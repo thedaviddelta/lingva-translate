@@ -4,6 +4,7 @@ import faker from "faker";
 
 beforeEach(() => {
     cy.visit("/");
+    cy.clearLocalStorage();
 });
 
 it("switches page on inputs change & goes back correctly", () => {
@@ -11,13 +12,16 @@ it("switches page on inputs change & goes back correctly", () => {
     cy.findByRole("textbox", { name: /translation query/i })
         .as("query")
         .type("palabra");
-    cy.findByText(/loading translation/i)
-        .should("be.visible");
+    cy.findByRole("button", { name: /translate/i })
+        .click();
     cy.findByRole("textbox", { name: /translation result/i })
         .as("translation")
         .should("have.value", "word")
         .url()
         .should("include", "/auto/en/palabra");
+    cy.findByRole("button", { name: /switch auto/i })
+        .click();
+
     // source change
     cy.findByRole("combobox", { name: /source language/i })
         .as("source")
@@ -71,6 +75,9 @@ it("switches first loaded page and back and forth on language change", () => {
     const query = faker.random.words();
     cy.visit(`/auto/en/${query}`);
 
+    cy.findByRole("button", { name: /switch auto/i })
+        .click();
+
     cy.findByRole("textbox", { name: /translation query/i })
         .as("query")
         .should("have.value", query);
@@ -92,6 +99,9 @@ it("switches first loaded page and back and forth on language change", () => {
 });
 
 it("language switching button is disabled on 'auto', but enables when other", () => {
+    cy.findByRole("button", { name: /switch auto/i })
+        .click();
+
     cy.findByRole("button", { name: /switch languages/i })
         .as("btnSwitch")
         .should("be.disabled");

@@ -1,15 +1,14 @@
 import { render, screen, waitFor } from "@tests/reactUtils";
 import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
 import userEvent from "@testing-library/user-event";
-import Router from "next/router";
 import faker from "faker";
 import Page, { getStaticProps } from "@pages/[[...slug]]";
-
-const mockPush = jest.spyOn(Router, "push").mockImplementation(async () => true);
+import { localStorageSetMock } from "@mocks/localStorage";
+import { routerPushMock } from "@mocks/next";
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    mockPush.mockReset();
+    routerPushMock.mockReset();
 });
 
 describe("getStaticProps", () => {
@@ -77,26 +76,123 @@ describe("Page", () => {
         expect(screen.getByText(/\xA9/)).toBeVisible();
     });
 
-    it("switches the page on query change", async () => {
-        render(<Page home={true} />)
+    it("switches the page on translate button click", async () => {
+        render(<Page home={true} />);
 
+        const query = screen.getByRole("textbox", { name: /translation query/i });
+        userEvent.type(query, faker.random.words());
+        const translate = screen.getByRole("button", { name: /translate/i });
+        translate.click();
+
+        expect(routerPushMock).toHaveBeenCalledTimes(1);
+        expect(screen.getByText(/loading translation/i)).toBeInTheDocument();
+    });
+
+    it("doesn't switch the page if nothing has changed", async () => {
+        const initial = {
+            source: "ca",
+            target: "es",
+            query: faker.random.words()
+        };
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
+
+        const translate = screen.getByRole("button", { name: /translate/i });
+        translate.click();
+
+        expect(routerPushMock).not.toHaveBeenCalled();
+        expect(screen.queryByText(/loading translation/i)).not.toBeInTheDocument();
+    });
+
+    it("stores auto state in localStorage", async () => {
+        render(<Page home={true} />);
+
+        const switchAuto = screen.getByRole("button", { name: /switch auto/i });
+
+        switchAuto.click();
+        await waitFor(() => expect(localStorageSetMock).toHaveBeenLastCalledWith("isauto", "true"));
+        switchAuto.click();
+        await waitFor(() => expect(localStorageSetMock).toHaveBeenLastCalledWith("isauto", "false"));
+    });
+
+    it("switches the page on query change if auto is enabled", async () => {
+        render(<Page home={true} />);
+
+        const switchAuto = screen.getByRole("button", { name: /switch auto/i });
+        switchAuto.click();
         const query = screen.getByRole("textbox", { name: /translation query/i });
         userEvent.type(query, faker.random.words());
 
         await waitFor(
             () => {
-                expect(Router.push).not.toHaveBeenCalled();
+                expect(routerPushMock).not.toHaveBeenCalled();
                 expect(screen.queryByText(/loading translation/i)).not.toBeInTheDocument();
             },
             { timeout: 250 }
         );
         await waitFor(
             () => {
-                expect(Router.push).toHaveBeenCalledTimes(1);
+                expect(routerPushMock).toHaveBeenCalledTimes(1);
                 expect(screen.getByText(/loading translation/i)).toBeInTheDocument();
             },
             { timeout: 2500 }
         );
+    });
+
+    it("switches the page on language change if auto is enabled", async () => {
+        const initial = {
+            source: "auto",
+            target: "en",
+            query: faker.random.words()
+        };
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
+
+        const switchAuto = screen.getByRole("button", { name: /switch auto/i });
+        switchAuto.click();
+
+        const source = screen.getByRole("combobox", { name: /source language/i });
+
+        const sourceVal = "eo";
+        userEvent.selectOptions(source, sourceVal);
+        expect(source).toHaveValue(sourceVal);
+
+        await waitFor(() => expect(routerPushMock).toHaveBeenCalledTimes(1));
+    });
+
+    it("doesn't switch the page on language change on the start page", async () => {
+        render(<Page home={true} />);
+
+        const switchAuto = screen.getByRole("button", { name: /switch auto/i });
+        switchAuto.click();
+
+        const source = screen.getByRole("combobox", { name: /source language/i });
+
+        const sourceVal = "eo";
+        userEvent.selectOptions(source, sourceVal);
+        expect(source).toHaveValue(sourceVal);
+
+        await waitFor(() => expect(routerPushMock).not.toHaveBeenCalled());
+    });
+
+    it("switches languages & translations", async () => {
+        const initial = {
+            source: "es",
+            target: "ca",
+            query: faker.random.words()
+        };
+        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
+
+        const switchAuto = screen.getByRole("button", { name: /switch auto/i });
+        switchAuto.click();
+
+        const btnSwitch = screen.getByRole("button", { name: /switch languages/i });
+        userEvent.click(btnSwitch);
+
+        expect(screen.getByRole("combobox", { name: /source language/i })).toHaveValue(initial.target);
+        expect(screen.getByRole("combobox", { name: /target language/i })).toHaveValue(initial.source);
+        expect(screen.getByRole("textbox", { name: /translation query/i })).toHaveValue(translationRes);
+        expect(screen.getByRole("textbox", { name: /translation result/i })).toHaveValue(initial.query);
+
+        await waitFor(() => expect(routerPushMock).toHaveBeenCalledTimes(1));
     });
 
     it("translates & loads initials correctly", async () => {
@@ -115,54 +211,6 @@ describe("Page", () => {
         expect(query).toHaveValue(initial.query);
         const translation = screen.getByRole("textbox", { name: /translation result/i });
         expect(translation).toHaveValue(translationRes);
-    });
-
-    it("switches the page on language change", async () => {
-        const initial = {
-            source: "auto",
-            target: "en",
-            query: faker.random.words()
-        };
-        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
-
-        const source = screen.getByRole("combobox", { name: /source language/i });
-
-        const sourceVal = "eo";
-        userEvent.selectOptions(source, sourceVal);
-        expect(source).toHaveValue(sourceVal);
-
-        await waitFor(() => expect(Router.push).toHaveBeenCalledTimes(1));
-    });
-
-    it("doesn't switch the page on language change on the start page", async () => {
-        render(<Page home={true} />);
-
-        const source = screen.getByRole("combobox", { name: /source language/i });
-
-        const sourceVal = "eo";
-        userEvent.selectOptions(source, sourceVal);
-        expect(source).toHaveValue(sourceVal);
-
-        await waitFor(() => expect(Router.push).not.toHaveBeenCalled());
-    });
-
-    it("switches languages & translations", async () => {
-        const initial = {
-            source: "es",
-            target: "ca",
-            query: faker.random.words()
-        };
-        render(<Page translationRes={translationRes} audio={audio} initial={initial} />);
-
-        const btnSwitch = screen.getByRole("button", { name: /switch languages/i });
-        userEvent.click(btnSwitch);
-
-        expect(screen.getByRole("combobox", { name: /source language/i })).toHaveValue(initial.target);
-        expect(screen.getByRole("combobox", { name: /target language/i })).toHaveValue(initial.source);
-        expect(screen.getByRole("textbox", { name: /translation query/i })).toHaveValue(translationRes);
-        expect(screen.getByRole("textbox", { name: /translation result/i })).toHaveValue("");
-
-        await waitFor(() => expect(Router.push).toHaveBeenCalledTimes(1));
     });
 
     it("loads audio & clipboard correctly", async () => {
