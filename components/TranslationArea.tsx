@@ -1,11 +1,12 @@
-import { FC, ChangeEvent } from "react";
-import { Box, HStack, Textarea, IconButton, Tooltip, Spinner, useBreakpointValue, useColorModeValue, useClipboard } from "@chakra-ui/react";
+import { FC } from "react";
+import { Box, HStack, Textarea, IconButton, Tooltip, Spinner, TextareaProps, useBreakpointValue, useColorModeValue, useClipboard } from "@chakra-ui/react";
 import { FaCopy, FaCheck, FaPlay, FaStop } from "react-icons/fa";
 import { useAudioFromBuffer } from "@hooks";
 
 type Props =  {
     value: string,
-    onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void,
+    onChange?: TextareaProps["onChange"],
+    onSubmit?: () => void,
     readOnly?: true,
     audio?: number[],
     canCopy?: boolean,
@@ -13,7 +14,7 @@ type Props =  {
     [key: string]: any
 };
 
-const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy, isLoading, ...props }) => {
+const TranslationArea: FC<Props> = ({ value, onChange, onSubmit, readOnly, audio, canCopy, isLoading, ...props }) => {
     const { hasCopied, onCopy } = useClipboard(value);
     const { audioExists, isAudioPlaying, onAudioClick } = useAudioFromBuffer(audio);
     const spinnerProps = {
@@ -36,6 +37,7 @@ const TranslationArea: FC<Props> = ({ value, onChange, readOnly, audio, canCopy,
                 rows={useBreakpointValue([6, null, 12]) ?? undefined}
                 size="lg"
                 data-gramm_editor={false}
+                onKeyPress={e => (e.ctrlKey || e.metaKey) && e.key === "Enter" && onSubmit?.()}
                 {...props}
             />
             <HStack

@@ -1,14 +1,18 @@
-import { useEffect, useReducer, FC, ChangeEvent } from "react";
+import { useEffect, useReducer, useCallback, FC, ChangeEvent } from "react";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Router from "next/router";
+import dynamic from "next/dynamic";
 import { Stack, VStack, HStack, IconButton } from "@chakra-ui/react";
 import { FaExchangeAlt } from "react-icons/fa";
+import { HiTranslate } from "react-icons/hi";
 import { useHotkeys } from "react-hotkeys-hook";
 import { CustomHead, LangSelect, TranslationArea } from "@components";
 import { useToastOnLoad } from "@hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
 import { retrieveFiltered, replaceBoth } from "@utils/language";
 import langReducer, { Actions, initialState } from "@utils/reducer";
+
+const AutoTranslateButton = dynamic(() => import("@components/AutoTranslateButton"), { ssr: false });
 
 const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, translationRes, audio, errorMsg, initial }) => {
     const [{ source, target, query, delayedQuery, translation, isLoading }, dispatch] = useReducer(langReducer, initialState);
@@ -22,6 +26,20 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
             }
         });
     };
+
+    const changeRoute = useCallback((customQuery: string) => {
+        if (isLoading)
+            return;
+        if (!customQuery || customQuery === initialState.query)
+            return;
+        if (!home && !initial)
+            return;
+        if (!home && customQuery === initial.query && source === initial.source && target === initial.target)
+            return;
+
+        dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
+        Router.push(`/${source}/${target}/${encodeURIComponent(customQuery)}`);
+    }, [isLoading, source, target, home, initial]);
 
     useEffect(() => {
         if (home)
@@ -41,20 +59,6 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         ), 1000);
         return () => clearTimeout(timeout);
     }, [query]);
-
-    useEffect(() => {
-        if (isLoading)
-            return;
-        if (!delayedQuery || delayedQuery === initialState.query)
-            return;
-        if (!home && !initial)
-            return;
-        if (!home && delayedQuery === initial.query && source === initial.source && target === initial.target)
-            return;
-
-        dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
-        Router.push(`/${source}/${target}/${encodeURIComponent(delayedQuery)}`);
-    }, [source, target, delayedQuery, initial, home, isLoading]);
 
     useEffect(() => {
         const handler = (url: string) => url === Router.asPath || dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
@@ -114,9 +118,26 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
                         placeholder="Text"
                         value={query}
                         onChange={e => isLoading || handleChange(e)}
+                        onSubmit={useCallback(() => changeRoute(query), [query, changeRoute])}
                         lang={queryLang}
                         audio={audio?.source}
                     />
+                    <Stack direction={["row", null, "column"]} justify="center" spacing={3} px={[2, null, "initial"]}>
+                        <IconButton
+                            aria-label="Translate"
+                            icon={<HiTranslate />}
+                            colorScheme="lingva"
+                            variant="outline"
+                            onClick={() => changeRoute(query)}
+                            isDisabled={isLoading}
+                            w={["full", null, "auto"]}
+                        />
+                        <AutoTranslateButton
+                            onAuto={useCallback(() => changeRoute(delayedQuery), [delayedQuery, changeRoute])}
+                            isDisabled={isLoading}
+                            w={["full", null, "auto"]}
+                        />
+                    </Stack>
                     <TranslationArea
                         id="translation"
                         aria-label="Translation result"

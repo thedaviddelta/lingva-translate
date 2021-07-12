@@ -65,7 +65,7 @@ it("switches the languages & the translations", () => {
         target: state.source,
         query: state.translation,
         delayedQuery: state.translation,
-        translation: "",
+        translation: state.query,
         isLoading: initialState.isLoading
     });
 });
