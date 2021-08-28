@@ -106,6 +106,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://thedaviddelta.com/"><img src="https://avatars.githubusercontent.com/u/6679900?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David</b></sub></a><br /><a href="#a11y-TheDavidDelta" title="Accessibility">️️️️♿️</a> <a href="https://github.com/TheDavidDelta/lingva-translate/commits?author=TheDavidDelta" title="Code">💻</a> <a href="https://github.com/TheDavidDelta/lingva-translate/commits?author=TheDavidDelta" title="Documentation">📖</a> <a href="#design-TheDavidDelta" title="Design">🎨</a> <a href="https://github.com/TheDavidDelta/lingva-translate/commits?author=TheDavidDelta" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/mhmdanas"><img src="https://avatars.githubusercontent.com/u/32234660?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mohammed Anas</b></sub></a><br /><a href="https://github.com/TheDavidDelta/lingva-translate/commits?author=mhmdanas" title="Code">💻</a></td>
   </tr>
 </table>
 
