@@ -13,7 +13,7 @@ const LangSelect: FC<Props> = ({ value, onChange, langs, ...props }) => (
         value={value}
         onChange={onChange}
         variant="flushed"
-        px={[2, null, 3]}
+        px={3}
         textAlign="center"
         style={{ textAlignLast: "center" }}
         {...props}
