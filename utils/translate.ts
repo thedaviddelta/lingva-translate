@@ -66,7 +66,7 @@ export async function textToSpeechScrape(lang: string, text?: string) {
     const slicedText = text.slice(0, text.length > 200 && lastSpace !== -1 ? lastSpace : 200);
 
     const res = await fetch(
-        `http://translate.google.com/translate_tts?tl=${parsedLang}&q=${encodeURIComponent(slicedText)}&textlen=${slicedText.length}&client=tw-ob`,
+        `https://translate.google.com/translate_tts?tl=${parsedLang}&q=${encodeURIComponent(slicedText)}&textlen=${slicedText.length}&client=tw-ob`,
         {
             headers: {
                 "User-Agent": new UserAgent().toString()
