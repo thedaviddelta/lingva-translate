@@ -58,16 +58,33 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 + GET `/api/v1/:source/:target/:query`
 ```typescript
 {
-    translation?: string,
-    errorMsg?: string
+    translation: string
 }
 ```
 
 + GET `/api/v1/audio/:lang/:query`
 ```typescript
 {
-    audio?: number[],
-    errorMsg?: string
+    audio: number[]
+}
+```
+
++ GET `/api/v1/languages/?:(source|target)`
+```typescript
+{
+    languages: [
+        {
+            code: string,
+            name: string
+        }
+    ]
+}
+```
+
+In addition, every endpoint can return an error message with the following structure instead.
+```typescript
+{
+    error: string
 }
 ```
 
@@ -78,20 +95,33 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 query {
     translation(source: String target: String query: String!) {
         source: {
-            lang: String!
-            text: String
-            audio: [Int]
+            lang: {
+                code: String!
+                name: String!
+            }
+            text: String!
+            audio: [Int]!
         }
         target: {
-            lang: String!
-            text: String
-            audio: [Int]
+            lang: {
+                code: String!
+                name: String!
+            }
+            text: String!
+            audio: [Int]!
         }
     }
     audio(lang: String! query: String!) {
-        lang: String!
-        text: String
-        audio: [Int]
+        lang: {
+            code: String!
+            name: String!
+        }
+        text: String!
+        audio: [Int]!
+    }
+    languages(type: SOURCE|TARGET) {
+        code: String!
+        name: String!
     }
 }
 ```

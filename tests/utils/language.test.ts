@@ -1,4 +1,5 @@
-import { replaceBoth, retrieveFiltered, CheckType, LangType } from "@utils/language";
+import faker from "faker";
+import { replaceBoth, retrieveFromType, getName, CheckType, LangType } from "@utils/language";
 import { languages, exceptions, mappings } from "@utils/languages.json";
 
 describe("replaceBoth", () => {
@@ -34,14 +35,34 @@ describe("replaceBoth", () => {
     });
 });
 
-describe("retrieveFiltered", () => {
-    const filteredEntries = (langType: LangType) => (
-        Object.entries(languages).filter(([code]) => !Object.keys(exceptions[langType]).includes(code))
+describe("retrieveFromType", () => {
+    const checkExceptions = (langType: LangType) => (
+        retrieveFromType(langType).forEach(([code]) => !Object.keys(exceptions).includes(code))
     );
 
-    it("filters by exceptions", () => {
-        const { sourceLangs, targetLangs } = retrieveFiltered();
-        expect(sourceLangs).toStrictEqual(filteredEntries("source"));
-        expect(targetLangs).toStrictEqual(filteredEntries("target"));
+    it("returns full list on empty type", () => {
+        expect(retrieveFromType()).toStrictEqual(Object.entries(languages));
+    });
+
+    it("filters source exceptions", () => {
+        checkExceptions("source");
+    });
+
+    it("filters target exceptions", () => {
+        checkExceptions("target");
+    });
+});
+
+describe("getName", () => {
+    it("returns name from valid code", () => {
+        const langEntries = Object.entries(languages);
+        const randomEntry = faker.random.arrayElement(langEntries);
+        const [code, name] = randomEntry;
+        expect(getName(code)).toEqual(name);
+    });
+
+    it("returns null on wrong code", () => {
+        const randomCode = faker.random.words();
+        expect(getName(randomCode)).toBeNull();
     });
 });

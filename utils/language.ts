@@ -33,11 +33,16 @@ export function replaceBoth(
     return { source, target };
 }
 
-export function retrieveFiltered() {
-    const [sourceLangs, targetLangs] = langTypes.map(type => (
-        Object.entries(languages).filter(([code]) => (
-            !Object.keys(exceptions[type]).includes(code)
-        ))
+export function retrieveFromType(type?: LangType): [string, string][] {
+    const langEntries = Object.entries(languages);
+
+    if (!type)
+        return langEntries;
+    return langEntries.filter(([code]) => (
+        !Object.keys(exceptions[type]).includes(code)
     ));
-    return { sourceLangs, targetLangs };
+}
+
+export function getName(code: string): string | null {
+    return isKeyOf(languages)(code) ? languages[code] : null;
 }

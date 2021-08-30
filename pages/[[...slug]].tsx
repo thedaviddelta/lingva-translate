@@ -9,7 +9,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { CustomHead, LangSelect, TranslationArea } from "@components";
 import { useToastOnLoad } from "@hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
-import { retrieveFiltered, replaceBoth } from "@utils/language";
+import { retrieveFromType, replaceBoth } from "@utils/language";
 import langReducer, { Actions, initialState } from "@utils/reducer";
 
 const AutoTranslateButton = dynamic(() => import("@components/AutoTranslateButton"), { ssr: false });
@@ -66,7 +66,8 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         return () => Router.events.off("beforeHistoryChange", handler);
     }, []);
 
-    const { sourceLangs, targetLangs } = retrieveFiltered();
+    const sourceLangs = retrieveFromType("source");
+    const targetLangs = retrieveFromType("target");
     const { source: transLang, target: queryLang } = replaceBoth("exception", { source: target, target: source });
 
     useToastOnLoad({
@@ -191,7 +192,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const [sourceAudio, targetAudio] = await Promise.all([
         textToSpeechScrape(source, query),
-        textToSpeechScrape(target, textScrape.translationRes)
+        "translationRes" in textScrape
+            ? textToSpeechScrape(target, textScrape.translationRes)
+            : null
     ]);
 
     return {
@@ -205,7 +208,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 source, target, query
             }
         },
-        revalidate: !textScrape.errorMsg
+        revalidate: !("errorMsg" in textScrape)
             ? 2 * 30 * 24 * 60 * 60 // 2 months
             : 1
     };
