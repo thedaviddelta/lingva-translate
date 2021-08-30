@@ -58,7 +58,9 @@ it("returns audio triggering fetch", async () => {
         query: `
             query($lang: String! $text: String!) {
                 audio(lang: $lang query: $text) {
-                    lang
+                    lang {
+                        code
+                    }
                     text
                     audio
                 }
@@ -66,15 +68,15 @@ it("returns audio triggering fetch", async () => {
         `,
         variables: { lang, text }
     });
-    expect(data).toMatchObject({ audio: { lang, text, audio: expect.any(Array) } });
+    expect(data).toMatchObject({ audio: { lang: { code: lang }, text, audio: expect.any(Array) } });
     expect(fetch).toHaveBeenCalledTimes(1);
 });
 
-it("returns null on translation error", async () => {
+it("returns null and throws on translation error", async () => {
     const text = faker.random.words();
     fetchMock.mockRejectOnce();
 
-    const { data } = await query({
+    const { data, errors } = await query({
         query: `
             query($text: String!) {
                 translation(query: $text) {
@@ -86,15 +88,16 @@ it("returns null on translation error", async () => {
         `,
         variables: { text }
     });
-    expect(data).toMatchObject({ translation: { target: { text: null } } });
+    expect(data).toBeNull();
+    expect(errors).toBeTruthy();
 });
 
-it("returns null on audio error", async () => {
+it("returns null and throws on audio error", async () => {
     const lang = faker.random.locale();
     const text = faker.random.words();
     fetchMock.mockRejectOnce();
 
-    const { data } = await query({
+    const { data, errors } = await query({
         query: `
             query($lang: String! $text: String!) {
                 audio(lang: $lang query: $text) {
@@ -104,29 +107,52 @@ it("returns null on audio error", async () => {
         `,
         variables: { lang, text }
     });
-    expect(data).toMatchObject({ audio: { audio: null } });
+    expect(data).toBeNull();
+    expect(errors).toBeTruthy();
 });
 
 it("keeps a default value for both source and target languages", async () => {
     const text = faker.random.words();
-    fetchMock.mockRejectOnce();
+    const translation = faker.random.words();
+    resolveFetchWith(htmlRes(translation));
 
     const { data } = await query({
         query: `
             query($text: String!) {
                 translation(query: $text) {
                     source {
-                        lang
+                        lang {
+                            code
+                            name
+                        }
                     }
                     target {
-                        lang
+                        lang {
+                            code
+                            name
+                        }
                     }
                 }
             }
         `,
         variables: { text }
     });
-    expect(data).toMatchObject({ translation: { source: { lang: "auto" }, target: { lang: "en" } } });
+    expect(data).toMatchObject({
+        translation: {
+            source: {
+                lang: {
+                    code: "auto",
+                    name: "Detect"
+                }
+            },
+            target: {
+                lang: {
+                    code: "en",
+                    name: "English"
+                }
+            }
+        }
+    });
 });
 
 it("throws error on empty query in translation", async () => {
@@ -135,10 +161,14 @@ it("throws error on empty query in translation", async () => {
             query {
                 translation {
                     source {
-                        lang
+                        lang {
+                            code
+                        }
                     }
                     target {
-                        lang
+                        lang {
+                            code
+                        }
                     }
                 }
             }
@@ -155,7 +185,9 @@ it("throws error on empty lang or query in audio", async () => {
         query: `
             query($lang: String!) {
                 audio(lang: $lang) {
-                    lang
+                    lang {
+                        code
+                    }
                     text
                 }
             }
@@ -168,7 +200,9 @@ it("throws error on empty lang or query in audio", async () => {
         query: `
             query($text: String!) {
                 audio(query: $text) {
-                    lang
+                    lang {
+                        code
+                    }
                     text
                 }
             }
@@ -176,4 +210,45 @@ it("throws error on empty lang or query in audio", async () => {
         variables: { text }
     });
     expect(langErrors).toBeTruthy();
+});
+
+it("returns languages on empty type", async () => {
+    const { data } = await query({
+        query: `
+            query {
+                languages {
+                    code
+                }
+            }
+        `
+    });
+    expect(data).toMatchObject({ languages: expect.any(Array) });
+});
+
+it("returns languages on 'source' type", async () => {
+    const { data } = await query({
+        query: `
+            query($type: LangType!) {
+                languages(type: $type) {
+                    code
+                }
+            }
+        `,
+        variables: { type: "SOURCE" }
+    });
+    expect(data).toMatchObject({ languages: expect.any(Array) });
+});
+
+it("returns languages on 'target' type", async () => {
+    const { data } = await query({
+        query: `
+            query($type: LangType!) {
+                languages(type: $type) {
+                    code
+                }
+            }
+        `,
+        variables: { type: "TARGET" }
+    });
+    expect(data).toMatchObject({ languages: expect.any(Array) });
 });

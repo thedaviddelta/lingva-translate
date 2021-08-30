@@ -7,8 +7,9 @@ export async function googleScrape(
     target: string,
     query: string
 ): Promise<{
-    translationRes?: string,
-    errorMsg?: string
+    translationRes: string
+} | {
+    errorMsg: string
 }> {
     const parsed = replaceBoth("mapping", { source, target });
     const res = await fetch(
@@ -56,10 +57,7 @@ export function extractSlug(slug: string[]): {
     }
 }
 
-export async function textToSpeechScrape(lang: string, text?: string) {
-    if (!text)
-        return null;
-
+export async function textToSpeechScrape(lang: string, text: string) {
     const { target: parsedLang } = replaceBoth("mapping", { source: "", target: lang });
 
     const lastSpace = text.lastIndexOf(" ", 200);

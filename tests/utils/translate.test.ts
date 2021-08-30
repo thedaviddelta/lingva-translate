@@ -24,14 +24,14 @@ describe("googleScrape", () => {
         resolveFetchWith({ status });
 
         const res = await googleScrape(source, target, query);
-        expect(res?.errorMsg).toMatch(/retrieving/);
+        expect("errorMsg" in res && res.errorMsg).toMatch(/retrieving/);
     });
 
     it("returns correct message on network error", async () => {
         fetchMock.mockRejectOnce();
 
         const res = await googleScrape(source, target, query);
-        expect(res?.errorMsg).toMatch(/retrieving/);
+        expect("errorMsg" in res && res.errorMsg).toMatch(/retrieving/);
     });
 
     it("returns correct message on parsing wrong class", async () => {
@@ -41,7 +41,7 @@ describe("googleScrape", () => {
         resolveFetchWith(html);
 
         const res = await googleScrape(source, target, query);
-        expect(res?.errorMsg).toMatch(/parsing/);
+        expect("errorMsg" in res && res.errorMsg).toMatch(/parsing/);
     });
 });
 

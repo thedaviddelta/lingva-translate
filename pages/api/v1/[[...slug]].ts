@@ -3,9 +3,11 @@ import NextCors from "nextjs-cors";
 import { googleScrape, textToSpeechScrape } from "@utils/translate";
 
 type Data = {
-    translation?: string,
-    audio?: number[],
-    error?: string
+    translation: string,
+} | {
+    audio: number[]
+} | {
+    error: string
 };
 
 const methods = ["GET"];
@@ -39,11 +41,11 @@ const handler: NextApiHandler<Data> = async (req, res) => {
             : res.status(500).json({ error: "An error occurred while retrieving the audio" });
     }
 
-    const { translationRes, errorMsg } = await googleScrape(source, target, query);
+    const textScrape = await googleScrape(source, target, query);
 
-    if (errorMsg)
-        return res.status(500).json({ error: errorMsg });
-    res.status(200).json({ translation: translationRes });
+    if ("errorMsg" in textScrape)
+        return res.status(500).json({ error: textScrape.errorMsg });
+    res.status(200).json({ translation: textScrape.translationRes });
 }
 
 export default handler;
