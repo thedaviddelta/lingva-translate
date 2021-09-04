@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import { IconButton } from "@chakra-ui/react";
 import { FaBolt } from "react-icons/fa";
+import { localGetItem, localSetItem } from "@utils/storage";
 
 type Props = {
     onAuto: () => void,
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const initLocalStorage = () => {
-    const initial = typeof window !== "undefined" && localStorage.getItem("isauto");
+    const initial = localGetItem("isauto");
     return initial ? initial === "true" : false;
 };
 
@@ -16,7 +17,7 @@ const AutoTranslateButton: FC<Props> = ({ onAuto, ...props }) => {
     const [isAuto, setIsAuto] = useState(initLocalStorage);
 
     useEffect(() => {
-        localStorage.setItem("isauto", isAuto.toString());
+        localSetItem("isauto", isAuto.toString());
     }, [isAuto]);
 
     useEffect(() => {
