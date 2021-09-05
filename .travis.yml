@@ -20,6 +20,21 @@ cache:
   directories:
     - ~/.cache
 
+branches:
+  only:
+    - main
+
+script:
+  - yarn test --ci
+  - yarn build
+  - yarn start & wait-on http://localhost:3000
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ];
+    then
+      yarn cy:run --record --key $CY_KEY;
+    else
+      yarn cy:run;
+    fi'
+
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t thedaviddelta/lingva-translate .
@@ -28,4 +43,4 @@ deploy:
   provider: script
   script: docker push thedaviddelta/lingva-translate
   on:
-    all_branches: true
+    branch: main
