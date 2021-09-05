@@ -7,6 +7,9 @@ os: linux
 
 dist: xenial
 
+services:
+  - docker
+
 addons:
   apt:
     packages:
@@ -31,3 +34,10 @@ script:
     else
       yarn cy:run;
     fi'
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+deploy:
+  provider: script
+  script: docker push thedaviddelta/lingva-translate
