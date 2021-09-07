@@ -51,7 +51,6 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 |:------------------------------------------------------------:|:-----------------------------:|:----------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                   | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                |
 | [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz) | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz) |
-| [translate.tixte.gifts](https://translate.tixte.gifts)       | [Vercel](https://vercel.com/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.tixte.gifts) |
 
 
 ## Public APIs
