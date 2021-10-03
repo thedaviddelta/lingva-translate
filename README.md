@@ -36,7 +36,7 @@ The easiest way is to use their creators' own platform, [Vercel](https://vercel.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
 
-There's also an [official Docker image](https://hub.docker.com/repository/docker/thedaviddelta/lingva-translate) available for easing the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
+There's also an [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) available for easing the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
 
 ```bash
 docker run -p 3000:3000 -e site_domain=lingva.ml thedaviddelta/lingva-translate:latest
