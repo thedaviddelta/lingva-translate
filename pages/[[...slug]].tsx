@@ -11,6 +11,7 @@ import { useToastOnLoad } from "@hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
 import { retrieveFromType, replaceBoth } from "@utils/language";
 import langReducer, { Actions, initialState } from "@utils/reducer";
+import { localGetItem, localSetItem } from "@utils/storage";
 
 const AutoTranslateButton = dynamic(() => import("@components/AutoTranslateButton"), { ssr: false });
 
@@ -37,19 +38,39 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
         if (!home && customQuery === initial.query && source === initial.source && target === initial.target)
             return;
 
+        localSetItem("source", source);
+        localSetItem("target", target);
+
         dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
         Router.push(`/${source}/${target}/${encodeURIComponent(customQuery)}`);
     }, [isLoading, source, target, home, initial]);
 
     useEffect(() => {
         if (home)
-            return dispatch({ type: Actions.SET_ALL, payload: { state: { ...initialState, isLoading: false } } });
+            return dispatch({
+                type: Actions.SET_ALL,
+                payload: {
+                    state: {
+                        ...initialState,
+                        source: localGetItem("source") || initialState.source,
+                        target: localGetItem("target") || initialState.target,
+                        isLoading: false
+                    }
+                }
+            });
         if (!initial)
             return;
 
         dispatch({
             type: Actions.SET_ALL,
-            payload: { state: { ...initial, delayedQuery: initial.query, translation: translationRes, isLoading: false } }
+            payload: {
+                state: {
+                    ...initial,
+                    delayedQuery: initial.query,
+                    translation: translationRes,
+                    isLoading: false
+                }
+            }
         });
     }, [initial, translationRes, home]);
 
@@ -61,7 +82,16 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     }, [query]);
 
     useEffect(() => {
-        const handler = (url: string) => url === Router.asPath || dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
+        const handler = (url: string) => {
+            url === Router.asPath || dispatch({ type: Actions.SET_FIELD, payload: { key: "isLoading", value: true }});
+
+            if (url !== "/")
+                return;
+            dispatch({ type: Actions.SET_FIELD, payload: { key: "source", value: initialState.source }});
+            localSetItem("source", initialState.source);
+            dispatch({ type: Actions.SET_FIELD, payload: { key: "target", value: initialState.target }});
+            localSetItem("target", initialState.target);
+        };
         Router.events.on("beforeHistoryChange", handler);
         return () => Router.events.off("beforeHistoryChange", handler);
     }, []);
