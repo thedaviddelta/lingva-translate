@@ -48,3 +48,7 @@ cypress/screenshots
 .git/
 .gitignore
 .gitattributes
+
+# docker
+Dockerfile
+.dockerignore

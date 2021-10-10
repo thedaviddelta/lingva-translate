@@ -156,6 +156,7 @@ describe("Page", () => {
         expect(source).toHaveValue(sourceVal);
 
         await waitFor(() => expect(routerPushMock).toHaveBeenCalledTimes(1));
+        expect(localStorageSetMock).toHaveBeenCalledWith("source", sourceVal);
     });
 
     it("doesn't switch the page on language change on the start page", async () => {
@@ -193,6 +194,7 @@ describe("Page", () => {
         expect(screen.getByRole("textbox", { name: /translation result/i })).toHaveValue(initial.query);
 
         await waitFor(() => expect(routerPushMock).toHaveBeenCalledTimes(1));
+        expect(localStorageSetMock).toHaveBeenLastCalledWith("target", initial.source);
     });
 
     it("translates & loads initials correctly", async () => {
