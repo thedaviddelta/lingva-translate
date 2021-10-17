@@ -30,7 +30,7 @@ For this purpose, *Lingva* is built, among others, with the following Open Sourc
 
 As *Lingva* is a [NextJS](https://nextjs.org/) project you can deploy your own instance anywhere Next is supported.
 
-The only requerement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
+The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
 ### Docker
 
