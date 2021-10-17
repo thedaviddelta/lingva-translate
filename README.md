@@ -61,7 +61,7 @@ docker run -p 3000:3000 -e site_domain=lingva.ml thedaviddelta/lingva-translate:
 
 ### Vercel
 
-The easiest way is to use their creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
+Another easy way is to use the NextJS creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
 
