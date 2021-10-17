@@ -34,7 +34,7 @@ The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_
 
 ### Docker
 
-An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available for easing the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
+An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
 
 #### Docker Compose:
 
