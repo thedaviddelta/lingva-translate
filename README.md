@@ -32,15 +32,38 @@ As *Lingva* is a [NextJS](https://nextjs.org/) project you can deploy your own i
 
 The only requerement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
-The easiest way is to use their creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
+### Docker
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
+An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available for easing the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
 
-There's also an [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) available for easing the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
+#### Docker Compose:
+
+```
+version: '3'
+
+services:
+
+  lingva:
+    container_name: lingva
+    image: thedaviddelta/lingva-translate:latest
+    restart: unless-stopped
+    environment:
+      - site_domain=lingva.ml
+    ports:
+      - 3000:3000
+```
+
+#### Docker Run
 
 ```bash
 docker run -p 3000:3000 -e site_domain=lingva.ml thedaviddelta/lingva-translate:latest
 ```
+
+### Vercel
+
+The easiest way is to use their creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
 
 
 ## Instances
