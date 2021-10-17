@@ -52,7 +52,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [lingva.ml](https://lingva.ml/) (Official)                   | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                |
 | [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz) | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz) |
 | [translate.igna.rocks](https://translate.igna.rocks)         | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)     |
-| [lingva.pussthecat.org](https://lingva.pussthecat.org)       | [PussTheCat.org](https://pussthecat.org/) | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)    |
+| [lingva.pussthecat.org](https://lingva.pussthecat.org)       | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)    |
 
 
 ## Public APIs
