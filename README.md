@@ -36,7 +36,7 @@ Optionally, there's another environment variable available called `DEFAULT_DARK_
 
 ### Docker
 
-An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain` and `default_dark_theme`) when running the container.
+An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain` and `dark_theme`) when running the container.
 
 #### Docker Compose:
 
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     environment:
       - site_domain=lingva.ml
-      - default_dark_theme=false
+      - dark_theme=false
     ports:
       - 3000:3000
 ```
@@ -59,7 +59,7 @@ services:
 #### Docker Run
 
 ```bash
-docker run -p 3000:3000 -e site_domain=lingva.ml -e default_dark_theme=false thedaviddelta/lingva-translate:latest
+docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false thedaviddelta/lingva-translate:latest
 ```
 
 ### Vercel
