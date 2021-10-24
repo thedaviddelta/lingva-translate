@@ -32,9 +32,11 @@ As *Lingva* is a [NextJS](https://nextjs.org/) project you can deploy your own i
 
 The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
+Optionally, there's another environment variable available called `DEFAULT_DARK_THEME` for selecting dark as the default page theme on the first load. The theme will be light by default unless this variable is set to `true`.
+
 ### Docker
 
-An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variable (simplified to `site_domain`) when running the container.
+An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain` and `dark_theme`) when running the container.
 
 #### Docker Compose:
 
@@ -49,6 +51,7 @@ services:
     restart: unless-stopped
     environment:
       - site_domain=lingva.ml
+      - dark_theme=false
     ports:
       - 3000:3000
 ```
@@ -56,7 +59,7 @@ services:
 #### Docker Run
 
 ```bash
-docker run -p 3000:3000 -e site_domain=lingva.ml thedaviddelta/lingva-translate:latest
+docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false thedaviddelta/lingva-translate:latest
 ```
 
 ### Vercel
