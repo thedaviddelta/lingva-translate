@@ -17,7 +17,7 @@ export default extendTheme({
         }
     },
     config: {
-        initialColorMode: "light",
+        initialColorMode: process.env["DEFAULT_DARK_THEME"] === "true" ? "dark" : "light",
         useSystemColorMode: false
     },
     components: {
