@@ -9,7 +9,7 @@ arch:
 
 os: linux
 
-dist: xenial
+dist: focal
 
 services:
   - docker
