@@ -1,12 +1,12 @@
 # https://nextjs.org/docs/deployment#docker-image
 
-FROM node:alpine AS deps
+FROM node:lts-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-FROM node:alpine AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /app
 
 RUN addgroup -g 1001 -S nodejs
