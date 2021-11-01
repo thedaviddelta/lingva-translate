@@ -3,6 +3,10 @@ language: node_js
 node_js:
   - lts/*
 
+arch:
+  - amd64
+  - arm64
+
 os: linux
 
 dist: xenial
