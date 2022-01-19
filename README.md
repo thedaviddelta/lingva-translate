@@ -160,6 +160,14 @@ query {
 }
 ```
 
+
+## Related projects
+
++ [SimplyTranslate](https://sr.ht/~metalune/SimplyTranslate/) - Very simple translation front-end with multi-engine support
++ [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) - FOSS translation service that uses the open [Argos](https://github.com/argosopentech/argos-translate) engine
++ [Lentil for Android](https://github.com/yaxarat/lingvaandroid) - Unofficial native client for Android that uses Lingva's public API
+
+
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
