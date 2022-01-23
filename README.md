@@ -7,6 +7,7 @@
 [![Cypress Tests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/qgjdyd&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/qgjdyd/runs)
 [![License](https://img.shields.io/github/license/TheDavidDelta/lingva-translate)](./LICENSE)
 [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
+[<img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" alt="Powered by Vercel" height="20">](https://vercel.com?utm_source=lingva-team&utm_campaign=oss)
 
 Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available
 
@@ -66,7 +67,7 @@ docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false thedaviddel
 
 Another easy way is to use the NextJS creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain&utm_source=lingva-team&utm_campaign=oss)
 
 
 ## Instances
