@@ -20,7 +20,7 @@ For this purpose, *Lingva* is built, among others, with the following Open Sourc
 
 + [TypeScript](https://www.typescriptlang.org/), the JavaScript superset, as the language.
 + [React](https://reactjs.org/) as the main front-end framework.
-+ [NextJS](https://nextjs.org/) as the complementary React framework, that provides Server-Side Rendering, Static Site Generation or serverless API endpoints.
++ [Next.js](https://nextjs.org/) as the complementary React framework, that provides Server-Side Rendering, Static Site Generation or serverless API endpoints.
 + [ChakraUI](https://chakra-ui.com/) for the in-component styling.
 + [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/) & [Cypress](https://www.cypress.io/) for unit, integration & E2E testing.
 + [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for handling the GraphQL endpoint.
@@ -29,7 +29,7 @@ For this purpose, *Lingva* is built, among others, with the following Open Sourc
 
 ## Deployment
 
-As *Lingva* is a [NextJS](https://nextjs.org/) project you can deploy your own instance anywhere Next is supported.
+As *Lingva* is a [Next.js](https://nextjs.org/) project you can deploy your own instance anywhere Next is supported.
 
 The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
@@ -65,7 +65,7 @@ docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false thedaviddel
 
 ### Vercel
 
-Another easy way is to use the NextJS creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
+Another easy way is to use the Next.js creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain&utm_source=lingva-team&utm_campaign=oss)
 
@@ -80,6 +80,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz) | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz) |
 | [translate.igna.rocks](https://translate.igna.rocks)         | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)     |
 | [lingva.pussthecat.org](https://lingva.pussthecat.org)       | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)    |
+| [translate.datatunnel.xyz](https://translate.datatunnel.xyz) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz) |
 
 
 ## Public APIs
