@@ -5,6 +5,8 @@ type Props = {
     [key: string]: any
 };
 
+const vercelSponsor = process.env["NEXT_PUBLIC_VERCEL_SPONSOR"] === "true";
+
 const Footer: FC<Props> = (props) => (
     <Stack
         as="footer"
@@ -24,10 +26,14 @@ const Footer: FC<Props> = (props) => (
         <Link href="https://www.gnu.org/licenses/agpl-3.0.html" isExternal={true}>
             <Text as="span">Licensed under AGPLv3</Text>
         </Link>
-        <Text as="span" display={["none", null, "unset"]}>·</Text>
-        <Link href="https://vercel.com?utm_source=lingva-team&utm_campaign=oss" isExternal={true}>
-            <Text as="span">▲ Powered by Vercel</Text>
-        </Link>
+        {vercelSponsor && (
+            <>
+                <Text as="span" display={["none", null, "unset"]}>·</Text>
+                <Link href="https://vercel.com?utm_source=lingva-team&utm_campaign=oss" isExternal={true}>
+                    <Text as="span">▲ Powered by Vercel</Text>
+                </Link>
+            </>
+        )}
     </Stack>
 );
 
