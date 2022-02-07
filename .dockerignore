@@ -52,3 +52,6 @@ cypress/screenshots
 # docker
 Dockerfile
 .dockerignore
+
+# instance list
+instances.json
