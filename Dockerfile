@@ -23,4 +23,7 @@ ENV NODE_ENV production
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD NEXT_PUBLIC_SITE_DOMAIN=$site_domain DEFAULT_DARK_THEME=$dark_theme yarn build && yarn start
+CMD NEXT_PUBLIC_SITE_DOMAIN=$site_domain DEFAULT_DARK_THEME=$dark_theme \
+    NEXT_PUBLIC_DEFAULT_SOURCE_LANG=$default_source_lang \
+    NEXT_PUBLIC_DEFAULT_TARGET_LANG=$default_target_lang \
+    yarn build && yarn start

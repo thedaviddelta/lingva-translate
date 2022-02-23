@@ -53,6 +53,8 @@ services:
     environment:
       - site_domain=lingva.ml
       - dark_theme=false
+      - default_source_lang=auto
+      - default_target_lang=en
     ports:
       - 3000:3000
 ```
@@ -60,7 +62,7 @@ services:
 #### Docker Run
 
 ```bash
-docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false thedaviddelta/lingva-translate:latest
+docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false -e default_source_lang=auto -e default_target_lang=en thedaviddelta/lingva-translate:latest
 ```
 
 ### Vercel

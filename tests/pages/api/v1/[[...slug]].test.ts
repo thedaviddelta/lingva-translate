@@ -7,8 +7,8 @@ beforeEach(() => {
     fetchMock.resetMocks();
 });
 
-const source = faker.random.locale();
-const target = faker.random.locale();
+const source = "es";
+const target = "ca";
 const query = faker.random.words();
 const slug = [source, target, query];
 

@@ -1,6 +1,8 @@
 import languagesJson from "./languages.json";
 const { languages, exceptions, mappings } = languagesJson;
 
+export type LangCode = keyof typeof languages;
+
 const checkTypes = {
     exception: exceptions,
     mapping: mappings
@@ -20,10 +22,10 @@ const isKeyOf = <T extends object>(obj: T) => (key: keyof any): key is keyof T =
 export function replaceBoth(
     checkType: CheckType,
     langs: {
-        [key in LangType]: string
+        [key in LangType]: LangCode
     }
 ): {
-    [key in LangType]: string
+    [key in LangType]: LangCode
 } {
     const [source, target] = langTypes.map(langType => {
         const object = checkTypes[checkType][langType];
@@ -33,8 +35,8 @@ export function replaceBoth(
     return { source, target };
 }
 
-export function retrieveFromType(type?: LangType): [string, string][] {
-    const langEntries = Object.entries(languages);
+export function retrieveFromType(type?: LangType) {
+    const langEntries = Object.entries(languages) as [LangCode, string][];
 
     if (!type)
         return langEntries;
@@ -43,6 +45,10 @@ export function retrieveFromType(type?: LangType): [string, string][] {
     ));
 }
 
+export function isValid(code: string | null | undefined): code is LangCode {
+    return !!code && isKeyOf(languages)(code);
+}
+
 export function getName(code: string): string | null {
-    return isKeyOf(languages)(code) ? languages[code] : null;
+    return isValid(code) ? languages[code] : null;
 }

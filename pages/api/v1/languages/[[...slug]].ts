@@ -1,10 +1,10 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { retrieveFromType } from "@utils/language";
+import { retrieveFromType, LangCode } from "@utils/language";
 
 type Data = {
     languages: {
-        code: string,
+        code: LangCode,
         name: string
     }[]
 } | {

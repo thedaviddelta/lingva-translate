@@ -1,15 +1,25 @@
-import { replaceBoth } from "./language";
+import { replaceBoth, isValid, LangCode } from "./language";
 
-export const initialState = {
-    source: "auto",
-    target: "en",
+const defaultSourceLang = process.env["NEXT_PUBLIC_DEFAULT_SOURCE_LANG"];
+const defaultTargetLang = process.env["NEXT_PUBLIC_DEFAULT_TARGET_LANG"];
+
+type State = {
+    source: LangCode,
+    target: LangCode,
+    query: string,
+    delayedQuery: string,
+    translation: string,
+    isLoading: boolean
+}
+
+export const initialState: State = {
+    source: isValid(defaultSourceLang) ? defaultSourceLang : "auto",
+    target: isValid(defaultTargetLang) ? defaultTargetLang : "en",
     query: "",
     delayedQuery: "",
     translation: "",
     isLoading: true
 }
-
-type State = typeof initialState;
 
 export enum Actions {
     SET_FIELD,
@@ -32,7 +42,7 @@ type Action = {
     type: Actions.SWITCH_LANGS
 }
 
-export default function reducer(state: State, action: Action) {
+export default function reducer(state: State, action: Action): State {
     const { source, target } = replaceBoth("exception", {
         source: state.target,
         target: state.source

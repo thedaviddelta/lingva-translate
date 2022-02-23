@@ -1,10 +1,10 @@
 import UserAgent from "user-agents";
 import cheerio from "cheerio";
-import { replaceBoth } from "./language";
+import { replaceBoth, LangCode } from "./language";
 
 export async function googleScrape(
-    source: string,
-    target: string,
+    source: LangCode,
+    target: LangCode,
     query: string
 ): Promise<{
     translationRes: string
@@ -57,8 +57,8 @@ export function extractSlug(slug: string[]): {
     }
 }
 
-export async function textToSpeechScrape(lang: string, text: string) {
-    const { target: parsedLang } = replaceBoth("mapping", { source: "", target: lang });
+export async function textToSpeechScrape(lang: LangCode, text: string) {
+    const { target: parsedLang } = replaceBoth("mapping", { source: "auto", target: lang });
 
     const lastSpace = text.lastIndexOf(" ", 200);
     const slicedText = text.slice(0, text.length > 200 && lastSpace !== -1 ? lastSpace : 200);

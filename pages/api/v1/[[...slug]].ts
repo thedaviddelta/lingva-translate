@@ -1,6 +1,7 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
 import { googleScrape, textToSpeechScrape } from "@utils/translate";
+import { isValid } from "@utils/language";
 
 type Data = {
     translation: string,
@@ -34,12 +35,18 @@ const handler: NextApiHandler<Data> = async (req, res) => {
 
     const [source, target, query] = slug;
 
+    if (!isValid(target))
+        return res.status(400).json({ error: "Invalid target language" });
+
     if (source === "audio") {
         const audio = await textToSpeechScrape(target, query);
         return audio
             ? res.status(200).json({ audio })
             : res.status(500).json({ error: "An error occurred while retrieving the audio" });
     }
+
+    if (!isValid(source))
+        return res.status(400).json({ error: "Invalid source language" });
 
     const textScrape = await googleScrape(source, target, query);
 

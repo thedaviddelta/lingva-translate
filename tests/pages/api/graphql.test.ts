@@ -50,7 +50,7 @@ it("returns translation triggering fetch", async () => {
 });
 
 it("returns audio triggering fetch", async () => {
-    const lang = faker.random.locale();
+    const lang = "es";
     const text = faker.random.words();
     resolveFetchWith({ status: 200 });
 
@@ -93,7 +93,7 @@ it("returns null and throws on translation error", async () => {
 });
 
 it("returns null and throws on audio error", async () => {
-    const lang = faker.random.locale();
+    const lang = "es";
     const text = faker.random.words();
     fetchMock.mockRejectOnce();
 
@@ -178,7 +178,7 @@ it("throws error on empty query in translation", async () => {
 });
 
 it("throws error on empty lang or query in audio", async () => {
-    const lang = faker.random.locale();
+    const lang = "es";
     const text = faker.random.words();
 
     const { errors: queryErrors } = await query({
