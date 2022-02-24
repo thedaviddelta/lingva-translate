@@ -114,9 +114,9 @@ const handler: NextApiHandler = async (req, res) => {
         origin: "*"
     });
 
-    return req.method !== "OPTIONS"
-        ? apolloHandler(req, res)
-        : res.end();
+    if (req.method !== "OPTIONS")
+        return apolloHandler(req, res);
+    res.end();
 };
 
 export default handler;
