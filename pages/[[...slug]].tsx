@@ -9,7 +9,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { CustomHead, LangSelect, TranslationArea } from "@components";
 import { useToastOnLoad } from "@hooks";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
-import { retrieveFromType, replaceBoth } from "@utils/language";
+import { retrieveFromType, replaceBoth, isValid } from "@utils/language";
 import langReducer, { Actions, initialState } from "@utils/reducer";
 import { localGetItem, localSetItem } from "@utils/storage";
 
@@ -46,18 +46,22 @@ const Page: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({ home, transl
     }, [isLoading, source, target, home, initial]);
 
     useEffect(() => {
-        if (home)
+        if (home) {
+            const localSource = localGetItem("source");
+            const localTarget = localGetItem("target");
             return dispatch({
                 type: Actions.SET_ALL,
                 payload: {
                     state: {
                         ...initialState,
-                        source: localGetItem("source") || initialState.source,
-                        target: localGetItem("target") || initialState.target,
+                        source: isValid(localSource) ? localSource : initialState.source,
+                        target: isValid(localTarget) ? localTarget : initialState.target,
                         isLoading: false
                     }
                 }
             });
+        }
+
         if (!initial)
             return;
 
@@ -217,6 +221,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 permanent: true
             }
         }
+
+    if (!isValid(source) || !isValid(target))
+        return {
+            notFound: true
+        };
 
     const textScrape = await googleScrape(source, target, query);
 

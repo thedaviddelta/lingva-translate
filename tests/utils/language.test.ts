@@ -13,7 +13,7 @@ describe("replaceBoth", () => {
         langType: LangType
     ) => (
         Object.entries(checkObj[langType]).forEach(([code, replacement]) => {
-            const res = replaceBoth(checkType, { source: "", target: "", [langType]: code })
+            const res = replaceBoth(checkType, { source: "auto", target: "en", [langType]: code })
             expect(res[langType]).toBe(replacement);
         })
     );

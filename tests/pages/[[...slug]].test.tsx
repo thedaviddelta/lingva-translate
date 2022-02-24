@@ -12,8 +12,8 @@ beforeEach(() => {
 });
 
 describe("getStaticProps", () => {
-    const source = faker.random.locale();
-    const target = faker.random.locale();
+    const source = "es";
+    const target = "ca";
     const query = faker.random.words();
 
     it("returns home on empty params", async () => {

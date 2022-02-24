@@ -2,8 +2,8 @@ import { htmlRes, resolveFetchWith } from "@tests/commonUtils";
 import faker from "faker";
 import { googleScrape, extractSlug, textToSpeechScrape } from "@utils/translate";
 
-const source = faker.random.locale();
-const target = faker.random.locale();
+const source = "es";
+const target = "ca";
 const query = faker.random.words();
 
 describe("googleScrape", () => {

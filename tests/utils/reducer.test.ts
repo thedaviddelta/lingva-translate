@@ -17,13 +17,13 @@ it("changes a field value", () => {
 it("changes all fields", () => {
     const query = faker.random.words();
     const state = {
-        source: faker.random.locale(),
-        target: faker.random.locale(),
+        source: "zh",
+        target: "zh_HANT",
         query,
         delayedQuery: query,
         translation: faker.random.words(),
         isLoading: faker.datatype.boolean()
-    };
+    } as const;
 
     const res = langReducer(initialState, {
         type: Actions.SET_ALL,
@@ -37,7 +37,7 @@ it("switches target on source change", () => {
         ...initialState,
         source: "es",
         target: "ca"
-    };
+    } as const;
 
     const res = langReducer(state, {
         type: Actions.SET_FIELD,
@@ -57,7 +57,7 @@ it("switches the languages & the translations", () => {
         target: "ca",
         query: faker.random.words(),
         translation: faker.random.words()
-    };
+    } as const;
 
     const res = langReducer(state, { type: Actions.SWITCH_LANGS });
     expect(res).toStrictEqual({
@@ -75,7 +75,7 @@ it("resets the source while switching if they're the same", () => {
         ...initialState,
         source: "eo",
         target: "eo"
-    };
+    } as const;
 
     const res = langReducer(state, { type: Actions.SWITCH_LANGS });
     expect(res.source).toStrictEqual(initialState.source);

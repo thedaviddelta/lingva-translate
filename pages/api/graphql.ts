@@ -2,7 +2,7 @@ import { ApolloServer, gql, IResolvers, ApolloError, UserInputError } from "apol
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
 import { googleScrape, textToSpeechScrape } from "@utils/translate";
-import { retrieveFromType, getName } from "@utils/language";
+import { retrieveFromType, getName, isValid } from "@utils/language";
 
 export const typeDefs = gql`
     enum LangType {
@@ -33,6 +33,10 @@ export const resolvers: IResolvers = {
     Query: {
         translation(_, args) {
             const { source, target, query } = args;
+
+            if (!isValid(source) || !isValid(target))
+                throw new UserInputError("Invalid language code");
+
             return {
                 source: {
                     lang: {
@@ -49,6 +53,10 @@ export const resolvers: IResolvers = {
         },
         audio(_, args) {
             const { lang, query } = args;
+
+            if (!isValid(lang))
+                throw new UserInputError("Invalid language code");
+
             return {
                 lang: {
                     code: lang
@@ -87,13 +95,7 @@ export const resolvers: IResolvers = {
     Language: {
         name(parent) {
             const { code, name } = parent;
-            if (name)
-                return name;
-
-            const newName = getName(code);
-            if (!newName)
-                throw new UserInputError("Invalid language code");
-            return newName;
+            return name || getName(code);
         }
     }
 };
