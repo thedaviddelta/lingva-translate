@@ -76,15 +76,15 @@ Another easy way is to use the Next.js creators' own platform, [Vercel](https://
 
 These are the currently known *Lingva* instances. Feel free to make a Pull Request including yours (please remember to add `[skip ci]` to the last commit).
 
-| Domain                                                       | Hosting                                   | SSL Provider                                                                             |
-|:------------------------------------------------------------:|:-----------------------------------------:|:----------------------------------------------------------------------------------------:|
-| [lingva.ml](https://lingva.ml/) (Official)                   | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                |
-| [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz) | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz) |
-| [translate.igna.rocks](https://translate.igna.rocks)         | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)     |
-| [lingva.pussthecat.org](https://lingva.pussthecat.org)       | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)    |
-| [translate.datatunnel.xyz](https://translate.datatunnel.xyz) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz) |
-| [lingva.esmailelbob.xyz](https://lingva.esmailelbob.xyz/)    | [Kimsufi](https://kimsufi.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.esmailelbob.xyz)   |
-
+| Domain                                                              | Hosting                                   | SSL Provider                                                                                 |
+|:-------------------------------------------------------------------:|:-----------------------------------------:|:--------------------------------------------------------------------------------------------:|
+| [lingva.ml](https://lingva.ml/) (Official)                          | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                    |
+| [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz)        | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz)     |
+| [translate.igna.rocks](https://translate.igna.rocks)                | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)         |
+| [lingva.pussthecat.org](https://lingva.pussthecat.org)              | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)        |
+| [translate.datatunnel.xyz](https://translate.datatunnel.xyz)        | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz)     |
+| [lingva.esmailelbob.xyz](https://lingva.esmailelbob.xyz/)           | [Kimsufi](https://kimsufi.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.esmailelbob.xyz)       |
+| [translate.plausibility.cloud](https://translate.plausibiity.cloud) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
 
 ## Public APIs
 
