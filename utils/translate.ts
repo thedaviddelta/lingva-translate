@@ -12,8 +12,15 @@ export async function googleScrape(
     errorMsg: string
 }> {
     const parsed = replaceBoth("mapping", { source, target });
+    const encodedQuery = encodeURIComponent(query);
+
+    if (encodedQuery.length > 7500)
+        return {
+            errorMsg: "The translation query is too long"
+        };
+
     const res = await fetch(
-        `https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodeURIComponent(query)}`,
+        `https://translate.google.com/m?sl=${parsed.source}&tl=${parsed.target}&q=${encodedQuery}`,
         {
             headers: {
                 "User-Agent": new UserAgent().toString()
@@ -26,12 +33,12 @@ export async function googleScrape(
     if (!res?.ok)
         return {
             errorMsg: "An error occurred while retrieving the translation"
-        }
+        };
 
     const html = await res.text();
     const translationRes = cheerio.load(html)(".result-container").text().trim();
 
-    return translationRes
+    return translationRes && !translationRes.includes("#af-error-page")
         ? {
             translationRes
         } : {
