@@ -27,6 +27,7 @@ const TranslationArea: FC<Props> = ({ value, onChange, onSubmit, readOnly, audio
         <Box
             position="relative"
             w="full"
+            isolation="isolate"
         >
             <Textarea
                 value={value}
@@ -44,6 +45,8 @@ const TranslationArea: FC<Props> = ({ value, onChange, onSubmit, readOnly, audio
                 position="absolute"
                 bottom={4}
                 right={4}
+                // Needed because the textarea stacks over on focus
+                zIndex={3}
             >
                 {canCopy && (
                     <Tooltip label={hasCopied ? "Copied!" : "Copy to clipboard"}>
