@@ -85,6 +85,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [translate.datatunnel.xyz](https://translate.datatunnel.xyz)        | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz)     |
 | [lingva.esmailelbob.xyz](https://lingva.esmailelbob.xyz/)           | [Kimsufi](https://kimsufi.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.esmailelbob.xyz)       |
 | [translate.plausibility.cloud](https://translate.plausibiity.cloud) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
+| [lingva.lunar.icu/](https://lingva.lunar.icu/)                      | [Cloudflare](https://cloudflare.com/)     | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                |
 
 ## Public APIs
 
