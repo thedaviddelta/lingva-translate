@@ -79,11 +79,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | Domain                                                              | Hosting                                   | SSL Provider                                                                                 |
 |:-------------------------------------------------------------------:|:-----------------------------------------:|:--------------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                          | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                    |
-| [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz)        | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz)     |
-| [translate.igna.rocks](https://translate.igna.rocks)                | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)         |
 | [lingva.pussthecat.org](https://lingva.pussthecat.org)              | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)        |
-| [translate.datatunnel.xyz](https://translate.datatunnel.xyz)        | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz)     |
-| [lingva.esmailelbob.xyz](https://lingva.esmailelbob.xyz/)           | [Kimsufi](https://kimsufi.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.esmailelbob.xyz)       |
 | [translate.plausibility.cloud](https://translate.plausibiity.cloud) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
 | [lingva.lunar.icu](https://lingva.lunar.icu/)                       | [Lansol](https://lansol.de/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                |
 
@@ -201,5 +197,5 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [![](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)
 
-Copyright © 2021 [TheDavidDelta](https://github.com/TheDavidDelta) & contributors.  
+Copyright © 2021 [TheDavidDelta](https://github.com/TheDavidDelta) & contributors.
 This project is [GNU AGPLv3](./LICENSE) licensed.
