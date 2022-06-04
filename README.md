@@ -80,7 +80,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 |:-------------------------------------------------------------------:|:-----------------------------------------:|:--------------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                          | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                    |
 | [lingva.pussthecat.org](https://lingva.pussthecat.org)              | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)        |
-| [translate.plausibility.cloud](https://translate.plausibiity.cloud) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
+| [translate.plausibility.cloud](https://translate.plausibility.cloud)| [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
 | [lingva.lunar.icu](https://lingva.lunar.icu/)                       | [Lansol](https://lansol.de/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                |
 
 ## Public APIs
