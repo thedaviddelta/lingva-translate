@@ -172,6 +172,7 @@ query {
 + [SimplyTranslate](https://sr.ht/~metalune/SimplyTranslate/) - Very simple translation front-end with multi-engine support
 + [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) - FOSS translation service that uses the open [Argos](https://github.com/argosopentech/argos-translate) engine
 + [Lentil for Android](https://github.com/yaxarat/lingvaandroid) - Unofficial native client for Android that uses Lingva's public API
++ [Arna Translate](https://github.com/MahanRahmati/translate) - Cross-platform client that uses Lingva's public API
 
 
 ## Contributors
