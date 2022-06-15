@@ -80,7 +80,7 @@ const TranslationArea: FC<Props> = ({ value, onChange, onSubmit, readOnly, audio
             >
                 <HStack justify="space-between" px={5} h={useBreakpointValue([12, null, 14]) ?? 12} w="0px" flex={1}>
                     <Tooltip label={pronunciation}>
-                        <Text aria-label="Pronunciation" opacity={0.75} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
+                        <Text opacity={0.75} whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
                             {pronunciation}
                         </Text>
                     </Tooltip>
