@@ -1,7 +1,19 @@
 import { extendTheme } from "@chakra-ui/react";
-import { mode } from "@chakra-ui/theme-tools";
+import { mode, StyleFunctionProps } from "@chakra-ui/theme-tools";
+
+const forceDefaultTheme = process.env["NEXT_PUBLIC_FORCE_DEFAULT_THEME"];
 
 export default extendTheme({
+    styles: {
+        global: {
+            "html, body, #__next": {
+                height: "100%"
+            },
+            "#__next": {
+                isolation: "isolate"
+            }
+        }
+    },
     colors: {
         lingva: {
             50: "#e7f5ed",
@@ -17,26 +29,12 @@ export default extendTheme({
         }
     },
     config: {
-        initialColorMode: process.env["DEFAULT_DARK_THEME"] === "true" ? "dark" : "light",
-        useSystemColorMode: false
+        initialColorMode: forceDefaultTheme === "light" || forceDefaultTheme === "dark" ? forceDefaultTheme : "system"
     },
     components: {
-        Textarea: {
-            variants: {
-                outline: props => ({
-                    borderColor: mode("lingva.500", "lingva.200")(props),
-                    _hover: {
-                        borderColor: mode("lingva.700", "lingva.400")(props),
-                    },
-                    _readOnly: {
-                        userSelect: "auto"
-                    }
-                })
-            }
-        },
         Select: {
             variants: {
-                flushed: props => ({
+                flushed: (props: StyleFunctionProps) => ({
                     field: {
                         borderColor: mode("lingva.500", "lingva.200")(props)
                     }

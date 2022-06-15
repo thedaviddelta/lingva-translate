@@ -1,9 +1,8 @@
-import { render, screen } from "@tests/reactUtils";
-import faker from "faker";
+import { render, screen } from "./reactUtils";
 import CustomError from "@components/CustomError";
 
-const code = faker.datatype.number({ min: 400, max: 599 });
-const text = faker.random.words();
+const code = Math.random() * 199 + 400;
+const text = "Testing fake error";
 
 it("loads the layout correctly", async () => {
     render(<CustomError statusCode={code} statusText={text} />);
@@ -16,7 +15,6 @@ it("loads the layout correctly", async () => {
 });
 
 it("renders the correct status code & text", () => {
-    const code = faker.datatype.number({ min: 400, max: 599 });
     render(<CustomError statusCode={code} statusText={text} />);
 
     expect(screen.getByText(code)).toBeVisible();

@@ -1,6 +1,7 @@
 const withPWA = require("next-pwa");
 
 module.exports = withPWA({
+    swcMinify: true,
     pwa: {
         dest: "public"
     },

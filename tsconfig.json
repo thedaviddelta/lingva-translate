@@ -30,6 +30,8 @@
   ],
   "exclude": [
     "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
     "cypress"
   ]
 }

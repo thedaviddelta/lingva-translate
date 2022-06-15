@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import faker from "faker";
-
 beforeEach(() => {
     cy.visit("/");
     cy.clearLocalStorage();
@@ -72,7 +70,7 @@ it("switches page on inputs change & goes back correctly", () => {
 });
 
 it("switches first loaded page and back and forth on language change", () => {
-    const query = faker.random.words();
+    const query = "Texto aleatorio";
     cy.visit(`/auto/en/${query}`);
 
     cy.findByRole("button", { name: /switch auto/i })
@@ -134,8 +132,8 @@ it("language switching button is disabled on 'auto', but enables when other", ()
 });
 
 it("loads & plays audio correctly", () => {
-    const query = faker.lorem.words(5);
-    cy.visit(`/la/en/${query}`);
+    const query = "No hi havia a València dos amants com nosaltres,\ncar d'amants com nosaltres en són parits ben pocs.";
+    cy.visit(`/ca/en/${query}`);
 
     const play = "Play audio";
     const stop = "Stop audio";

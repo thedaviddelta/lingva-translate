@@ -5,7 +5,7 @@ import theme from "@theme";
 
 type Props = {
     customTitle?: string,
-    home?: true
+    home?: boolean
 };
 
 const title = "Lingva Translate";

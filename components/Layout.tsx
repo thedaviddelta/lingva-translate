@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Flex, VStack, Button, Link, useColorModeValue } from "@chakra-ui/react";
 import { Header, Footer } from ".";
 
@@ -6,7 +6,7 @@ type Props = {
     [key: string]: any
 };
 
-const Layout: FC<Props> = ({ children, ...props }) => (
+const Layout: FC<PropsWithChildren<Props>> = ({ children, ...props }) => (
     <>
         <Button
             as={Link}
@@ -22,7 +22,7 @@ const Layout: FC<Props> = ({ children, ...props }) => (
             Skip to content
         </Button>
 
-        <VStack minH="100vh" spacing={8}>
+        <VStack minH="100%" spacing={7}>
             <Header
                 bgColor={useColorModeValue("lingva.100", "lingva.900")}
             />
