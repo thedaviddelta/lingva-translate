@@ -1,8 +1,16 @@
 import { ApolloServer, gql, IResolvers, ApolloError, UserInputError } from "apollo-server-micro";
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { googleScrape, textToSpeechScrape } from "@utils/translate";
-import { retrieveFromType, getName, isValid } from "@utils/language";
+import {
+    getTranslationInfo,
+    getTranslationText,
+    getAudio,
+    replaceExceptedCode,
+    isValidCode,
+    LanguageType,
+    languageList,
+    LangCode
+} from "lingva-scraper";
 
 export const typeDefs = gql`
     enum LangType {
@@ -11,14 +19,32 @@ export const typeDefs = gql`
     }
     type Query {
         translation(source: String="auto" target: String="en" query: String!): Translation!
-        audio(lang: String! query: String!): Entry!
+        audio(lang: String! query: String!): AudioEntry!
         languages(type: LangType): [Language]!
     }
     type Translation {
-        source: Entry!
-        target: Entry!
+        source: SourceEntry!
+        target: TargetEntry!
     }
-    type Entry {
+    type SourceEntry {
+        lang: Language!
+        text: String!
+        audio: [Int]!
+        detected: Language
+        typo: String
+        pronunciation: String
+        definitions: [DefinitionsGroup]
+        examples: [String]
+        similar: [String]
+    }
+    type TargetEntry {
+        lang: Language!
+        text: String!
+        audio: [Int]!
+        pronunciation: String
+        extraTranslations: [ExtraTranslationsGroup]
+    }
+    type AudioEntry {
         lang: Language!
         text: String!
         audio: [Int]!
@@ -27,34 +53,70 @@ export const typeDefs = gql`
         code: String!
         name: String!
     }
+    type DefinitionsGroup {
+        type: String!
+        list: [DefinitionList]!
+    }
+    type DefinitionList {
+        definition: String!
+        example: String!
+        field: String
+        synonyms: [String]
+    }
+    type ExtraTranslationsGroup {
+        type: String!
+        list: [ExtraTranslationList]!
+    }
+    type ExtraTranslationList {
+        word: String!
+        article: String
+        frequency: Int!
+        meanings: [String]
+    }
 `;
 
 export const resolvers: IResolvers = {
     Query: {
-        translation(_, args) {
+        async translation(_, args) {
             const { source, target, query } = args;
 
-            if (!isValid(source) || !isValid(target))
+            if (!isValidCode(source, LanguageType.SOURCE) || !isValidCode(target, LanguageType.TARGET))
                 throw new UserInputError("Invalid language code");
 
+            const translation = await getTranslationText(source, target, query);
+            if (!translation)
+                throw new ApolloError("An error occurred while retrieving the translation");
+
+            const info = await getTranslationInfo(source, target, query);
             return {
                 source: {
                     lang: {
                         code: source
                     },
-                    text: query
+                    text: query,
+                    detected: info?.detectedSource && {
+                        code: info.detectedSource
+                    },
+                    typo: info?.typo,
+                    pronunciation: info?.pronunciation.query,
+                    definitions: info?.definitions,
+                    examples: info?.examples,
+                    similar: info?.similar
                 },
                 target: {
                     lang: {
                         code: target
-                    }
+                    },
+                    text: translation,
+                    pronunciation: info?.pronunciation.translation,
+                    extraTranslations: info?.extraTranslations
                 }
             };
         },
         audio(_, args) {
             const { lang, query } = args;
 
-            if (!isValid(lang))
+            if (!isValidCode(lang))
                 throw new UserInputError("Invalid language code");
 
             return {
@@ -66,36 +128,28 @@ export const resolvers: IResolvers = {
         },
         languages(_, args) {
             const { type } = args;
-            const langEntries = retrieveFromType(type?.toLocaleLowerCase());
+            const lowerType = type?.toLocaleLowerCase() as typeof LanguageType[keyof typeof LanguageType] | undefined;
+            const langEntries = Object.entries(languageList[lowerType ?? "all"]);
             return langEntries.map(([code, name]) => ({ code, name }));
         }
     },
-    Translation: {
-        async target(parent) {
-            const { source, target } = parent;
-            const textScrape = await googleScrape(source.lang.code, target.lang.code, source.text);
-
-            if ("errorMsg" in textScrape)
-                throw new ApolloError(textScrape.errorMsg);
-            return {
-                lang: target.lang,
-                text: textScrape.translationRes
-            };
+    ...(["SourceEntry", "TargetEntry", "AudioEntry"].reduce((acc, key) => ({
+        ...acc,
+        [key]: {
+            async audio(parent) {
+                const { lang, text } = parent;
+                const parsedLang = replaceExceptedCode(LanguageType.TARGET, lang.code);
+                const audio = await getAudio(parsedLang, text);
+                if (!audio)
+                    throw new ApolloError("An error occurred while retrieving the audio");
+                return audio;
+            }
         }
-    },
-    Entry: {
-        async audio(parent) {
-            const { lang, text } = parent;
-            const audio = await textToSpeechScrape(lang.code, text);
-            if (!audio)
-                throw new ApolloError("An error occurred while retrieving the audio");
-            return audio;
-        }
-    },
+    }), {} as IResolvers)),
     Language: {
         name(parent) {
             const { code, name } = parent;
-            return name || getName(code);
+            return name || languageList.all[code as LangCode];
         }
     }
 };

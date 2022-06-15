@@ -1,10 +1,10 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { googleScrape, textToSpeechScrape } from "@utils/translate";
-import { isValid } from "@utils/language";
+import { getTranslationInfo, getTranslationText, getAudio, isValidCode, LanguageType, TranslationInfo } from "lingva-scraper";
 
 type Data = {
     translation: string,
+    info?: TranslationInfo
 } | {
     audio: number[]
 } | {
@@ -35,24 +35,29 @@ const handler: NextApiHandler<Data> = async (req, res) => {
 
     const [source, target, query] = slug;
 
-    if (!isValid(target))
+    if (!isValidCode(target, LanguageType.TARGET))
         return res.status(400).json({ error: "Invalid target language" });
 
     if (source === "audio") {
-        const audio = await textToSpeechScrape(target, query);
+        const audio = await getAudio(target, query);
         return audio
             ? res.status(200).json({ audio })
             : res.status(500).json({ error: "An error occurred while retrieving the audio" });
     }
 
-    if (!isValid(source))
+    if (!isValidCode(source, LanguageType.SOURCE))
         return res.status(400).json({ error: "Invalid source language" });
 
-    const textScrape = await googleScrape(source, target, query);
+    const translation = await getTranslationText(source, target, query);
 
-    if ("errorMsg" in textScrape)
-        return res.status(500).json({ error: textScrape.errorMsg });
-    res.status(200).json({ translation: textScrape.translationRes });
+    if (!translation)
+        return res.status(500).json({ error: "An error occurred while retrieving the translation" });
+
+    const info = await getTranslationInfo(source, target, query);
+
+    return info
+        ? res.status(200).json({ translation, info })
+        : res.status(200).json({ translation });
 }
 
 export default handler;

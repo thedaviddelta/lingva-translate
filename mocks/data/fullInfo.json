@@ -1,0 +1,287 @@
+{
+  "detectedSource": "en",
+  "pronunciation": {
+    "query": "win"
+  },
+  "definitions": [
+    {
+      "type": "verb",
+      "list": [
+        {
+          "definition": "be successful or victorious in (a contest or conflict).",
+          "example": "the Mets have won four games in a row",
+          "synonyms": [
+            "come first in",
+            "finish first in",
+            "be victorious in",
+            "triumph in",
+            "take first prize in",
+            "achieve success in",
+            "be successful in",
+            "prevail in",
+            "come first",
+            "finish first",
+            "be the winner",
+            "be victorious",
+            "be the victor",
+            "carry/win the day",
+            "carry all before one",
+            "defeat/overcome the opposition",
+            "take the honors/crown",
+            "gain the palm",
+            "come out ahead",
+            "come out on top",
+            "succeed",
+            "triumph",
+            "prevail",
+            "achieve mastery",
+            "sweep the board",
+            "make a clean sweep",
+            "wrap up",
+            "win out",
+            "clean up"
+          ]
+        },
+        {
+          "definition": "acquire or secure as a result of a contest, conflict, bet, or other endeavor.",
+          "example": "there are hundreds of prizes to be won",
+          "synonyms": [
+            "secure",
+            "gain",
+            "achieve",
+            "attain",
+            "earn",
+            "obtain",
+            "acquire",
+            "procure",
+            "get",
+            "collect",
+            "pick up",
+            "walk away/off with",
+            "come away with",
+            "carry off",
+            "receive",
+            "land",
+            "net",
+            "bag",
+            "bank",
+            "pot",
+            "scoop"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "noun",
+      "list": [
+        {
+          "definition": "a successful result in a contest, conflict, bet, or other endeavor; a victory.",
+          "example": "a win against Norway",
+          "synonyms": [
+            "victory",
+            "triumph",
+            "conquest",
+            "success",
+            "game",
+            "set",
+            "and match"
+          ]
+        }
+      ]
+    }
+  ],
+  "examples": [
+    "a <b>win</b> against Norway",
+    "many lived to <b>win</b> the great cave",
+    "you will find it difficult to <b>win</b> back their attention",
+    "a determination to <b>win</b>"
+  ],
+  "similar": [],
+  "extraTranslations": [
+    {
+      "type": "verb",
+      "list": [
+        {
+          "word": "ganar",
+          "meanings": [
+            "win",
+            "earn",
+            "gain",
+            "make",
+            "get",
+            "beat"
+          ],
+          "frequency": 3
+        },
+        {
+          "word": "vencer",
+          "meanings": [
+            "overcome",
+            "beat",
+            "defeat",
+            "win",
+            "conquer",
+            "expire"
+          ],
+          "frequency": 2
+        },
+        {
+          "word": "triunfar",
+          "meanings": [
+            "succeed",
+            "triumph",
+            "win",
+            "prevail",
+            "overcome",
+            "trump"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "conseguir",
+          "meanings": [
+            "get",
+            "achieve",
+            "obtain",
+            "gain",
+            "attain",
+            "win"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "lograr",
+          "meanings": [
+            "achieve",
+            "accomplish",
+            "get",
+            "attain",
+            "reach",
+            "win"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "alcanzar",
+          "meanings": [
+            "reach",
+            "achieve",
+            "attain",
+            "accomplish",
+            "hit",
+            "catch up"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "llevarse",
+          "meanings": [
+            "get",
+            "take away",
+            "win",
+            "carry away",
+            "carry off",
+            "walk away"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "tener éxito",
+          "meanings": [
+            "succeed",
+            "be successful",
+            "win",
+            "take",
+            "get on",
+            "make the grade"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "captar",
+          "meanings": [
+            "capture",
+            "catch",
+            "attract",
+            "get",
+            "pick up",
+            "understand"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "arrancar",
+          "meanings": [
+            "tear",
+            "pull",
+            "pluck",
+            "tear off",
+            "pull up",
+            "extract"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "atraerse",
+          "meanings": [
+            "win",
+            "win over",
+            "win round"
+          ],
+          "frequency": 1
+        },
+        {
+          "word": "extraer",
+          "meanings": [
+            "extract",
+            "draw",
+            "pull",
+            "pull out",
+            "mine",
+            "take out"
+          ],
+          "frequency": 1
+        }
+      ]
+    },
+    {
+      "type": "noun",
+      "list": [
+        {
+          "word": "triunfo",
+          "article": "el",
+          "meanings": [
+            "triumph",
+            "win",
+            "success",
+            "trump"
+          ],
+          "frequency": 3
+        },
+        {
+          "word": "victoria",
+          "article": "la",
+          "meanings": [
+            "victory",
+            "win",
+            "victoria"
+          ],
+          "frequency": 3
+        },
+        {
+          "word": "éxito",
+          "article": "el",
+          "meanings": [
+            "success",
+            "hit",
+            "achievement",
+            "accomplishment",
+            "win",
+            "triumph"
+          ],
+          "frequency": 1
+        }
+      ]
+    }
+  ]
+}

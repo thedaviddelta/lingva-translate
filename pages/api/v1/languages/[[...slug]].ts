@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { retrieveFromType, LangCode } from "@utils/language";
+import { languageList, LangCode } from "lingva-scraper";
 
 type Data = {
     languages: {
@@ -38,7 +38,7 @@ const handler: NextApiHandler<Data> = async (req, res) => {
     if (type !== undefined && type !== "source" && type !== "target")
         return res.status(400).json({ error: "Type should be 'source', 'target' or empty" });
 
-    const langEntries = retrieveFromType(type);
+    const langEntries = Object.entries(languageList[type ?? "all"]) as [LangCode, string][];
     const languages = langEntries.map(([code, name]) => ({ code, name }));
 
     res.status(200).json({ languages });

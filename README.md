@@ -2,10 +2,10 @@
 
 <img src="public/logo.svg" width="128" align="right">
 
-[![Travis Build](https://travis-ci.com/TheDavidDelta/lingva-translate.svg?branch=main)](https://travis-ci.com/TheDavidDelta/lingva-translate)
-[![Vercel Status](https://img.shields.io/github/deployments/TheDavidDelta/lingva-translate/Production?label=vercel&logo=vercel&color=f5f5f5)](https://lingva.ml/)
+[![Travis Build](https://travis-ci.com/thedaviddelta/lingva-translate.svg?branch=main)](https://travis-ci.com/thedaviddelta/lingva-translate)
+[![Vercel Status](https://img.shields.io/github/deployments/thedaviddelta/lingva-translate/Production?label=vercel&logo=vercel&color=f5f5f5)](https://lingva.ml/)
 [![Cypress Tests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/qgjdyd&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/qgjdyd/runs)
-[![License](https://img.shields.io/github/license/TheDavidDelta/lingva-translate)](./LICENSE)
+[![License](https://img.shields.io/github/license/thedaviddelta/lingva-translate)](./LICENSE)
 [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 [<img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" alt="Powered by Vercel" height="20">](https://vercel.com?utm_source=lingva-team&utm_campaign=oss)
 
@@ -14,10 +14,11 @@ Alternative front-end for Google Translate, serving as a Free and Open Source tr
 
 ## How does it work?
 
-Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrapes through GTranslate and retrieves the translation without using any Google-related service, preventing them from tracking.
+Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrapes through Google Translate and retrieves the translation without directly accessing any Google-related service, preventing them from tracking.
 
 For this purpose, *Lingva* is built, among others, with the following Open Source resources:
 
++ [Lingva Scraper](https://github.com/thedaviddelta/lingva-scraper), a Google Translate scraper built and maintained specifically for this project, which obtains all kind of information from this platform.
 + [TypeScript](https://www.typescriptlang.org/), the JavaScript superset, as the language.
 + [React](https://reactjs.org/) as the main front-end framework.
 + [Next.js](https://nextjs.org/) as the complementary React framework, that provides Server-Side Rendering, Static Site Generation or serverless API endpoints.
@@ -33,11 +34,14 @@ As *Lingva* is a [Next.js](https://nextjs.org/) project you can deploy your own 
 
 The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
-Optionally, there's another environment variable available called `DEFAULT_DARK_THEME` for selecting dark as the default page theme on the first load. The theme will be light by default unless this variable is set to `true`.
+Optionally, there are other environment variables available:
++ `NEXT_PUBLIC_FORCE_DEFAULT_THEME`: Force a certain theme over the system preference set by the user. The accepted values are `light` and `dark`.
++ `NEXT_PUBLIC_DEFAULT_SOURCE_LANG`: Set an initial *source* language instead of the default `auto`.
++ `NEXT_PUBLIC_DEFAULT_TARGET_LANG`: Set an initial *target* language instead of the default `en`.
 
 ### Docker
 
-An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain` and `dark_theme`) when running the container.
+An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain`, `force_default_theme`, `default_source_lang` and `default_target_lang`) when running the container.
 
 #### Docker Compose:
 
@@ -52,7 +56,7 @@ services:
     restart: unless-stopped
     environment:
       - site_domain=lingva.ml
-      - dark_theme=false
+      - force_default_theme=light
       - default_source_lang=auto
       - default_target_lang=en
     ports:
@@ -62,14 +66,14 @@ services:
 #### Docker Run
 
 ```bash
-docker run -p 3000:3000 -e site_domain=lingva.ml -e dark_theme=false -e default_source_lang=auto -e default_target_lang=en thedaviddelta/lingva-translate:latest
+docker run -p 3000:3000 -e site_domain=lingva.ml -e force_default_theme=light -e default_source_lang=auto -e default_target_lang=en thedaviddelta/lingva-translate:latest
 ```
 
 ### Vercel
 
 Another easy way is to use the Next.js creators' own platform, [Vercel](https://vercel.com/), where you can deploy it for free with the following button.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheDavidDelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain&utm_source=lingva-team&utm_campaign=oss)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fthedaviddelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain&utm_source=lingva-team&utm_campaign=oss)
 
 
 ## Instances
@@ -79,12 +83,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | Domain                                                              | Hosting                                   | SSL Provider                                                                                 |
 |:-------------------------------------------------------------------:|:-----------------------------------------:|:--------------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                          | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                    |
-| [translate.alefvanoon.xyz](https://translate.alefvanoon.xyz)        | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.alefvanoon.xyz)     |
-| [translate.igna.rocks](https://translate.igna.rocks)                | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.rocks)         |
 | [lingva.pussthecat.org](https://lingva.pussthecat.org)              | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.pussthecat.org)        |
-| [translate.datatunnel.xyz](https://translate.datatunnel.xyz)        | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.datatunnel.xyz)     |
-| [lingva.esmailelbob.xyz](https://lingva.esmailelbob.xyz/)           | [Kimsufi](https://kimsufi.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.esmailelbob.xyz)       |
-| [translate.plausibility.cloud](https://translate.plausibiity.cloud) | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud) |
 | [lingva.lunar.icu](https://lingva.lunar.icu/)                       | [Lansol](https://lansol.de/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                |
 
 ## Public APIs
@@ -99,6 +98,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 ```typescript
 {
     translation: string
+    info?: TranslationInfo
 }
 ```
 
@@ -141,6 +141,23 @@ query {
             }
             text: String!
             audio: [Int]!
+            detected: {
+                code: String
+                name: String
+            }
+            typo: String
+            pronunciation: String
+            definitions: {
+                type: String
+                list: {
+                    definition: String
+                    example: String
+                    field: String
+                    synonyms: [String]
+                }
+            }
+            examples: [String]
+            similar: [String]
         }
         target: {
             lang: {
@@ -149,6 +166,16 @@ query {
             }
             text: String!
             audio: [Int]!
+            pronunciation: String
+            extraTranslations: {
+                type: String
+                list: {
+                    word: String
+                    article: String
+                    frequency: Int
+                    meanings: [String]
+                }
+            }
         }
     }
     audio(lang: String! query: String!) {
@@ -169,9 +196,12 @@ query {
 
 ## Related projects
 
-+ [SimplyTranslate](https://sr.ht/~metalune/SimplyTranslate/) - Very simple translation front-end with multi-engine support
++ [Lingva Scraper](https://github.com/thedaviddelta/lingva-scraper) - Google Translate scraper built and maintained specifically for this project
++ [SimplyTranslate](https://codeberg.org/SimpleWeb/SimplyTranslate-Web) - Very simple translation front-end with multi-engine support
 + [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) - FOSS translation service that uses the open [Argos](https://github.com/argosopentech/argos-translate) engine
 + [Lentil for Android](https://github.com/yaxarat/lingvaandroid) - Unofficial native client for Android that uses Lingva's public API
++ [Arna Translate](https://github.com/MahanRahmati/translate) - Unofficial cross-platform native client that uses Lingva's public API
++ [Translate-UT](https://github.com/walking-octopus/translate-ut) - Unofficial native client for Ubuntu Touch that uses Lingva's public API
 
 
 ## Contributors
@@ -201,5 +231,5 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 [![](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)
 
-Copyright © 2021 [TheDavidDelta](https://github.com/TheDavidDelta) & contributors.  
+Copyright © 2021 [thedaviddelta](https://github.com/thedaviddelta) & contributors.  
 This project is [GNU AGPLv3](./LICENSE) licensed.

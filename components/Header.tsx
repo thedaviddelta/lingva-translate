@@ -42,7 +42,7 @@ const Header: FC<Props> = (props) => (
                 />
                 <IconButton
                     as={Link}
-                    href="https://github.com/TheDavidDelta/lingva-translate"
+                    href="https://github.com/thedaviddelta/lingva-translate"
                     isExternal={true}
                     aria-label="GitHub"
                     icon={<FaGithub />}
