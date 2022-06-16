@@ -36,16 +36,11 @@ script:
     fi'
 
 before_deploy:
-  - mkdir -vp ~/.docker/cli-plugins/
-  - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
-  - chmod a+x ~/.docker/cli-plugins/docker-buildx
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker buildx create --use
+  - docker build -t thedaviddelta/lingva-translate .
 
 deploy:
   provider: script
-  script: docker buildx build --push
-    --platform linux/amd64,linux/arm/v7,linux/arm64/v8
-    --tag thedaviddelta/lingva-translate .
+  script: docker push thedaviddelta/lingva-translate
   on:
     branch: main
