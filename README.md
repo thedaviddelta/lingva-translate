@@ -89,7 +89,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [lingva.lunar.icu](https://lingva.lunar.icu/)                               | [Lansol](https://lansol.de/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                   |
 | [lingva.opnxng.com](https://lingva.opnxng.com/)                             | [Linode](https://linode.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.opnxng.com)               |
 | [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)               |
-| [lingva.garudalinux.org](https://lingva.garudalinux.org/)               | [Hetzner](https://hetzner.com/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)               |
+| [lingva.garudalinux.org](https://lingva.garudalinux.org/)                   | [Hetzner](https://hetzner.com/)           | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)               |
 
 
 ## Public APIs
