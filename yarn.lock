@@ -6109,10 +6109,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lingva-scraper@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/lingva-scraper/-/lingva-scraper-1.0.0.tgz#92da8b6dc4f922527b03075348bf4e52e1efad50"
-  integrity sha512-7CRtXExRjKM+fq18EX33R+LB6QV0i5XNNUeAYE8xZgvFCZcua11VH4d+bV0n4+AO4kGu5mnLyHz17MY1Oa8q8g==
+lingva-scraper@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/lingva-scraper/-/lingva-scraper-1.1.0.tgz#d3ad4f58b1fd65a666fdd1794cd9085d69830eac"
+  integrity sha512-1BqktPfrqSYFvkeib7JUzkm0aJjN8YZn+ijzG7fewntB7sqj9pvR5KdPhkmvWmLlHx6PRDwnxKoVwCtH/7MkqQ==
   dependencies:
     axios "^0.27.2"
     cheerio "^1.0.0-rc.11"

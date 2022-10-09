@@ -20,7 +20,7 @@
     "apollo-server-micro": "^2.25.2",
     "framer-motion": "^6",
     "graphql": "^15.8.0",
-    "lingva-scraper": "1.0.0",
+    "lingva-scraper": "1.1.0",
     "next": "12.1.6",
     "next-pwa": "^5.4.4",
     "nextjs-cors": "^2.1.0",
