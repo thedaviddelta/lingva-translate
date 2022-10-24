@@ -53,5 +53,8 @@ cypress/screenshots
 Dockerfile
 .dockerignore
 
+# editorconfig
+.editorconfig
+
 # instance list
 instances.json
