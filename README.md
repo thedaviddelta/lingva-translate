@@ -90,7 +90,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)           |
 | [lingva.garudalinux.org](https://lingva.garudalinux.org/)                   | [Hetzner](https://hetzner.com/)           | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)             |
 | [translate.jae.fi](https://translate.jae.fi/)                               | Self-hosted                               | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.jae.fi)                |
-
+| [lingva.fuk.world](https://lingva.fuk.world/)                               | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.fuk.world)                |
 
 ## Public APIs
 
