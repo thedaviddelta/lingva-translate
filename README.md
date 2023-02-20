@@ -84,11 +84,10 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 |:---------------------------------------------------------------------------:|:-----------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                                  | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                       |
 | [translate.igna.wtf](https://translate.igna.wtf/)                           | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.wtf)              |
-| [translate.plausibility.cloud](https://translate.plausibility.cloud/)       | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud)    |
-| [lingva.lunar.icu](https://lingva.lunar.icu/)                               | [Lansol](https://lansol.de/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                   |
+| [lingva.lunar.icu](https://lingva.lunar.icu/)                               | [Unesty](https://server.unesty.net/)      | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                |
 | [translate.projectsegfau.lt](https://translate.projectsegfau.lt/)           | Self-hosted                               | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.projectsegfau.lt)      |
-| [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)           |
-| [lingva.garudalinux.org](https://lingva.garudalinux.org/)                   | [Hetzner](https://hetzner.com/)           | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)             |
+| [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)        |
+| [lingva.garudalinux.org](https://lingva.garudalinux.org/)                   | [Hetzner](https://hetzner.com/)           | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)          |
 | [translate.jae.fi](https://translate.jae.fi/)                               | Self-hosted                               | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.jae.fi)                |
 
 
@@ -238,4 +237,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [![](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)
 
 Copyright © 2021 [thedaviddelta](https://github.com/thedaviddelta) & contributors.  
-This project is [GNU AGPLv3](./LICENSE) licensed.
+This project is [GNU AGPLv3](LICENSE) licensed.
