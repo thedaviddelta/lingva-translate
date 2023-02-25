@@ -83,7 +83,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | Domain                                                                      | Hosting                                   | SSL Provider                                                                                    |
 |:---------------------------------------------------------------------------:|:-----------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | [lingva.ml](https://lingva.ml/) (Official)                                  | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.ml)                       |
-| [translate.igna.wtf](https://translate.igna.wtf/)                           | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.igna.wtf)              |
+| [lingva.femboys.sh](https://lingva.femboys.sh/)                             | [Vercel](https://vercel.com/)             | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.femboys.sh)               |
 | [translate.plausibility.cloud](https://translate.plausibility.cloud/)       | [Hetzner](https://hetzner.com/)           | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.plausibility.cloud)    |
 | [lingva.lunar.icu](https://lingva.lunar.icu/)                               | [Unesty](https://server.unesty.net/)      | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.lunar.icu)                   |
 | [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)           |
@@ -207,6 +207,7 @@ query {
 + [Lentil for Android](https://github.com/yaxarat/lingvaandroid) - Unofficial native client for Android that uses Lingva's public API
 + [Arna Translate](https://github.com/MahanRahmati/translate) - Unofficial cross-platform native client that uses Lingva's public API
 + [Translate-UT](https://github.com/walking-octopus/translate-ut) - Unofficial native client for Ubuntu Touch that uses Lingva's public API
++ [Linguist](https://github.com/translate-tools/linguist) - browser extension for translate pages and text with multi-engine support
 
 
 ## Contributors
