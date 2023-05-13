@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+
+  lingva:
+    container_name: lingva
+    hostname: lingva
+    image: thedaviddelta/lingva-translate:latest
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    environment:
+      - site_domain=translate.whateveritworks.org
+      - force_default_theme=dark
+      - default_source_lang=auto
+      - default_target_lang
+    ports:
+      - '127.0.0.1:3000:3000'
