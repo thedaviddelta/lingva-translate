@@ -1,3 +1,5 @@
+### Lingva Translate Instance: translate.whateveritworks.org is discontinued, I am using [DeepL.com](https://deepl.com) it has better acurate results, extensions, mobile apps, desktop apps, and many more. Lingva is a frontend for google translate and which the developer is unmaintain at the moment. Maybe if things get better, I will see to try it again...
+
 # Lingva Translate
 
 <img src="public/logo.svg" width="128" align="right">
