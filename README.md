@@ -11,7 +11,6 @@
 
 Alternative front-end for Google Translate, serving as a Free and Open Source translator with over a hundred languages available
 
-
 ## How does it work?
 
 Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrapes through Google Translate and retrieves the translation without directly accessing any Google-related service, preventing them from tracking.
@@ -27,7 +26,6 @@ For this purpose, *Lingva* is built, among others, with the following Open Sourc
 + [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for handling the GraphQL endpoint.
 + [Inkscape](https://inkscape.org/) for designing both the logo and the banner.
 
-
 ## Deployment
 
 As *Lingva* is a [Next.js](https://nextjs.org/) project you can deploy your own instance anywhere Next is supported.
@@ -35,6 +33,7 @@ As *Lingva* is a [Next.js](https://nextjs.org/) project you can deploy your own 
 The only requirement is to set an environment variable called `NEXT_PUBLIC_SITE_DOMAIN` with the domain you're deploying the instance under. This is used for the canonical URL and the meta tags.
 
 Optionally, there are other environment variables available:
+
 + `NEXT_PUBLIC_FORCE_DEFAULT_THEME`: Force a certain theme over the system preference set by the user. The accepted values are `light` and `dark`.
 + `NEXT_PUBLIC_DEFAULT_SOURCE_LANG`: Set an initial *source* language instead of the default `auto`.
 + `NEXT_PUBLIC_DEFAULT_TARGET_LANG`: Set an initial *target* language instead of the default `en`.
@@ -43,7 +42,7 @@ Optionally, there are other environment variables available:
 
 An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain`, `force_default_theme`, `default_source_lang` and `default_target_lang`) when running the container.
 
-#### Docker Compose:
+#### Docker Compose
 
 ```
 version: '3'
@@ -75,7 +74,6 @@ Another easy way is to use the Next.js creators' own platform, [Vercel](https://
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fthedaviddelta%2Flingva-translate%2Ftree%2Fmain&env=NEXT_PUBLIC_SITE_DOMAIN&envDescription=Your%20domain&utm_source=lingva-team&utm_campaign=oss)
 
-
 ## Instances
 
 These are the currently known *Lingva* instances. Feel free to make a Pull Request including yours (please remember to add `[skip ci]` to the last commit).
@@ -90,7 +88,7 @@ These are the currently known *Lingva* instances. Feel free to make a Pull Reque
 | [translate.dr460nf1r3.org](https://translate.dr460nf1r3.org/)               | [Netcup](https://netcup.eu/)              | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=translate.dr460nf1r3.org)           |
 | [lingva.garudalinux.org](https://lingva.garudalinux.org/)                   | [Hetzner](https://hetzner.com/)           | [Cloudflare](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.garudalinux.org)             |
 | [translate.jae.fi](https://translate.jae.fi/)                               | Self-hosted                               | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=translate.jae.fi)                |
-
+| [lingva.moonshadow.dev](https://lingva.moonshadow.dev/)                     | [OVHcloud](https://ovhcloud.com/)         | [Let's Encrypt](https://www.ssllabs.com/ssltest/analyze.html?d=lingva.moonshadow.dev)           |
 
 ## Public APIs
 
@@ -101,6 +99,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 ### REST API v1
 
 + GET `/api/v1/:source/:target/:query`
+
 ```typescript
 {
     translation: string
@@ -109,6 +108,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 ```
 
 + GET `/api/v1/audio/:lang/:query`
+
 ```typescript
 {
     audio: number[]
@@ -116,6 +116,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 ```
 
 + GET `/api/v1/languages/?:(source|target)`
+
 ```typescript
 {
     languages: [
@@ -128,6 +129,7 @@ Nearly all the *Lingva* instances should supply a pair of public developer APIs:
 ```
 
 In addition, every endpoint can return an error message with the following structure instead.
+
 ```typescript
 {
     error: string
@@ -137,6 +139,7 @@ In addition, every endpoint can return an error message with the following struc
 ### GraphQL API
 
 + `/api/graphql`
+
 ```graphql
 query {
     translation(source: String target: String query: String!) {
@@ -199,7 +202,6 @@ query {
 }
 ```
 
-
 ## Related projects
 
 + [Lingva Scraper](https://github.com/thedaviddelta/lingva-scraper) - Google Translate scraper built and maintained specifically for this project
@@ -208,7 +210,6 @@ query {
 + [Lentil for Android](https://github.com/yaxarat/lingvaandroid) - Unofficial native client for Android that uses Lingva's public API
 + [Arna Translate](https://github.com/MahanRahmati/translate) - Unofficial cross-platform native client that uses Lingva's public API
 + [Translate-UT](https://github.com/walking-octopus/translate-ut) - Unofficial native client for Ubuntu Touch that uses Lingva's public API
-
 
 ## Contributors
 
@@ -232,10 +233,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-
 ## License
 
 [![](https://www.gnu.org/graphics/agplv3-with-text-162x68.png)](https://www.gnu.org/licenses/agpl-3.0.html)
 
-Copyright © 2021 [thedaviddelta](https://github.com/thedaviddelta) & contributors.  
+Copyright © 2021 [thedaviddelta](https://github.com/thedaviddelta) & contributors.
 This project is [GNU AGPLv3](./LICENSE) licensed.
