@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Stack, Text, Link } from "@chakra-ui/react";
+import {FC} from "react";
+import {Stack, Text, Link} from "@chakra-ui/react";
 
 type Props = {
     [key: string]: any
@@ -19,6 +19,24 @@ const Footer: FC<Props> = (props) => (
         spacing={[1, null, 2]}
         {...props}
     >
+        <div id="cookie-accept" style={{position: "absolute", background: '#e3fbe3', padding: '10px', bottom: "30px"}}>
+            This site use cookie for adds. Use the Accept button to consent. Leave site to decline.
+            Using site without click Accept also mean that you consent for using cookies.
+            <button style={{background: '#90ee90', padding: '3px', marginLeft: '5px'}} onClick={() => {
+                window.localStorage.setItem("cookie-accept", "true");
+                document!.getElementById("cookie-accept")!.style.display = "none";
+            }}>Accept</button>
+        </div>
+        <script
+            dangerouslySetInnerHTML={{
+                __html: `
+                    if (localStorage.getItem("cookie-accept")) {
+                        document.getElementById("cookie-accept").style.display = "none"; 
+                    }
+                `
+            }}
+        ></script>
+
         <Link href="https://github.com/thedaviddelta/lingva-translate/blob/main/LICENSE" isExternal={true}>
             <Text as="span">&#169; 2021 thedaviddelta & contributors</Text>
         </Link>

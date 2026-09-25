@@ -1,33 +1,45 @@
-# https://nextjs.org/docs/deployment#docker-image
+# Single-container image bundling the Next.js app and a self-hosted LibreTranslate
+FROM libretranslate/libretranslate:v1.9.6
 
-FROM node:lts-alpine AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+USER root
 
-FROM node:lts-alpine AS builder
-RUN apk add --no-cache curl
-WORKDIR /app
+# Node.js runtime from the official Node image (both images are Debian bookworm)
+COPY --from=node:lts-bookworm-slim /usr/local /usr/local
+# Yarn is installed outside /usr/local in the Node image
+COPY --from=node:lts-bookworm-slim /opt /opt
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-COPY --chown=nextjs:nodejs . .
-COPY --from=deps /app/node_modules ./node_modules
-RUN chown nextjs:nodejs .
+ENV NEXT_TELEMETRY_DISABLED=1
 
-USER nextjs
+# Install and run as the image user so no recursive chown is needed later
+RUN mkdir -p /lingva && chown libretranslate:libretranslate /lingva
 
-EXPOSE 3000
+USER libretranslate
 
-ENV NODE_ENV production
+WORKDIR /lingva
 
-ENV NEXT_TELEMETRY_DISABLED 1
+COPY --chown=libretranslate:libretranslate package.json yarn.lock ./
+RUN CYPRESS_INSTALL_BINARY=0 yarn install --frozen-lockfile --cache-folder /tmp/yarn-cache \
+    && rm -rf /tmp/yarn-cache
 
-HEALTHCHECK --interval=1m --timeout=3s CMD curl -f http://localhost:3000/ || exit 1
+COPY --chown=libretranslate:libretranslate . .
 
-CMD NEXT_PUBLIC_SITE_DOMAIN=$site_domain\
-    NEXT_PUBLIC_FORCE_DEFAULT_THEME=$force_default_theme \
-    NEXT_PUBLIC_DEFAULT_SOURCE_LANG=$default_source_lang \
-    NEXT_PUBLIC_DEFAULT_TARGET_LANG=$default_target_lang \
-    yarn build && yarn start
+# Languages whose LibreTranslate models are downloaded at build time.
+# Override with `--build-arg LT_LOAD_ONLY=en,ru,...` to bake another set.
+ARG LT_LOAD_ONLY=en,ru,de,fr,es,zh,ja,tr,ar
+
+ENV NODE_ENV=production \
+    PORT=3001 \
+    LIBRE_TRANSLATE_URL=http://127.0.0.1:5000 \
+    LT_LOAD_ONLY=${LT_LOAD_ONLY}
+
+# Download the models so the container is ready to translate right away
+RUN chmod +x docker-entrypoint.sh \
+    && LT_POWERCYCLE=1 /app/venv/bin/libretranslate
+
+EXPOSE 3001
+
+ENTRYPOINT ["/lingva/docker-entrypoint.sh"]
+
+# docker build -t lingva .
+# docker run -p 3001:3001 lingva
+# see also https://hub.docker.com/r/libretranslate/libretranslate

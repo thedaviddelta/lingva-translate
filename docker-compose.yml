@@ -1,0 +1,34 @@
+services:
+
+  lingva:
+    container_name: lingva
+    build:
+      context: .
+      args:
+        # The same list is baked into the image and loaded at runtime
+        LT_LOAD_ONLY: ${LT_LOAD_ONLY:-en,ru,de,fr,es,zh,ja,tr,ar}
+    restart: unless-stopped
+    environment:
+      - site_domain=${SITE_DOMAIN:-localhost:3000}
+      - force_default_theme=${FORCE_DEFAULT_THEME:-}
+      - default_source_lang=${DEFAULT_SOURCE_LANG:-auto}
+      - default_target_lang=${DEFAULT_TARGET_LANG:-en}
+      # Comma-separated list of LibreTranslate languages loaded on startup.
+      # Models for this list are also pre-downloaded into the image at build time
+      - LT_LOAD_ONLY=${LT_LOAD_ONLY:-en,ru,de,fr,es,zh,ja,tr,ar}
+      # Override to use an external LibreTranslate instance instead of the bundled one
+      - LIBRE_TRANSLATE_URL=${LIBRE_TRANSLATE_URL:-http://127.0.0.1:5000}
+      - LIBRE_TRANSLATE_API_KEY=${LIBRE_TRANSLATE_API_KEY:-}
+    ports:
+      - "${LINGVA_PORT:-3000}:3001"
+    volumes:
+      - libretranslate-models:/home/libretranslate/.local
+    healthcheck:
+      test: ["CMD-SHELL", "/app/venv/bin/python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=5); urllib.request.urlopen('http://127.0.0.1:3001/', timeout=5)\""]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 420s
+
+volumes:
+  libretranslate-models:

@@ -14,7 +14,7 @@ Alternative front-end for Google Translate, serving as a Free and Open Source tr
 
 ## How does it work?
 
-Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* scrapes through Google Translate and retrieves the translation without directly accessing any Google-related service, preventing them from tracking.
+Inspired by projects like [NewPipe](https://github.com/TeamNewPipe/NewPipe), [Nitter](https://github.com/zedeus/nitter), [Invidious](https://github.com/iv-org/invidious) or [Bibliogram](https://git.sr.ht/~cadence/bibliogram), *Lingva* originally scraped through Google Translate to retrieve the translation without directly accessing any Google-related service. As Google has blocked that scraping, text translations are now fetched from a self-hosted [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) instance (see [Deployment](#deployment)), while language metadata and audio still come from the original scraper.
 
 For this purpose, *Lingva* is built, among others, with the following Open Source resources:
 
@@ -38,36 +38,50 @@ Optionally, there are other environment variables available:
 + `NEXT_PUBLIC_FORCE_DEFAULT_THEME`: Force a certain theme over the system preference set by the user. The accepted values are `light` and `dark`.
 + `NEXT_PUBLIC_DEFAULT_SOURCE_LANG`: Set an initial *source* language instead of the default `auto`.
 + `NEXT_PUBLIC_DEFAULT_TARGET_LANG`: Set an initial *target* language instead of the default `en`.
++ `LIBRE_TRANSLATE_URL`: URL of the LibreTranslate instance translations are fetched from. Defaults to `http://127.0.0.1:5000`.
++ `LIBRE_TRANSLATE_API_KEY`: API key for that LibreTranslate instance, only needed if it is started with `LT_API_KEYS`.
++ `LT_LOAD_ONLY`: Comma-separated languages the bundled LibreTranslate loads on startup. Defaults to `en,ru`.
+
+### LibreTranslate
+
+Text translations are handled by [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate), which is bundled into the Docker image, so a single container runs both the app and the translator. Models for `en,ru,de,fr,es,zh,ja,tr,ar` are pre-downloaded at build time, so the container is ready to translate right away. To change the set, write the desired languages to `.env` before building:
+
+```
+LT_LOAD_ONLY=en,ru,uk,de,fr,es
+```
+
+```bash
+docker compose up -d --build
+```
+
+The same list is used by `docker build --build-arg LT_LOAD_ONLY=en,ru,uk ...`. Languages added later are downloaded on the first start and persisted in the `libretranslate-models` volume.
+
+Note that LibreTranslate supports fewer languages than Google Translate, so not every language in the selector is guaranteed to work.
+
+For local development you can run only LibreTranslate in Docker and the app with `yarn dev`:
+
+```bash
+docker run -d --name libretranslate -p 5000:5000 -v libretranslate-models:/home/libretranslate/.local -e LT_LOAD_ONLY=en,ru libretranslate/libretranslate:latest
+```
+
+and set `LIBRE_TRANSLATE_URL=http://127.0.0.1:5000` in `.env.local` (see `.env.example`). The same variable can point to any external LibreTranslate instance.
 
 ### Docker
 
-An [official Docker image](https://hub.docker.com/r/thedaviddelta/lingva-translate) is available to ease the deployment using Compose, Kubernetes or similar technologies. Remember to also include the environment variables (simplified to `site_domain`, `force_default_theme`, `default_source_lang` and `default_target_lang`) when running the container.
-
-#### Docker Compose:
-
-```
-version: '3'
-
-services:
-
-  lingva:
-    container_name: lingva
-    image: thedaviddelta/lingva-translate:latest
-    restart: unless-stopped
-    environment:
-      - site_domain=lingva.ml
-      - force_default_theme=light
-      - default_source_lang=auto
-      - default_target_lang=en
-    ports:
-      - 3000:3000
-```
-
-#### Docker Run
+The included `Dockerfile` builds a single image with the app and LibreTranslate inside. Build and run it with:
 
 ```bash
-docker run -p 3000:3000 -e site_domain=lingva.ml -e force_default_theme=light -e default_source_lang=auto -e default_target_lang=en thedaviddelta/lingva-translate:latest
+docker build -t lingva .
+docker run -d --name lingva -p 3000:3001 -v libretranslate-models:/home/libretranslate/.local -e site_domain=localhost:3000 lingva
 ```
+
+Or with the bundled Compose file, which does the same:
+
+```bash
+docker compose up -d --build
+```
+
+Lingva will then be available on http://localhost:3000. The app is built inside the container on start, so `site_domain`, `force_default_theme`, `default_source_lang` and `default_target_lang` can still be passed at runtime as before. Only the app port (3001) is exposed; LibreTranslate stays internal, and `LIBRE_TRANSLATE_URL` lets you use an external instance instead.
 
 ### Vercel
 

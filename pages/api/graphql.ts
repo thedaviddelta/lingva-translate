@@ -2,8 +2,6 @@ import { ApolloServer, gql, IResolvers, ApolloError, UserInputError } from "apol
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
 import {
-    getTranslationInfo,
-    getTranslationText,
     getAudio,
     replaceExceptedCode,
     isValidCode,
@@ -11,6 +9,7 @@ import {
     languageList,
     LangCode
 } from "lingva-scraper";
+import { getTranslationInfo, getTranslationText } from "@utils/libre";
 
 export const typeDefs = gql`
     enum LangType {

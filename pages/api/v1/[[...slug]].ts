@@ -1,6 +1,7 @@
 import { NextApiHandler } from "next";
 import NextCors from "nextjs-cors";
-import { getTranslationInfo, getTranslationText, getAudio, isValidCode, LanguageType, TranslationInfo } from "lingva-scraper";
+import { getAudio, isValidCode, LanguageType, TranslationInfo } from "lingva-scraper";
+import { getTranslationInfo, getTranslationText } from "@utils/libre";
 
 type Data = {
     translation: string,

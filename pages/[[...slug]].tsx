@@ -3,8 +3,6 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import {
-    getTranslationInfo,
-    getTranslationText,
     getAudio,
     languageList,
     LanguageType,
@@ -19,6 +17,7 @@ import { HiTranslate } from "react-icons/hi";
 import { useHotkeys } from "react-hotkeys-hook";
 import { CustomHead, LangSelect, TranslationArea } from "@components";
 import { useToastOnLoad } from "@hooks";
+import { getTranslationInfo, getTranslationText } from "@utils/libre";
 import { extractSlug } from "@utils/slug";
 import langReducer, { Actions, initialState, State } from "@utils/reducer";
 import { localGetItem, localSetItem } from "@utils/storage";
